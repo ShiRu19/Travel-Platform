@@ -9,7 +9,7 @@ public partial class Order
 
     public long TravelSessionId { get; set; }
 
-    public long MemberId { get; set; }
+    public long UserId { get; set; }
 
     public long Total { get; set; }
 }

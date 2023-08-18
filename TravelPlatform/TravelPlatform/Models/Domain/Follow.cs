@@ -9,5 +9,5 @@ public partial class Follow
 
     public long TravelId { get; set; }
 
-    public long MemberId { get; set; }
+    public long UserId { get; set; }
 }

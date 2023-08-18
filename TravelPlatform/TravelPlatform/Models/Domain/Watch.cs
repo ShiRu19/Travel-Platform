@@ -11,7 +11,7 @@ public partial class Watch
 
     public long TravelId { get; set; }
 
-    public long MemberId { get; set; }
+    public long UserId { get; set; }
 
     public TimeSpan? StayTime { get; set; }
 }

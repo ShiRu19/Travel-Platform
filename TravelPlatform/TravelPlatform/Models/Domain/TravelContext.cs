@@ -13,8 +13,6 @@ public partial class TravelContext : DbContext
 
     public virtual DbSet<Follow> Follows { get; set; }
 
-    public virtual DbSet<Member> Members { get; set; }
-
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderList> OrderLists { get; set; }
@@ -25,76 +23,42 @@ public partial class TravelContext : DbContext
 
     public virtual DbSet<TravelSession> TravelSessions { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     public virtual DbSet<Watch> Watches { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Follow>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Follow__3213E83FA92D3919");
+            entity.HasKey(e => e.Id).HasName("PK__Follow__3213E83F76C2D996");
 
             entity.ToTable("Follow");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.MemberId).HasColumnName("member_id");
             entity.Property(e => e.TravelId).HasColumnName("travel_id");
-        });
-
-        modelBuilder.Entity<Member>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Member__3213E83F2351CA01");
-
-            entity.ToTable("Member");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.Birthday)
-                .HasColumnType("date")
-                .HasColumnName("birthday");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("email");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .HasColumnName("name");
-            entity.Property(e => e.Password)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("password");
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("phone_number");
-            entity.Property(e => e.Region)
-                .HasMaxLength(255)
-                .HasColumnName("region");
-            entity.Property(e => e.Sex)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("sex");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F416008B8");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F4FE802D0");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.MemberId).HasColumnName("member_id");
             entity.Property(e => e.Total).HasColumnName("total");
             entity.Property(e => e.TravelSessionId).HasColumnName("travel_session_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
         });
 
         modelBuilder.Entity<OrderList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderLis__3213E83FFA58A766");
+            entity.HasKey(e => e.Id).HasName("PK__OrderLis__3213E83F1EC9511B");
 
             entity.ToTable("OrderList");
 
@@ -206,9 +170,45 @@ public partial class TravelContext : DbContext
             entity.Property(e => e.TravelId).HasColumnName("travel_id");
         });
 
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F4609B8CC");
+
+            entity.ToTable("User");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Birthday)
+                .HasColumnType("date")
+                .HasColumnName("birthday");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("password");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("phone_number");
+            entity.Property(e => e.Region)
+                .HasMaxLength(255)
+                .HasColumnName("region");
+            entity.Property(e => e.Sex)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("sex");
+        });
+
         modelBuilder.Entity<Watch>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Watch__3213E83FDE9805AB");
+            entity.HasKey(e => e.Id).HasName("PK__Watch__3213E83F6091AE59");
 
             entity.ToTable("Watch");
 
@@ -218,9 +218,9 @@ public partial class TravelContext : DbContext
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
-            entity.Property(e => e.MemberId).HasColumnName("member_id");
             entity.Property(e => e.StayTime).HasColumnName("stay_time");
             entity.Property(e => e.TravelId).HasColumnName("travel_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
         });
 
         OnModelCreatingPartial(modelBuilder);
