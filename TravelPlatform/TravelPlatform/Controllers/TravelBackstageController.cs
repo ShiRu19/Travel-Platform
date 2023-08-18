@@ -17,6 +17,10 @@ namespace TravelPlatform.Controllers.v1
             _db = db;
         }
 
+        /// <summary>
+        /// Backstage get all travel list
+        /// </summary>
+        /// <returns>Backstage Travel List Object</returns>
         [MapToApiVersion("1.0")]
         [HttpGet("TravelList")]
         public IActionResult GetTravelList()
