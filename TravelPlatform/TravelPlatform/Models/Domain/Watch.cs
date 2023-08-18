@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace TravelPlatform.Models.Domain;
 
-public partial class TravelAttraction
+public partial class Watch
 {
     public long Id { get; set; }
 
+    public DateTime Date { get; set; }
+
     public long TravelId { get; set; }
 
-    public string Attraction { get; set; } = null!;
+    public long MemberId { get; set; }
+
+    public TimeSpan? StayTime { get; set; }
 }

@@ -20,8 +20,4 @@ public partial class Travel
     public string PdfUrl { get; set; } = null!;
 
     public string MainImageUrl { get; set; } = null!;
-
-    public virtual ICollection<TravelAttraction> TravelAttractions { get; set; } = new List<TravelAttraction>();
-
-    public virtual ICollection<TravelSession> TravelSessions { get; set; } = new List<TravelSession>();
 }

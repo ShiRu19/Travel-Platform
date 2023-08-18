@@ -20,6 +20,4 @@ public partial class TravelSession
     public int Seats { get; set; }
 
     public int GroupStatus { get; set; }
-
-    public virtual Travel Travel { get; set; } = null!;
 }
