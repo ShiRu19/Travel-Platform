@@ -1,0 +1,30 @@
+﻿.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.card-primary {
+    width: 50vw;
+}
+
+.card-row {
+    display: flex;
+}
+
+.card-column-1 {
+    width: 20vw;
+}
+
+.card-column-2 {
+    width: 20vw;
+    margin-left: 50px;
+}
+
+#add-new-session {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 10px;
+}
