@@ -3,8 +3,6 @@ window.onload = function () {
 }
 
 function GetTravelList() {
-    
-
     axios.get("/api/v1.0/TravelBackstage/TravelList")
         .then((response) => {
             var datas = response.data;

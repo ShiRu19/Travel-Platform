@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using TravelPlatform.Handler;
 using TravelPlatform.Models.Domain;
+using TravelPlatform.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,10 @@ builder.Services.AddDbContext<TravelContext>(options =>
 // load .env file
 builder.Configuration.AddEnvironmentVariables();
 
+// File upload service
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
+
 builder.Services.AddApiVersioning(opt =>
 {
     opt.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
@@ -29,6 +35,7 @@ builder.Services.AddApiVersioning(opt =>
                                                     new HeaderApiVersionReader("x-api-version"),
                                                     new MediaTypeApiVersionReader("x-api-version"));
 });
+
 
 var app = builder.Build();
 

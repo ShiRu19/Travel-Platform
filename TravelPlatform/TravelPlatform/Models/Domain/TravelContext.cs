@@ -172,7 +172,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F4609B8CC");
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F7B537803");
 
             entity.ToTable("User");
 
@@ -200,6 +200,10 @@ public partial class TravelContext : DbContext
             entity.Property(e => e.Region)
                 .HasMaxLength(255)
                 .HasColumnName("region");
+            entity.Property(e => e.Role)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("role");
             entity.Property(e => e.Sex)
                 .HasMaxLength(255)
                 .IsUnicode(false)
