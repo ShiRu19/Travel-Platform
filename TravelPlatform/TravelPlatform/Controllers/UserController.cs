@@ -32,8 +32,14 @@ namespace TravelPlatform.Controllers
                     email = u.Email,
                     phoneNumber = u.PhoneNumber,
                     region = u.Region
-                });
-                return Ok(user);
+                }).ToList();
+
+                var result = new
+                {
+                    data = user
+                };
+
+                return Ok(result);
             }
             catch(Exception ex)
             {
