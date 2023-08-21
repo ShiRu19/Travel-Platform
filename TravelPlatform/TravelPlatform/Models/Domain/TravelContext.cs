@@ -44,13 +44,23 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F4FE802D0");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F5C748BED");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
+            entity.Property(e => e.DeleteDate)
+                .HasColumnType("date")
+                .HasColumnName("delete_date");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.Property(e => e.Nation)
+                .HasMaxLength(255)
+                .HasColumnName("nation");
+            entity.Property(e => e.OrderDate)
+                .HasColumnType("datetime")
+                .HasColumnName("order_date");
             entity.Property(e => e.Total).HasColumnName("total");
             entity.Property(e => e.TravelSessionId).HasColumnName("travel_session_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
@@ -104,7 +114,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Travel>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Travel__3213E83F9C3567FE");
+            entity.HasKey(e => e.Id).HasName("PK__Travel__3213E83FEE20F736");
 
             entity.ToTable("Travel");
 
@@ -124,6 +134,9 @@ public partial class TravelContext : DbContext
             entity.Property(e => e.MainImageUrl)
                 .HasMaxLength(255)
                 .HasColumnName("main_image_url");
+            entity.Property(e => e.Nation)
+                .HasMaxLength(255)
+                .HasColumnName("nation");
             entity.Property(e => e.PdfUrl)
                 .HasMaxLength(255)
                 .HasColumnName("pdf_url");

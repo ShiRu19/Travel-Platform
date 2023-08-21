@@ -15,6 +15,8 @@ public partial class Travel
 
     public int Days { get; set; }
 
+    public string Nation { get; set; } = null!;
+
     public string DepartureLocation { get; set; } = null!;
 
     public string PdfUrl { get; set; } = null!;
