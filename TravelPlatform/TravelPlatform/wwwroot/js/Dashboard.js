@@ -2,6 +2,7 @@ $(function () {
     var startDate = '01-01-2023';
     var endDate = '12-31-2023';
     ShowDomesticGroupStatus(startDate, endDate); // Stacked Bar Chart
+    ShowDomesticSalesVolume(startDate, endDate); // Pie Chart
 });
 
 async function ShowDomesticGroupStatus(startDate, endDate) {
@@ -111,4 +112,44 @@ async function ShowDomesticGroupStatus(startDate, endDate) {
         data: data,
         options: stackedBarChartOptions
     });
+}
+
+async function ShowDomesticSalesVolume(startDate, endDate) {
+    var salesVolume = await axios.get(`/api/v1.0/Dashboard/GetDomesticSalesVolume?start=${startDate}&end=${endDate}`)
+        .then((response) => {
+            return response.data.data;
+        })
+        .catch((error) => console.log(error));
+
+    var locationLabels = [];
+    var counts = [];
+    var colors = ['#fcca03', '#115aad', '#ac1cff', '#00c0ef', '#3c8dbc', '#d2d6de'];
+
+    salesVolume.forEach((sale) => {
+        locationLabels.push(sale.location);
+        counts.push(sale.count);
+    })
+
+    var pieData = {
+        labels: locationLabels,
+        datasets: [
+            {
+                data: counts,
+                backgroundColor: colors,
+            }
+        ]
+    }
+
+    var pieChartCanvas = $('#domestic-sales-volume').get(0).getContext('2d');
+
+    var pieOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+    }
+
+    new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions
+    })
 }
