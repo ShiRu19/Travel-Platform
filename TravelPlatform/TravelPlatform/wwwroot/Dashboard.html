@@ -251,7 +251,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="card card-success">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">今年國內各月份訂單量統計</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="sales-volume-month" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">國內出發地成團比率</h3>
 
@@ -271,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- /.card -->
                         </div>
                         <div class="col-lg-6">
-                            <div class="card card-danger">
+                            <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">國內出發地訂單數</h3>
 

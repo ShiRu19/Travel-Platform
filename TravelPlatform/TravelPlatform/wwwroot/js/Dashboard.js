@@ -1,8 +1,10 @@
 $(function () {
     var startDate = '01-01-2023';
     var endDate = '12-31-2023';
+    var nation = '台灣';
     ShowDomesticGroupStatus(startDate, endDate); // Stacked Bar Chart
     ShowDomesticSalesVolume(startDate, endDate); // Pie Chart
+    ShowSalesVolumeOfMonth(nation, startDate, endDate); // Bar Chart
 });
 
 async function ShowDomesticGroupStatus(startDate, endDate) {
@@ -152,4 +154,52 @@ async function ShowDomesticSalesVolume(startDate, endDate) {
         data: pieData,
         options: pieOptions
     })
+}
+
+async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
+    await axios.get(`/api/v1.0/Dashboard/GetSalesVolume?nation=${nation}&start=${startDate}&end=${endDate}`)
+        .then((response) => {
+            var data = response.data.data;
+
+            var month = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+            var count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            data.forEach((sale) => {
+                const date = new Date(sale.month);
+                const month = date.getMonth();
+                count[month] += sale.count;
+            });
+
+            var barChartCanvas = $('#sales-volume-month').get(0).getContext('2d')
+
+            var barChartData = {
+                labels: month,
+                datasets: [
+                    {
+                        label: '訂單筆數',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: count
+                    }
+                ]
+            }
+
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+        })
+        .catch((error) => console.log(error));
 }
