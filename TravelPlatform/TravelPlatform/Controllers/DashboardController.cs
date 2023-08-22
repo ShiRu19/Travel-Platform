@@ -27,12 +27,12 @@ namespace TravelPlatform.Controllers
         }
 
         /// <summary>
-        /// Get domestic sales volume over a date range
+        /// Get sales volume over a date range
         /// </summary>
         /// <param name="nation">To inquire about the nation</param>
         /// <param name="start">Start of date range</param>
         /// <param name="end">End of date range</param>
-        /// <returns>Domestic sales volume</returns>
+        /// <returns>Sales volume</returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetSalesVolume")]
         public IActionResult GetSalesVolume(string nation, DateTime start, DateTime end)
@@ -42,8 +42,35 @@ namespace TravelPlatform.Controllers
                                 .GroupBy(o => new DateTime(o.OrderDate.Year, o.OrderDate.Month, 1))
                                 .Select(s => new
                                 {
-                                    Month = s.Key,
-                                    Count = s.Count(),
+                                    Month = s.Key.Month,
+                                    Count = s.Count()
+                                });
+
+            var result = new
+            {
+                data = salesVolume
+            };
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get sales over a date range
+        /// </summary>
+        /// <param name="nation">To inquire about the nation</param>
+        /// <param name="start">Start of date range</param>
+        /// <param name="end">End of date range</param>
+        /// <returns>Sales</returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetSales")]
+        public IActionResult GetSales(string nation, DateTime start, DateTime end)
+        {
+            var salesVolume = _db.Orders
+                                .Where(o => o.Nation == nation && o.OrderDate >= start && o.OrderDate <= end)
+                                .GroupBy(o => new DateTime(o.OrderDate.Year, o.OrderDate.Month, 1))
+                                .Select(s => new
+                                {
+                                    Month = s.Key.Month,
                                     Sum = s.Sum(o => o.Total)
                                 });
 

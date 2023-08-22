@@ -5,6 +5,7 @@ $(function () {
     ShowDomesticGroupStatus(startDate, endDate); // Stacked Bar Chart
     ShowDomesticSalesVolume(startDate, endDate); // Pie Chart
     ShowSalesVolumeOfMonth(nation, startDate, endDate); // Bar Chart
+    ShowSalesOfMonth(nation, startDate, endDate); // Bar Chart
 });
 
 async function ShowDomesticGroupStatus(startDate, endDate) {
@@ -165,9 +166,7 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
             var count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             data.forEach((sale) => {
-                const date = new Date(sale.month);
-                const month = date.getMonth();
-                count[month] += sale.count;
+                count[sale.month-1] += sale.count;
             });
 
             var barChartCanvas = $('#sales-volume-month').get(0).getContext('2d')
@@ -177,7 +176,7 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
                 datasets: [
                     {
                         label: '訂單筆數',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        backgroundColor: '#053085',
                         borderColor: 'rgba(60,141,188,0.8)',
                         pointRadius: false,
                         pointColor: '#3b8bba',
@@ -185,6 +184,52 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
                         data: count
+                    }
+                ]
+            }
+
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+        })
+        .catch((error) => console.log(error));
+}
+
+async function ShowSalesOfMonth(nation, startDate, endDate) {
+    await axios.get(`/api/v1.0/Dashboard/GetSales?nation=${nation}&start=${startDate}&end=${endDate}`)
+        .then((response) => {
+            var data = response.data.data;
+
+            var month = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+            var sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            data.forEach((sale) => {
+                sum[sale.month-1] += sale.sum;
+            });
+
+            var barChartCanvas = $('#sales-month').get(0).getContext('2d')
+
+            var barChartData = {
+                labels: month,
+                datasets: [
+                    {
+                        label: '銷售金額',
+                        backgroundColor: '#053085',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: sum
                     }
                 ]
             }
