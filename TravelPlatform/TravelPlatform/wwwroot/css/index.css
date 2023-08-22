@@ -90,7 +90,7 @@
 
 .footer-left {
     height: 20%;
-    background: #f1b58b;
+    background: #ffffff;
 }
 
 /* right page */
@@ -156,13 +156,19 @@
 .products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     width: 70vw;
 }
 
 .product {
     margin: 10px 10px 25px 10px;
     width: 20%;
+    color: black;
+}
+
+.product:hover {
+    text-decoration: none;
+    color: #ea2d75;
 }
 
 .main-images {
@@ -173,6 +179,43 @@
     .main-images:hover {
         cursor: pointer;
     }
+
+.product-title {
+    margin-top: 10px;
+    width: 100%;
+    color: #000000;
+}
+
+.product-date-range {
+    color: #828282;
+}
+
+.travel-detail-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.travel-detail-btn-container {
+    display: flex;
+    width: 100px;
+}
+
+.travel-detail-btn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 1px solid #828282;
+    width: 80%;
+}
+
+.travel-detail-btn-icon {
+    display: flex;
+    justify-content: center;
+    background: #000000;
+    width: 20%;
+    color: #ffffff;
+}
 
 /* footer */
 .footer-right {

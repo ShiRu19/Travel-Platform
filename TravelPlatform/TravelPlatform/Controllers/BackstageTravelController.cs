@@ -11,13 +11,13 @@ namespace TravelPlatform.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class TravelBackstageController : ControllerBase
+    public class BackstageTravelController : ControllerBase
     {
         private readonly TravelContext _db;
         private readonly IWebHostEnvironment _environment;
         private readonly IFileUploadService _fileUploadService;
 
-        public TravelBackstageController(TravelContext db, IWebHostEnvironment environment, IFileUploadService fileUploadService)
+        public BackstageTravelController(TravelContext db, IWebHostEnvironment environment, IFileUploadService fileUploadService)
         {
             _db = db;
             _environment = environment;
@@ -62,7 +62,7 @@ namespace TravelPlatform.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500, ex.Message);
             }
         }
 
