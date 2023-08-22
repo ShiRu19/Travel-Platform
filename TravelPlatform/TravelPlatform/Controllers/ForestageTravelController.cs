@@ -71,15 +71,15 @@ namespace TravelPlatform.Controllers
                         t.MainImageUrl
                     });
 
-                var travelSessions = _db.TravelSessions.Where(t => t.TravelId == id)
+                var travelSessions = _db.TravelSessions.Where(t => t.TravelId == id && t.DepartureDate >= DateTime.Now)
                     .Select(t => new
                     {
                         t.ProductNumber,
                         DepartureDate = t.DepartureDate.ToString("d") + "(" + t.DepartureDate.ToString("ddd").Substring(1) + ")",
                         t.RemainingSeats,
                         t.Seats,
-                        t.GroupStatus,
-                        t.Price
+                        GroupStatus = t.GroupStatus == 1 ? "已成團" : "尚未成團",
+                        Price = t.Price.ToString("N0")
                     });
 
                 var result = new

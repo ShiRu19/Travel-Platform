@@ -21,14 +21,14 @@
     justify-content: flex-end;
 }
 
-.menu {
+.nav {
     display: flex;
-    width: auto;
+    margin: 10px;
 }
 
 #profile_image {
-    width: 40px;
-    height: 40px;
+    height: 50px;
+    width: 50px;
     border-radius: 50px;
     margin: 10px 10px 0px 0px;
 }
@@ -228,12 +228,12 @@
     justify-content: center;
 }
 
-.text_container {
+.text-container {
     display: flex;
     justify-content: center;
 }
 
-.footer_text {
+.footer-text {
     width: 90px;
     font-family: 'Noto Sans TC';
     font-style: normal;
@@ -246,14 +246,14 @@
     color: #F5F5F5;
 }
 
-.footer_split {
+.footer-split {
     height: 16px;
     display: flex;
     margin: auto 5%;
     border-right: 1px solid #828282;
 }
 
-.cc_container {
+.cc-container {
     font-family: 'Noto Sans TC';
     font-style: normal;
     font-weight: 400;
