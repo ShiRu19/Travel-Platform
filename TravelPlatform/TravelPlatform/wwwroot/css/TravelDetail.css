@@ -1,0 +1,121 @@
+﻿.product-detail-container {
+    display: flex;
+    justify-content: center;
+    margin: 60px 0px;
+}
+
+#product-main-image {
+    width: 560px;
+}
+
+/* product information */
+#product-main-info-container {
+    margin: 0px 40px;
+}
+
+#product-travel-category {
+    display: flex;
+    justify-content: center;
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    color: #e4f3fc;
+    letter-spacing: 6.4px;
+    background: #258dc9;
+    margin: 10px 0px;
+    width: 30vw;
+}
+
+#product-title {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 6.4px;
+    color: #3F3A3A;
+    margin: 5px 0px;
+    width: 30vw;
+}
+
+#product-date {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 4px;
+    color: #BABABA;
+    margin-top: 10px;
+}
+
+#product-price {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+    color: #3F3A3A;
+    margin-top: 40px;
+}
+
+#split-horizontal-1 {
+    height: 1px;
+    width: 0px;
+    border-right: 30vw solid #3F3A3A;
+    margin: 15px 0px 0px 0px;
+}
+
+/* Session table */
+#product-sessions-container {
+    background: #e4f3fc;
+    height: 50vh;
+    margin: 10px;
+    overflow: scroll;
+}
+
+.sessionTable {
+    width: 100%;
+}
+
+    .sessionTable thead tr td {
+        text-align: center;
+    }
+
+    .sessionTable tbody tr td {
+        text-align: center;
+    }
+
+/* Other product information*/
+
+.split-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#split-text {
+    width: auto;
+    height: 30px;
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 3px;
+    color: #8B572A;
+}
+
+#split-horizontal-2 {
+    height: 1px;
+    border-right: 800px solid #3F3A3A;
+    margin: 0px 0px 0px 30px;
+}
+
+.product-info-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
