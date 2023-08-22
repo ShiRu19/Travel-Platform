@@ -17,6 +17,10 @@ namespace TravelPlatform.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Get travel list
+        /// </summary>
+        /// <returns>Travels list</returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetTravelList")]
         public IActionResult GetTravelList()
@@ -45,5 +49,54 @@ namespace TravelPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Get travel detail
+        /// </summary>
+        /// <param name="id">travel id</param>
+        /// <returns>Travel detail</returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetTravelDetail")]
+        public IActionResult GetTravelDetail(long id)
+        {
+            try
+            {
+                var travel = _db.Travels.Where(t => t.Id == id)
+                    .Select(t => new
+                    {
+                        t.Title,
+                        DateRangeStart = t.DateRangeStart.ToString("d"),
+                        DateRangeEnd = t.DateRangeEnd.ToString("d"),
+                        t.Nation,
+                        t.PdfUrl,
+                        t.MainImageUrl
+                    });
+
+                var travelSessions = _db.TravelSessions.Where(t => t.TravelId == id)
+                    .Select(t => new
+                    {
+                        t.ProductNumber,
+                        DepartureDate = t.DepartureDate.ToString("d") + "(" + t.DepartureDate.ToString("ddd").Substring(1) + ")",
+                        t.RemainingSeats,
+                        t.Seats,
+                        t.GroupStatus,
+                        t.Price
+                    });
+
+                var result = new
+                {
+                    data = new
+                    {
+                        travelInfo = travel,
+                        travelSessions = travelSessions
+                    }
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
