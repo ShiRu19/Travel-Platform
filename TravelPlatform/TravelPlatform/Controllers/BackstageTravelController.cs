@@ -106,7 +106,7 @@ namespace TravelPlatform.Controllers.v1
         }
 
         /// <summary>
-        /// Backstage get all travel list
+        /// Only get open travel session list
         /// </summary>
         /// <returns>Backstage Travel List Object</returns>
         [MapToApiVersion("1.0")]
@@ -168,7 +168,7 @@ namespace TravelPlatform.Controllers.v1
         }
 
         /// <summary>
-        /// Backstage get all travel list
+        /// Only get close travel session list
         /// </summary>
         /// <returns>Backstage Travel List Object</returns>
         [MapToApiVersion("1.0")]

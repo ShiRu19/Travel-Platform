@@ -8,6 +8,7 @@ $(function () {
     ShowDomesticSalesVolume(startDate, endDate); // Pie Chart
     ShowSalesVolumeOfMonth(nation, startDate, endDate); // Bar Chart
     ShowSalesOfMonth(nation, startDate, endDate); // Bar Chart
+    ShowTopFiveOfFollows(); // Bar Chart
 });
 
 async function ShowDomesticGroupStatus(startDate, endDate) {
@@ -251,6 +252,30 @@ async function ShowSalesOfMonth(nation, startDate, endDate) {
         .catch((error) => console.log(error));
 }
 
+function ShowTopFiveOfFollows() {
+    axios.get("/api/v1.0/Dashboard/GetFollowTopFive")
+        .then((response) => {
+            var datas = response.data.data;
+
+            datas.forEach((data) => {
+                var id = data.id;
+                var title = data.title;
+                var nation = data.nation;
+                var days = data.days;
+                var follows = data.follows;
+
+                var item = `<tr>
+                                <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>
+                                <td>${nation}</td>
+                                <td>${days}</td>
+                                <td>${follows}</td>
+                            </tr>`;
+
+                $("#open-travel-follow-top-5").append(item);
+            })
+        })
+        .catch((error) => console.log(error));
+}
 
 var socket;
 var l = document.location;
