@@ -182,7 +182,7 @@ function createTravelFormData() {
 }
 
 async function postTravel(formData) {
-    await axios.post('/api/v1.0/TravelBackstage/AddTravel', formData)
+    await axios.post('/api/v1.0/BackstageTravel/AddTravel', formData)
         .then((response) => {
             if (response.status === 200) {
                 alert("Create success");
