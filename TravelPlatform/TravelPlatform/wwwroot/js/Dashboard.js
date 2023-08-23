@@ -1,4 +1,6 @@
 $(function () {
+    connect();
+
     var startDate = '01-01-2023';
     var endDate = '12-31-2023';
     var nation = '¥xÆW';
@@ -247,4 +249,50 @@ async function ShowSalesOfMonth(nation, startDate, endDate) {
             })
         })
         .catch((error) => console.log(error));
+}
+
+
+var socket;
+var l = document.location;
+var scheme = l.protocol === 'https:' ? 'wss' : 'ws';
+var port = l.port ? (':' + l.port) : '';
+var wsUrl = scheme + '://' + l.hostname + port + '/ws';
+
+function connect() {
+    socket = new WebSocket(wsUrl + "/dashboard");
+    socket.onopen = function () {
+        logWebSocketStatus();
+    };
+    socket.onclose = logWebSocketStatus;
+    socket.onerror = logWebSocketStatus;
+    socket.onmessage = function (e) {
+        processMessage(e.data);
+    }
+}
+
+function logWebSocketStatus(event) {
+    if (!socket) return;
+    var status = 'Unknown';
+    switch (socket.readyState) {
+        case WebSocket.CLOSED:
+            status = 'Closed / Code = ' + event.code + ', Reason = ' + event.reason;
+            console.log(status);
+            break;
+        case WebSocket.CLOSING:
+            status = 'Closing';
+            console.log(status);
+            break;
+        case WebSocket.OPEN:
+            status = 'Open';
+            console.log(status);
+            break;
+        case WebSocket.CONNECTING:
+            status = 'Connecting';
+            console.log(status);
+            break;
+    }
+}
+
+function processMessage(data) {
+    console.log(data);
 }
