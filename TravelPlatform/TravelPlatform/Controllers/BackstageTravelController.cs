@@ -8,6 +8,19 @@ using TravelPlatform.Services;
 
 namespace TravelPlatform.Controllers.v1
 {
+    class TravelSessionList
+    {
+        public long Id { get; set; }
+        public string ProductNumber { get; set; } = null!;
+        public string Title { get; set; } = null!;
+        public string departureDate { get; set; } = null!;
+        public int Days { get; set; }
+        public int Price { get; set; }
+        public int RemainingSeats { get; set; }
+        public int Seats { get; set; }
+        public int GroupStatus { get; set; }
+    }
+
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -24,6 +37,10 @@ namespace TravelPlatform.Controllers.v1
             _fileUploadService = fileUploadService;
         }
 
+        /// <summary>
+        /// Only get open travel list
+        /// </summary>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetOpenTravelList")]
         public IActionResult GetOpenTravelList()
@@ -54,6 +71,10 @@ namespace TravelPlatform.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Only get close travel list
+        /// </summary>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetCloseTravelList")]
         public IActionResult GetCloseTravelList()
@@ -89,35 +110,118 @@ namespace TravelPlatform.Controllers.v1
         /// </summary>
         /// <returns>Backstage Travel List Object</returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("GetTravelSessionList")]
-        public IActionResult GetTravelSessionList()
+        [HttpGet("GetOpenTravelSessionList")]
+        public IActionResult GetOpenTravelSessionList(long id)
         {
             try
             {
                 var travelSession = _db.TravelSessions
-                                            .Join(_db.Travels,
-                                                s => s.TravelId,
-                                                t => t.Id,
-                                                (s, t) => new
-                                                {
-                                                    id = s.Id,
-                                                    productNumber = s.ProductNumber,
-                                                    title = t.Title,
-                                                    departure_date = s.DepartureDate,
-                                                    days = t.Days,
-                                                    price = s.Price,
-                                                    remaining_seats = s.RemainingSeats,
-                                                    seats = s.Seats,
-                                                    group_status = s.GroupStatus
-                                                })
-                                                .ToList();
+                    .Where(s => s.TravelId == id && s.DepartureDate >= DateTime.Now)
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.ProductNumber,
+                        s.DepartureDate,
+                        s.Price,
+                        s.RemainingSeats,
+                        s.Seats,
+                        s.GroupStatus
+                    });
+
+                var travel = _db.Travels.SingleOrDefault(t => t.Id == id);
+
+                if(travel == null)
+                {
+                    return BadRequest();
+                }
+
+                var data = new List<TravelSessionList>();
+                foreach(var session in travelSession)
+                {
+                    var sessionData = new TravelSessionList()
+                    {
+                        Id = session.Id,
+                        ProductNumber = session.ProductNumber,
+                        Title = travel.Title,
+                        departureDate = session.DepartureDate.ToString("yyyy/MM/dd"),
+                        Days = travel.Days,
+                        Price = session.Price,
+                        RemainingSeats = session.RemainingSeats,
+                        Seats = session.Seats,
+                        GroupStatus = session.GroupStatus
+                    };
+
+                    data.Add(sessionData);
+                }
 
                 var result = new
                 {
-                    data = travelSession
+                    data = data
                 };
 
-                return Ok(travelSession);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Backstage get all travel list
+        /// </summary>
+        /// <returns>Backstage Travel List Object</returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetCloseTravelSessionList")]
+        public IActionResult GetCloseTravelSessionList(long id)
+        {
+            try
+            {
+                var travelSession = _db.TravelSessions
+                    .Where(s => s.TravelId == id && s.DepartureDate < DateTime.Now)
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.ProductNumber,
+                        s.DepartureDate,
+                        s.Price,
+                        s.RemainingSeats,
+                        s.Seats,
+                        s.GroupStatus
+                    });
+
+                var travel = _db.Travels.SingleOrDefault(t => t.Id == id);
+
+                if (travel == null)
+                {
+                    return BadRequest();
+                }
+
+                var data = new List<TravelSessionList>();
+                foreach (var session in travelSession)
+                {
+                    var sessionData = new TravelSessionList()
+                    {
+                        Id = session.Id,
+                        ProductNumber = session.ProductNumber,
+                        Title = travel.Title,
+                        departureDate = session.DepartureDate.ToString("yyyy/MM/dd"),
+                        Days = travel.Days,
+                        Price = session.Price,
+                        RemainingSeats = session.RemainingSeats,
+                        Seats = session.Seats,
+                        GroupStatus = session.GroupStatus
+                    };
+
+                    data.Add(sessionData);
+                }
+
+                var result = new
+                {
+                    data = data
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
