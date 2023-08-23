@@ -27,14 +27,15 @@ namespace TravelPlatform.Controllers
         {
             try
             {
-                var travels = _db.Travels.Select(t => new
-                {
-                    t.Id,
-                    t.Title,
-                    DateRangeStart = t.DateRangeStart.ToString("yyyy-MM-dd"),
-                    DateRangeEnd = t.DateRangeEnd.ToString("yyyy-MM-dd"),
-                    t.MainImageUrl
-                }).ToList();
+                var travels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now)
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.Title,
+                        DateRangeStart = t.DateRangeStart.ToString("yyyy-MM-dd"),
+                        DateRangeEnd = t.DateRangeEnd.ToString("yyyy-MM-dd"),
+                        t.MainImageUrl
+                    }).ToList();
 
                 var result = new
                 {

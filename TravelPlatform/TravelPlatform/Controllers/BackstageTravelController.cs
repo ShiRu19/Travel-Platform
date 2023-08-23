@@ -24,14 +24,73 @@ namespace TravelPlatform.Controllers.v1
             _fileUploadService = fileUploadService;
         }
 
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetOpenTravelList")]
+        public IActionResult GetOpenTravelList()
+        {
+            try
+            {
+                var travels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now)
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.Title,
+                        DateRange = t.DateRangeStart.ToString("d") + " ~ " + t.DateRangeEnd.ToString("d"),
+                        t.Days,
+                        t.Nation,
+                        t.DepartureLocation
+                    }).ToList();
+
+                var result = new
+                {
+                    data = travels
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetCloseTravelList")]
+        public IActionResult GetCloseTravelList()
+        {
+            try
+            {
+                var travels = _db.Travels.Where(t => t.DateRangeEnd < DateTime.Now)
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.Title,
+                        DateRange = t.DateRangeStart.ToString("d") + " ~ " + t.DateRangeEnd.ToString("d"),
+                        t.Days,
+                        t.Nation,
+                        t.DepartureLocation
+                    }).ToList();
+
+                var result = new
+                {
+                    data = travels
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Backstage get all travel list
         /// </summary>
         /// <returns>Backstage Travel List Object</returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("TravelList")]
-        public IActionResult GetTravelList()
+        [HttpGet("GetTravelSessionList")]
+        public IActionResult GetTravelSessionList()
         {
             try
             {
