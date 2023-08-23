@@ -6,6 +6,7 @@
         public DateTime DateRangeStart { get; set; }
         public DateTime DateRangeEnd { get; set; }
         public int Days { get; set; }
+        public string Nation { get; set; } = null!;
         public string DepartureLocation { get; set; } = null!;
         public IFormFile? PdfFile { get; set; }
         public IFormFile? MainImageFile { get; set; }

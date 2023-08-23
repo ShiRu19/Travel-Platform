@@ -144,6 +144,8 @@ function createTravelFormData() {
     formData.append("TravelInfo.Days", $("#days").val());
     formData.append("TravelInfo.DepartureLocation", $("#departure_location").val());
 
+    formData.append("TravelInfo.Nation", $("#nation").val());
+
     var main_image_file = $("#travel-main-image");
     if (main_image_file.length > 0) {
         var file = main_image_file[0].files[0];

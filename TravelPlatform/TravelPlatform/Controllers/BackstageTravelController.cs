@@ -92,7 +92,8 @@ namespace TravelPlatform.Controllers.v1
                         DateRangeStart = travelInfo.DateRangeStart,
                         DateRangeEnd = travelInfo.DateRangeEnd,
                         Days = travelInfo.Days,
-                        DepartureLocation = travelInfo.DepartureLocation
+                        DepartureLocation = travelInfo.DepartureLocation,
+                        Nation = travelInfo.Nation
                     };
 
                     // Main image
@@ -155,15 +156,16 @@ namespace TravelPlatform.Controllers.v1
                     _db.SaveChanges();
                     transaction.Commit();
                     Console.WriteLine("Transaction committed successfully.");
+                    return Ok();
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
 
                     Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
-            return Ok();
         }
     }
 }
