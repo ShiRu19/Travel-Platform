@@ -9,13 +9,18 @@ function GetOpenTravelList(id) {
     axios.get("/api/v1.0/BackstageTravel/GetOpenTravelSessionList?id=" + id)
         .then((response) => {
             var datas = response.data.data;
+            var title = $("#travel-title").html();
+            var days = 0;
+
+            if (datas.length !== 0) {
+                title = datas[0].title;
+                days = datas[0].days;
+            }
 
             datas.forEach((data) => {
                 var id = data.id;
                 var productNumber = data.productNumber;
-                var title = data.title;
                 var departureDate = data.departureDate;
-                var days = data.days;
                 var price = data.price;
                 var remainingSeats = data.remainingSeats;
                 var seats = data.seats;
@@ -44,6 +49,7 @@ function GetOpenTravelList(id) {
 
                 $("#travel-table-open tbody").append(item);
             });
+            $("#travel-title").html(title);
         })
         .catch((error) => console.log(error));
 }
@@ -52,13 +58,18 @@ function GetCloseTravelList(id) {
     axios.get("/api/v1.0/BackstageTravel/GetCloseTravelSessionList?id=" + id)
         .then((response) => {
             var datas = response.data.data;
+            var title = $("#travel-title").html();
+            var days = 0;
+
+            if (datas.length !== 0) {
+                title = datas[0].title;
+                days = datas[0].days;
+            }
 
             datas.forEach((data) => {
                 var id = data.id;
                 var productNumber = data.productNumber;
-                var title = data.title;
                 var departureDate = data.departureDate;
-                var days = data.days;
                 var price = data.price;
                 var remainingSeats = data.remainingSeats;
                 var seats = data.seats;
@@ -87,6 +98,7 @@ function GetCloseTravelList(id) {
 
                 $("#travel-table-close tbody").append(item);
             });
+            $("#travel-title").html(title);
         })
         .catch((error) => console.log(error));
 }
