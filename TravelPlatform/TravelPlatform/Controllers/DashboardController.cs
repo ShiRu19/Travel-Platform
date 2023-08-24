@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using TravelPlatform.Models.Domain;
+using TravelPlatform.Models.Record;
 
 namespace TravelPlatform.Controllers
 {
@@ -195,46 +196,76 @@ namespace TravelPlatform.Controllers
         [HttpGet("GetFollowTopFive")]
         public IActionResult GetFollowTopFive()
         {
-            var openTravels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now).ToList();
-
-            var follows = _db.Follows.GroupBy(f => f.TravelId)
-                .Select(f => new
-                {
-                    id = f.Key,
-                    follows = f.Count()
-                })
-                .OrderByDescending(f => f.follows);
-
-            var data = new List<Object>();
-
-            foreach(var follow in follows)
+            try
             {
-                var travel = openTravels.Find(t => t.Id == follow.id);
-                if(travel != null && travel.DateRangeEnd >= DateTime.Now)
-                {
-                    var topFollow = new
-                    {
-                        id = travel.Id,
-                        title = travel.Title,
-                        nation = travel.Nation == "台灣" ? "國內" : "國外",
-                        days = travel.Days,
-                        follows = follow.follows
-                    };
-                    data.Add(topFollow);
+                var openTravels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now).ToList();
 
-                    if(data.Count == 5)
+                var follows = _db.Follows.GroupBy(f => f.TravelId)
+                    .Select(f => new
                     {
-                        break;
+                        id = f.Key,
+                        follows = f.Count()
+                    })
+                    .OrderByDescending(f => f.follows);
+
+                var data = new List<Object>();
+
+                foreach(var follow in follows)
+                {
+                    var travel = openTravels.Find(t => t.Id == follow.id);
+                    if(travel != null && travel.DateRangeEnd >= DateTime.Now)
+                    {
+                        var topFollow = new
+                        {
+                            id = travel.Id,
+                            title = travel.Title,
+                            nation = travel.Nation == "台灣" ? "國內" : "國外",
+                            days = travel.Days,
+                            follows = follow.follows
+                        };
+                        data.Add(topFollow);
+
+                        if(data.Count == 5)
+                        {
+                            break;
+                        }
                     }
                 }
+
+                var result = new
+                {
+                    data = data
+                };
+
+                return Ok(result);
             }
-
-            var result = new
+            catch (Exception ex)
             {
-                data = data
-            };
+                return StatusCode(500, ex.Message);
+            }
+        }
 
-            return Ok(result);
+        [MapToApiVersion("1.0")]
+        [HttpPost("AddFollow")]
+        public IActionResult AddFollow([FromBody] FollowAddModel followAdd)
+        {
+            try
+            {
+                var follow = new Follow()
+                {
+                    Id = _db.Follows.Max(f => f.Id) == 0 ? 1 : _db.Follows.Max(f => f.Id) + 1,
+                    TravelId = followAdd.TravelId,
+                    UserId = followAdd.UserId
+                };
+
+                _db.Follows.Add(follow);
+                _db.SaveChanges();
+                return Ok(follow);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
