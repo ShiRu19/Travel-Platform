@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/Chatroom.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content-page">
+        <header class="header-page">
+            <div class="nav" id="profile-icon">
+                <img id="profile-image" src="images/profile.png" />
+            </div>
+        </header>
+        <div class="content">
+            <div class="content-left">
+                <header class="header-left">
+                    <a href="/index.html">
+                        <img src="images/happygotravel_logo.png" class="logo-image" />
+                    </a>
+                </header>
+                <section class="section-left">
+                    <div class="menu">
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>首頁</span>
+                            <div class="menu-item-space"></div>
+                        </a>
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>國內旅遊</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+                <footer class="footer-left">
+                </footer>
+            </div>
+            <div class="content-right">
+                <section class="section-right">
+                    <div class="row chat-box" id="container">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="card" id="chatroom">
+                                <div class="chatroom-content" id="chatroomContent">
+                                    <!--<%- for (let i = 0; i < 1; i += 1) { %>-->
+                                    <div class="row m-4">
+                                        <div class="col-md-12">
+                                            <h4>
+                                                <span class="badge badge-light badge-pill">Hello</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-12 text-right">
+                                            <h4>
+                                                <span class="badge badge-light badge-pill">Hi</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-12 text-right">
+                                            <h4>
+                                                <span class="badge badge-light badge-pill">Hi</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-12 text-right">
+                                            <h4>
+                                                <span class="badge badge-light badge-pill">Hi</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <!--<% } %>-->
+                                </div>
+                                <div class="row p-3">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <input type="text" id="inputMsg" class="form-control">
+                                            <div class="input-group-prepend">
+                                                <button type="button" id="btnSend" class="btn btn-success">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</body>
+</html>
