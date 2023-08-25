@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>即時聊天範例</h1>
+
+    <div class="row">
+        <div class="col-8">
+            <h4>輸入房間 ID: </h4>
+            <input type="text" id="room-id" />
+            <input type="button" id="join-btn" value="加入" />
+            <input type="button" id="check-users-btn" value="確認人數" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <h3>聊天內容</h3>
+            <ul class="list-group" id="Content">
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <h4>連線 Room ID 列表</h4>
+        <ul class="list-group" id="IDList-room">
+        </ul>
+    </div>
+
+    <div class="col-4">
+        <h4>連線 User ID 列表</h4>
+        <ul class="list-group" id="IDList-user">
+        </ul>
+    </div>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/hubs/ChatHub").build();
+
+        // 與 Server 建立連線
+        connection.start().then(function () {
+            console.log("Hub 連線完成");
+        }).catch(function (err) {
+            alert('連線錯誤: ' + err.toString());
+        });
+
+        // 加入聊天室
+        $("#join-btn").on("click", function () {
+            let roomId = $("#room-id").val();
+            connection.invoke("JoinGroup", roomId).catch(function (err) {
+                alert('無法加入: ' + err.toString());
+            });
+        });
+
+        // 更新連線 Room ID 列表事件
+        connection.on("UpdRooms", function (jsonList) {
+            var list = JSON.parse(jsonList);
+            $("#IDList-room li").remove();
+            for (i = 0; i < list.length; i++) {
+                $("#IDList-room").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
+            }
+        });
+
+        // 更新連線 User ID 列表事件
+        connection.on("UpdUsers", function (jsonList) {
+            var list = JSON.parse(jsonList);
+            $("#IDList-user li").remove();
+            for (i = 0; i < list.length; i++) {
+                $("#IDList-user").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
+            }
+        });
+
+        // 更新各房間人數
+        connection.on("UpdUserCount", function (jsonList) {
+            console.log(jsonList);
+        });
+    </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
 using System.Text.Json.Serialization;
 using TravelPlatform.Handler;
+using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
 
@@ -27,9 +28,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
 
-// WebSocket
-builder.Services.AddScoped<TravelPlatform.Handler.WebSocketHandler>();
-builder.Services.AddScoped<TravelPlatform.Handler.WebSocketManager>();
+// SignalR
+builder.Services.AddSignalR();
 
 // App Api Version
 builder.Services.AddApiVersioning(opt =>
@@ -59,33 +59,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// WebSocket
-app.UseWebSockets(new WebSocketOptions
-{
-    KeepAliveInterval = TimeSpan.FromSeconds(30)
-});
-
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path.StartsWithSegments("/ws", out var remaining))
-    {
-        var channelName = remaining.Value.Trim('/'); // 取得通道名稱
-
-        if (!string.IsNullOrEmpty(channelName))
-        {
-            if (context.WebSockets.IsWebSocketRequest)
-            {
-                using (WebSocket ws = await context.WebSockets.AcceptWebSocketAsync())
-                {
-                    var wsHandler = context.RequestServices.GetRequiredService<WebSocketHandler>();
-                    await wsHandler.HandleWebSocketAsync(channelName, ws);
-                }
-            }
-            else
-                context.Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-        }
-    }
-    else await next();
-});
+// SignalR
+app.MapHub<ClientChatHub>("/hubs/ChatHub");
 
 app.Run();

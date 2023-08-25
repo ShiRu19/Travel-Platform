@@ -5,5 +5,9 @@
 }
 
 #container {
-    width: 80%;
+    width: 100%;
+}
+
+#chatroomContent{
+    min-height: 500px;
 }
