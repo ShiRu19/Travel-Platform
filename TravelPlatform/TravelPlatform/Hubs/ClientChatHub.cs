@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using System.Numerics;
 using TravelPlatform.Models.Domain;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -40,7 +41,7 @@ namespace TravelPlatform.Hubs
 
             Room room = new Room();
             room.Id = Guid.NewGuid().ToString();
-            room.Users.Add(user);
+            //room.Users.Add(user);
 
             Rooms.Add(room);
             Users.Add(user);
@@ -67,6 +68,7 @@ namespace TravelPlatform.Hubs
             await Clients.All.SendAsync("UpdUserCount", jsonString_count);
 
             await base.OnConnectedAsync();
+            JoinGroup(room.Id);
         }
 
         /// <summary>
@@ -130,9 +132,22 @@ namespace TravelPlatform.Hubs
                 UserCount[room.Id] = room.Users.Count;
             }
 
+            // 更新連線 Room ID
+            await Clients.Client(Context.ConnectionId).SendAsync("YourRoomID", room.Id);
+
             // 更新各房間人數
             string jsonString_count = JsonConvert.SerializeObject(UserCount);
             await Clients.All.SendAsync("UpdUserCount", jsonString_count);
+        }
+
+        /// <summary>
+        /// 傳遞訊息
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public async Task SendMessage(string roomId, string userId, string msg)
+        {
+            await Clients.Group(roomId).SendAsync("UpdContent", userId, msg);
         }
     }
 }

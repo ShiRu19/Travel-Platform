@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="css/Chatroom.css" rel="stylesheet" />
 </head>
 <body>
     <h1>即時聊天範例</h1>
@@ -16,11 +21,46 @@
         </div>
     </div>
 
-    <div class="row mt-3">
+    <!--<div class="row mt-3">
         <div class="col-12">
             <h3>聊天內容</h3>
             <ul class="list-group" id="Content">
             </ul>
+        </div>
+        <div>
+
+        </div>
+    </div>-->
+
+    <div class="row chat-box" id="container">
+        <div class="col-md-6 offset-md-3">
+            <div class="card" id="chatroom">
+                <h3>聊天室</h3>
+                <div class="chatroomContent-container">
+                    <div class="row m-4" id="chatroomContent">
+                        <!--<div class="col-md-12">
+                            <h4>
+                                <span class="badge badge-light badge-pill">Hello</span>
+                            </h4>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <h4>
+                                <span class="badge badge-light badge-pill">Hi</span>
+                            </h4>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" id="inputMsg" class="form-control">
+                            <div class="input-group-prepend">
+                                <button type="button" id="sendButton" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -42,6 +82,9 @@
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/hubs/ChatHub").build();
 
+        var roomId = "";
+        var userId = "";
+
         // 與 Server 建立連線
         connection.start().then(function () {
             console.log("Hub 連線完成");
@@ -51,10 +94,28 @@
 
         // 加入聊天室
         $("#join-btn").on("click", function () {
-            let roomId = $("#room-id").val();
-            connection.invoke("JoinGroup", roomId).catch(function (err) {
+            let room_id = $("#room-id").val();
+            connection.invoke("JoinGroup", room_id).catch(function (err) {
                 alert('無法加入: ' + err.toString());
             });
+        });
+
+        //傳送訊息
+        $('#sendButton').on('click', function () {
+            var msg = $("#inputMsg").val();
+            connection.invoke("SendMessage", roomId, userId, msg).catch(function (err) {
+                alert('傳送錯誤: ' + err.toString());
+            });
+        });
+
+        // 更新連線 Room ID
+        connection.on("YourRoomID", function (id) {
+            roomId = id;
+        });
+
+        // 更新連線 User ID
+        connection.on("YourUserID", function (id) {
+            userId = id;
         });
 
         // 更新連線 Room ID 列表事件
@@ -78,6 +139,18 @@
         // 更新各房間人數
         connection.on("UpdUserCount", function (jsonList) {
             console.log(jsonList);
+        });
+
+        // 更新聊天內容事件
+        connection.on("UpdContent", function (userId, msg) {
+            var item_left = `<div class="col-md-12">
+                            <h4>
+                                <p>${userId}</p>
+                                <span class="badge badge-light badge-pill">${msg}</span>
+                            </h4>
+                        </div>`;
+
+            $("#chatroomContent").append(item_left);
         });
     </script>
 </body>
