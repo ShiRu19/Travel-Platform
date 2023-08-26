@@ -1,33 +1,28 @@
 ﻿<!DOCTYPE html>
-<html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Add Travel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="/AdminLTE/css/all.min.css">
+    <link rel="stylesheet" href="../AdminLTE/css/all.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
+    <link rel="stylesheet" href="../AdminLTE/css/adminlte.min.css">
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="/AdminLTE/css/select2.min.css">
-    <link rel="stylesheet" href="/AdminLTE/css/select2-bootstrap4.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="/AdminLTE/css/tempusdominus-bootstrap-4.min.css">
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
-
-    <!-- Backstage_addTravel -->
-    <link rel="stylesheet" href="/css/Backstage_addTravel.css">
-
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -194,7 +189,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="/Dashboard.html" class="nav-link">
+                            <a href="/admin/Dashboard.html" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
                                     Home
@@ -202,7 +197,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Backstage_TravelList.html" class="nav-link">
+                            <a href="/admin/Backstage_TravelList.html" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
                                     My Travels
@@ -210,7 +205,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Backstage_addTravel.html" class="nav-link">
+                            <a href="/admin/Backstage_addTravel.html" class="nav-link">
                                 <i class="nav-icon fas fa-plus"></i>
                                 <p>
                                     Add Travel
@@ -218,7 +213,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Backstage_userList.html" class="nav-link">
+                            <a href="/admin/Backstage_userList.html" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Users
@@ -239,11 +234,11 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Add Travel</h1>
+                            <h1 class="m-0">Home - Dashboard</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/Backstage_addTravel.html">Add Travels</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/Dashboard.html">Home</a></li>
                                 <li class="breadcrumb-item active">Backstage</li>
                             </ol>
                         </div><!-- /.col -->
@@ -252,204 +247,143 @@
             </div>
             <!-- /.content-header -->
             <!-- Main content -->
-            <form id="myForm" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault()">
-                <div class="main-content">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">行程資訊</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-row">
-                                <!-- Title -->
-                                <div class="form-group card-column-1">
-                                    <label>行程名稱:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-row">
-                                <!-- Date range -->
-                                <div class="form-group card-column-1">
-                                    <label>活動區間:</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="far fa-calendar-alt"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control float-right" id="reservation">
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-                                <!-- Days -->
-                                <div class="form-group card-column-2">
-                                    <label>天數:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="days" type="text" placeholder="輸入行程天數">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-row">
-                                <!-- Departure Location -->
-                                <div class="form-group card-column-1">
-                                    <label>出發地點:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)">
-                                    </div>
-                                </div>
-                                <!-- Nation -->
-                                <div class="form-group card-column-2">
-                                    <label>目的地國家:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-row">
-                                <!-- Travel Information PDF -->
-                                <div class="form-group">
-                                    <label>行程 PDF:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-pdf" accept=".pdf" />
-                                    </div>
-                                </div>
-                                <!-- Travel Information PDF -->
-                                <div class="form-group">
-                                    <label>宣傳圖:</label>
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-main-image" accept="image/*" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">景點綱要</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6>請輸入景點名稱或縣市</h6>
-                            <div class="card-attractions">
-                                <div class="form-group card-column-1">
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市">
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="add-new-attraction">
-                                <input type="button" value="新增景點" class="btn btn-info" id="add-new-attraction-btn" />
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <div class="card-sessions">
-                        <div class="card-session" data-sessionNum="1">
-                            <div class="card card-primary">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card card-info">
                                 <div class="card-header">
-                                    <h3 class="card-title">行程場次-1</h3>
+                                    <h3 class="card-title">今年國內各月份銷售總額</h3>
 
                                     <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card-row">
-                                        <!-- Product Number -->
-                                        <div class="form-group card-column-1">
-                                            <label>場次編號:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Date -->
-                                        <div class="form-group card-column-1">
-                                            <label>出發日期:</label>
-                                            <div class="input-group date" data-target-input="nearest">
-                                                <input type="text" id="departure-date-1" class="form-control datetimepicker-input" data-target="#departure-date-1" />
-                                                <div class="input-group-append" data-target="#departure-date-1" data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Price -->
-                                        <div class="form-group card-column-1">
-                                            <label>價錢:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="price-1" type="text" placeholder="輸入成人價錢">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Applicants -->
-                                        <div class="form-group card-column-1">
-                                            <label>已報名人數:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="applicants-1" type="text" placeholder="輸入目前報名人數">
-                                            </div>
-                                        </div>
-                                        <!-- Seats -->
-                                        <div class="form-group card-column-2">
-                                            <label>席次:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="seats-1" type="text" placeholder="輸入總席次">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Bootstrap Switch -->
-                                        <div class="form-group">
-                                            <label>出團狀態:</label>
-                                            <div style="display: flex;">
-                                                <div>
-                                                    <input type="radio" id="radio-status-success-1" name="status-1" value="1" checked />
-                                                    <label for="radio-status-success-1">已成團</label>
-                                                </div>
-
-                                                <div class="card-column-2">
-                                                    <input type="radio" id="radio-status-unseccess-1" name="status-1" value="0" />
-                                                    <label for="radio-status-success-1">尚未成團</label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="chart">
+                                        <canvas id="sales-month" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                     </div>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">今年國內各月份訂單數</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="sales-volume-month" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
                         </div>
                     </div>
-                    <!-- /.card-body -->
-                    <!-- Add new session button-->
-                    <div id="add-new-session">
-                        <input type="button" value="新增場次" class="btn btn-info" id="add-new-session-btn" />
-                    </div>
-                    <!-- /.content -->
+                    <!-- /.row -->
                     <div class="row">
-                        <div class="col-12">
-                            <a href="#" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Create new Project" class="btn btn-success float-right card-column-2">
+                        <div class="col-lg-6">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">國內出發地成團比率</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="domestic-group-status" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">國內出發地訂單數</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="domestic-sales-volume" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
                         </div>
                     </div>
+                    <!-- /.row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">目前開放行程追蹤人數 - 前五名</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <!--<canvas id="open-travel-follow-top5" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>-->
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table m-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>行程名稱</th>
+                                                            <th>分類</th>
+                                                            <th>天數</th>
+                                                            <th>追蹤人數</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="open-travel-follow-top-5">
+                                                        <!--<tr>
+                                                            <td><a href="#">古坑摘柳丁 & 落羽松秘境二日遊</a></td>
+                                                            <td>國內</td>
+                                                            <td>2</td>
+                                                            <td>10</td>
+                                                        </tr>-->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.table-responsive -->
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
                 </div>
-            </form>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
         </div>
     </div>
     <!-- /.content-wrapper -->
@@ -475,33 +409,24 @@
     <!-- REQUIRED SCRIPTS -->
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- jQuery -->
-    <script src="/AdminLTE/js/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="/AdminLTE/js/bootstrap.bundle.min.js"></script>
+    <script src="../AdminLTE/js/bootstrap.bundle.min.js"></script>
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- AdminLTE -->
-    <script src="/AdminLTE/js/adminlte.js"></script>
+    <script src="../AdminLTE/js/adminlte.js"></script>
 
     <!-- OPTIONAL SCRIPTS -->
-    <script src="/AdminLTE/js/Chart.min.js"></script>
+    <script src="../AdminLTE/js/Chart.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="/AdminLTE/js/demo.js"></script>
+    <script src="../AdminLTE/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="/AdminLTE/js/pages/dashboard3.js"></script>
-    <!-- Select2 -->
-    <script src="/AdminLTE/js/select2.full.min.js"></script>
-    <!-- InputMask -->
-    <script src="/AdminLTE/js/moment.min.js"></script>
-    <script src="/AdminLTE/js/jquery.inputmask.min.js"></script>
-    <!-- date-range-picker -->
-    <script src="/AdminLTE/js/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="/AdminLTE/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Bootstrap Switch -->
-    <script src="/AdminLTE/js/bootstrap-switch.min.js"></script>
+    <script src="../AdminLTE/js/pages/dashboard3.js"></script>
 
-    <!-- Page specific script -->
-    <script src="js/Backstage_addTravel.js" charset="big5"></script>
+    <!-- Dashboard -->
+    <script src="../js/Dashboard.js" charset="big5"></script>
 </body>
-</html >
+</html>

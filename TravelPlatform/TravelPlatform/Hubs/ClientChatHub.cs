@@ -41,7 +41,6 @@ namespace TravelPlatform.Hubs
 
             Room room = new Room();
             room.Id = Guid.NewGuid().ToString();
-            //room.Users.Add(user);
 
             Rooms.Add(room);
             Users.Add(user);

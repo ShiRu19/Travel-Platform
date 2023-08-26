@@ -265,7 +265,7 @@ function ShowTopFiveOfFollows() {
                 var follows = data.follows;
 
                 var item = `<tr>
-                                <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>
+                                <td><a href="/admin/TravelDetail.html?id=${id}">${title}</a></td>
                                 <td>${nation}</td>
                                 <td>${days}</td>
                                 <td>${follows}</td>
