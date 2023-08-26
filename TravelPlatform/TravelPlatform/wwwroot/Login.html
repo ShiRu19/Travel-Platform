@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Happy Go Travel - Login</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link href="/AdminLTE/css/all.min.css" rel="stylesheet">
+    <!-- Theme style -->
+    <link href="/AdminLTE/css/adminlte.min.css" rel="stylesheet">
+
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0&appId=169967506074412&autoLogAppEvents=1" nonce="lPpHEgCQ"></script>
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>Happy Go Travel</b></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">登入！開始你的旅程吧！</p>
+
+                <div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" id="native-login-email" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="native-login-password" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-success btn-block" id="singIn-btn">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+
+                <div class="social-auth-links text-center mt-2 mb-3">
+                    <div class="fb-login-button btn btn-block btn-primary" id="signIn_facebook" onlogin="FBLogin();" data-size="large" data-width="100%" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                </div>
+                <!-- /.social-auth-links -->
+
+                <p class="mb-0">
+                    <a href="register.html" class="text-center">註冊新帳號</a>
+                </p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/AdminLTE/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/AdminLTE/js/adminlte.min.js"></script>
+
+    <!-- Login -->
+    <script src="/js/Login.js" charset="big5"></script>
+</body>
+</html>
