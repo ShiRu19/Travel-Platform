@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlatform.Models.Domain;
+using TravelPlatform.Models.User;
 using TravelPlatform.Services;
 
 namespace TravelPlatform.Controllers
@@ -27,11 +28,8 @@ namespace TravelPlatform.Controllers
                 {
                     id = u.Id,
                     name = u.Name,
-                    sex = u.Sex,
-                    birthday = u.Birthday,
                     email = u.Email,
-                    phoneNumber = u.PhoneNumber,
-                    region = u.Region
+                    provider = u.Provider
                 }).ToList();
 
                 var result = new

@@ -185,16 +185,17 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F7B537803");
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F44BDE899");
 
             entity.ToTable("User");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.Birthday)
-                .HasColumnType("date")
-                .HasColumnName("birthday");
+            entity.Property(e => e.AccessToken)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("access_token");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -206,21 +207,14 @@ public partial class TravelContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("password");
-            entity.Property(e => e.PhoneNumber)
+            entity.Property(e => e.Provider)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("phone_number");
-            entity.Property(e => e.Region)
-                .HasMaxLength(255)
-                .HasColumnName("region");
+                .HasColumnName("provider");
             entity.Property(e => e.Role)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("role");
-            entity.Property(e => e.Sex)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("sex");
         });
 
         modelBuilder.Entity<Watch>(entity =>

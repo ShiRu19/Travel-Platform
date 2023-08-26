@@ -10,20 +10,14 @@ async function GetUserList() {
             datas.forEach(function (data) {
                 var id = data.id;
                 var name = data.name;
-                var sex = data.sex === 'men' ? '男' : '女';
-                var birthday = data.birthday.split('T')[0];
                 var email = data.email;
-                var phoneNumber = data.phoneNumber;
-                var region = data.region;
+                var provider = data.provider == 'native' ? "網站" : "Facebook";
 
                 var item = `<tr><td>#</td>\
                             <td><a>${id}</a></td>\
                             <td>${name}</td>\
-                            <td>${sex}</td>\
-                            <td>${birthday}</td>\
                             <td>${email}</td>\
-                            <td>${phoneNumber}</td>\
-                            <td>${region}</td>`;
+                            <td>${provider}</td>`;
 
                 $("#user-table tbody").append(item);
             });
