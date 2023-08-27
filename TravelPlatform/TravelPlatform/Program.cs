@@ -28,6 +28,10 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
 
+// Token service
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+
 // SignalR
 builder.Services.AddSignalR();
 
