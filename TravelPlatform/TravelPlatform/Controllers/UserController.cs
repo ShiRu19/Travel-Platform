@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.User;
 using TravelPlatform.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TravelPlatform.Controllers
 {
@@ -18,14 +20,14 @@ namespace TravelPlatform.Controllers
     public class UserController : ControllerBase
     {
         private readonly TravelContext _db;
-        private readonly IConfiguration _configuration;
         private readonly ITokenService _tokenService;
+        private readonly IFacebookService _facebookService;
 
-        public UserController(TravelContext db, IConfiguration configuration, ITokenService tokenService)
+        public UserController(TravelContext db, ITokenService tokenService, IFacebookService facebookService)
         {
             _db = db;
-            _configuration = configuration;
             _tokenService = tokenService;
+            _facebookService = facebookService;
         }
 
         [MapToApiVersion("1.0")]
@@ -75,10 +77,14 @@ namespace TravelPlatform.Controllers
                     });
                 }
 
-                return SignInFB(user);
+                return await SignInFB(user);
             }
 
-            return BadRequest();
+            return BadRequest(new
+            {
+                error = "Unexpected login method.",
+                message = "Please try again"
+            });
         }
 
         private IActionResult SignInNative(SignInModel user)
@@ -126,9 +132,65 @@ namespace TravelPlatform.Controllers
             });
         }
 
-        private IActionResult SignInFB(SignInModel user)
+        private async Task<IActionResult> SignInFB(SignInModel user)
         {
-            return Ok();
+            FBProfile profile = await _facebookService.GetProfileAsync(user.Access_token_fb);
+            
+            if(profile.Id == null)
+            {
+                return Forbid();
+            }
+
+            var expectedUser = _db.Users.SingleOrDefault(u => u.Email == user.Email);
+            if (expectedUser == null)
+            {
+                return CreateNewUser_FB(profile);
+            }
+
+            var newToken = _tokenService.GenerateJwtToken(expectedUser);
+
+            return Ok(new
+            {
+                accessToken = newToken.Result,
+                user = new
+                {
+                    id = expectedUser.Id,
+                    provider = expectedUser.Provider,
+                    name = expectedUser.Name,
+                    email = expectedUser.Email,
+                }
+            });
+        }
+
+        private IActionResult CreateNewUser_FB(FBProfile profile)
+        {
+            User newUser = new User()
+            {
+                Id = _db.Users.Max(u => u.Id) == 0 ? 1 : _db.Users.Max(u => u.Id) + 1,
+                Role = "user",
+                Provider = "facebook",
+                Name = profile.Name,
+                Email = profile.Email
+            };
+
+            var token = _tokenService.GenerateJwtToken(newUser);
+
+            newUser.AccessToken = token.Result;
+
+            _db.Users.Add(newUser);
+            _db.SaveChanges();
+
+            return Ok(new
+            {
+                accessToken = token.Result,
+                user = new
+                {
+                    id = newUser.Id,
+                    provider = newUser.Provider,
+                    name = newUser.Name,
+                    email = newUser.Email,
+                }
+            });
         }
 
         private string HashPassword(string password)

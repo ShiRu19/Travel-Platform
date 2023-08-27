@@ -185,7 +185,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F44BDE899");
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F3C7F683B");
 
             entity.ToTable("User");
 
@@ -193,7 +193,6 @@ public partial class TravelContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id");
             entity.Property(e => e.AccessToken)
-                .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("access_token");
             entity.Property(e => e.Email)

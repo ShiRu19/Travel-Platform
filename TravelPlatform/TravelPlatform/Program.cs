@@ -32,6 +32,10 @@ builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 
+// Facebook service
+builder.Services.AddScoped<IFacebookService, FacebookService>();
+builder.Services.AddScoped<IFacebookHandler, FacebookHandler>();
+
 // SignalR
 builder.Services.AddSignalR();
 
