@@ -22,11 +22,19 @@
                 <a href="../../index2.html" class="h1"><b>Happy Go Travel</b></a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">登入！開始你的旅程吧！</p>
+                <p class="login-box-msg">註冊！旅程從這裡開始！</p>
 
                 <div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" id="native-login-email" placeholder="Email">
+                        <input type="text" class="form-control" id="fullName" placeholder="名字 (請輸入全名)" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="Email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -34,7 +42,15 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" id="native-login-password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" placeholder="密碼" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="password_retype" placeholder="再次輸入密碼" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -42,8 +58,17 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                <label for="agreeTerms">
+                                    我同意成為會員
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
                         <div class="col-4">
-                            <button type="button" class="btn btn-success btn-block" id="singIn-btn">Sign In</button>
+                            <button type="submit" id="register" class="btn btn-success btn-block">註冊</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -54,16 +79,13 @@
                 </div>
                 <!-- /.social-auth-links -->
 
-                <p class="mb-0">
-                    <a href="/Signup.html" class="text-center">註冊新帳號</a>
-                </p>
+                <a href="/Login.html" class="text-center">我已經是會員了</a>
             </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
     </div>
     <!-- /.login-box -->
-
     <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- jQuery library -->
@@ -73,8 +95,8 @@
     <!-- AdminLTE App -->
     <script src="/AdminLTE/js/adminlte.min.js"></script>
 
-    <!-- Login -->
-    <script src="/js/Login.js" charset="big5"></script>
+    <!-- Signup -->
+    <script src="/js/Signup.js" charset="big5"></script>
     <script src="/js/FBLogin.js" charset="big5"></script>
 </body>
 </html>
