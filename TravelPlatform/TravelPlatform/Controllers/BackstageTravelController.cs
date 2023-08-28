@@ -406,9 +406,9 @@ namespace TravelPlatform.Controllers.v1
 
         [MapToApiVersion("1.0")]
         [HttpGet("GetSessionInfo")]
-        public async Task<IActionResult> GetSessionInfo(long id, string num)
+        public async Task<IActionResult> GetSessionInfo(long id)
         {
-            var session = _db.TravelSessions.Where(t => t.TravelId == id && t.ProductNumber == num).FirstOrDefault();
+            var session = _db.TravelSessions.Where(t => t.Id == id).SingleOrDefault();
 
             if(session == null)
             {
@@ -527,15 +527,14 @@ namespace TravelPlatform.Controllers.v1
         [HttpPost("EditSession")]
         public IActionResult EditSession([FromForm] SessionEditModel sessionEditModel)
         {
-            var travelId = sessionEditModel.TravelId;
-            var sessionNumber = sessionEditModel.SessionNumber;
+            var sessionId = sessionEditModel.SessionId;
             var updSession = sessionEditModel.TravelSession;
 
             using (var transaction = _db.Database.BeginTransaction())
             {
                 try
                 {
-                    var session = _db.TravelSessions.Where(t => t.TravelId == travelId && t.ProductNumber == sessionNumber).FirstOrDefault();
+                    var session = _db.TravelSessions.Where(t => t.Id == sessionId).FirstOrDefault();
 
                     if (session == null)
                     {

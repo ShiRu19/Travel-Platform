@@ -1,10 +1,10 @@
 var travelId = 0;
-var num = "";
+var sessionId = 0;
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
-    travelId = urlParams.get('id');
-    num = urlParams.get('num');
-
+    travelId = urlParams.get('travelId');
+    sessionId = urlParams.get('sessionId');
+    
     GetSessionInfo();
 
     $("form").submit(function (e) {
@@ -40,8 +40,28 @@ $(function () {
     })
 })
 
+//async function GetSessionInfo() {
+//    await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${travelId}&num=${num}`)
+//        .then((response) => {
+//            var sessionInfo = response.data;
+//            $("#product-number").val(sessionInfo.productNumber);
+//            $("#departure-date").val(sessionInfo.departureDate);
+//            $("#price").val(sessionInfo.price);
+//            $("#applicants").val(sessionInfo.applicants);
+//            $("#seats").val(sessionInfo.seats);
+
+//            if (sessionInfo.groupStatus === 1) {
+//                $("#radio-status-success").prop("checked", true);
+//            }
+//            else {
+//                $("#radio-status-unsuccess").prop("checked", true);
+//            }
+//        })
+//        .catch((error) => { alert(error) });
+//}
+
 async function GetSessionInfo() {
-    await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${travelId}&num=${num}`)
+    await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${sessionId}`)
         .then((response) => {
             var sessionInfo = response.data;
             $("#product-number").val(sessionInfo.productNumber);
@@ -63,8 +83,7 @@ async function GetSessionInfo() {
 function createSessionFormData() {
     var formData = new FormData();
 
-    formData.append("TravelId", travelId);
-    formData.append("SessionNumber", num);
+    formData.append("SessionId", sessionId);
 
     // TravelSession
     formData.append(`TravelSession.ProductNumber`, $(`#product-number`).val());

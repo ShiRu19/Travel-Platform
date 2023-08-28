@@ -46,7 +46,7 @@ function GetOpenTravelList(travelId) {
                     item += `<td class="project-state"><span class="badge badge-warning">未開團</span></td>`;
                 }
                 item += `<td class="project-actions text-right">\
-                            <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Session.html?id=${travelId}&num=${productNumber}"><i class="fas fa-pencil-alt"></i>編輯</a>\
+                            <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Session.html?travelId=${travelId}&sessionId=${sessionId}"><i class="fas fa-pencil-alt"></i>編輯</a>\
                             <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>刪除</a>\
                         </td></tr>`;
 

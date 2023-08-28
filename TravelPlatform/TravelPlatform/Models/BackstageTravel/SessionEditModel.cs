@@ -2,8 +2,7 @@
 {
     public class SessionEditModel
     {
-        public long TravelId { get; set; }
-        public string SessionNumber { get; set; } = null!;
+        public long SessionId { get; set; }
         public TravelSessionModel TravelSession { get; set; } = null!;
     }
 }
