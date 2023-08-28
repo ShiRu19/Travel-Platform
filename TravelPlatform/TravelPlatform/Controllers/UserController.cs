@@ -61,6 +61,17 @@ namespace TravelPlatform.Controllers
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp(SignUpModel user)
         {
+            var expectedUser = _db.Users.SingleOrDefault(u => u.Email == user.Email);
+
+            if(expectedUser != null)
+            {
+                return BadRequest(new
+                {
+                    error = "User already exists.",
+                    message = "Please sign in or change email."
+                });
+            }
+
             User newUser = new User
             {
                 Id = _db.Users.Max(u => u.Id) == 0 ? 1 : _db.Users.Max(u => u.Id) + 1,

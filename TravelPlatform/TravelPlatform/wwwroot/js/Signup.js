@@ -20,14 +20,23 @@ $(function () {
         }
 
         var user = new Object();
-        user.fullName = fullName;
-        user.email = email;
-        user.password = password;
+        user.Name = fullName;
+        user.Email = email;
+        user.Password = password;
 
         signup(user);
     });
 });
 
 async function signup(user) {
-    // TODO: 連接註冊 API
+    await axios.post("/api/v1.0/User/SignUp", user)
+        .then((response) => {
+            alert("註冊成功");
+            window.location.href = "/index.html";
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log(error.response.data.error + " " + error.response.data.message);
+            alert(error.response.data.error + " " + error.response.data.message);
+        });
 }
