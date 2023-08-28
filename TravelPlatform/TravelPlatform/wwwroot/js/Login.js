@@ -31,17 +31,23 @@ $(function () {
         }
 
         var res = UserLogin_Native(email, password);
-        if (res) {
-            alert("登入成功！");
-            window.location.href = "/index.html";
-        }
-        else alert("登入失敗...")
     });
 });
 
 async function PostUserSignIn(data) {
     data = JSON.stringify(data);
-    // TODO: POST to sign in API
+    await axios.post('/api/v1.0/User/SignIn', JSON.parse(data))
+        .then((response) => {
+            alert("登入成功");
+            console.log(response.data);
+            localStorage.setItem("access_token", response.data.accessToken);
+            window.location.href = "/index.html";
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log(error.response.data.error + " " + error.response.data.message);
+            alert(error.response.data.error + " " + error.response.data.message);
+        });
 }
 
 function FBLogin() {
@@ -67,7 +73,7 @@ function UserLogin_FB(res) {
     FB.api('/me?fields=id,name,email,picture{url}', function (response) {
         var user = new Object();
         user.provider = "facebook";
-        user.access_token = res.authResponse.accessToken;
+        user.Access_token_fb = res.authResponse.accessToken;
         return PostUserSignIn(user);
     });
 

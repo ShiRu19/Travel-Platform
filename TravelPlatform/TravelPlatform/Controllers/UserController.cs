@@ -60,7 +60,7 @@ namespace TravelPlatform.Controllers
 
         [MapToApiVersion("1.0")]
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromBody] SignInModel user)
+        public async Task<IActionResult> SignIn(SignInModel user)
         {
             if(user.Provider.ToLower() == "native")
             {
@@ -117,11 +117,14 @@ namespace TravelPlatform.Controllers
                 });
             }
 
-            var token = _tokenService.GenerateJwtToken(expectedUser);
+            var newToken = _tokenService.GenerateJwtToken(expectedUser);
+
+            expectedUser.AccessToken = newToken.Result;
+            _db.SaveChanges();
 
             return Ok(new
             {
-                accessToken = token.Result,
+                accessToken = newToken.Result,
                 user = new
                 {
                     id = expectedUser.Id,
@@ -141,13 +144,16 @@ namespace TravelPlatform.Controllers
                 return Forbid();
             }
 
-            var expectedUser = _db.Users.SingleOrDefault(u => u.Email == user.Email);
+            var expectedUser = _db.Users.SingleOrDefault(u => u.Email == profile.Email);
             if (expectedUser == null)
             {
                 return CreateNewUser_FB(profile);
             }
 
             var newToken = _tokenService.GenerateJwtToken(expectedUser);
+
+            expectedUser.AccessToken = newToken.Result;
+            _db.SaveChanges();
 
             return Ok(new
             {
