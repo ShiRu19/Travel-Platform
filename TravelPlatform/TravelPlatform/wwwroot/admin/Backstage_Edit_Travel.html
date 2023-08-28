@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Add Travel</title>
+    <title>Edit Travel</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -239,11 +239,11 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Add Travel</h1>
+                            <h1 class="m-0">Edit Travel</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/admin/Backstage_addTravel.html">Add Travels</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/Backstage_TravelList.html">My Travels</a></li>
                                 <li class="breadcrumb-item active">Backstage</li>
                             </ol>
                         </div><!-- /.col -->
@@ -318,14 +318,29 @@
                                 <div class="form-group">
                                     <label>行程 PDF:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-pdf" accept=".pdf" />
+                                        <div id="upload-new-pdf-container" style="display: none;">
+                                            <input type="file" id="travel-pdf" accept=".pdf" />
+                                        </div>
+                                        <div id="original-pdf-container">
+                                            <a href="/uploads/pdf_202308111412.pdf" target="_blank" id="pdf_url">行程 PDF</a>
+                                            <input type="button" class="btn btn-info" id="change-pdf-btn" value="變更" />
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Travel Information PDF -->
+                                
+                            </div>
+                            <div class="card-row">
+                                <!-- Travel Information Main Image -->
                                 <div class="form-group">
                                     <label>宣傳圖:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-main-image" accept="image/*" />
+                                        <div id="upload-new-main-image-container" style="display: none;">
+                                            <input type="file" id="travel-main-image" accept="image/*" />
+                                        </div>
+                                        <div id="original-main-image-container">
+                                            <a href="/uploads/images_202308111413.jpg" target="_blank" id="main_image_url">行程宣傳圖</a>
+                                            <input type="button" class="btn btn-info" id="change-main-image-btn" value="變更" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -344,12 +359,7 @@
                         <div class="card-body">
                             <h6>請輸入景點名稱或縣市</h6>
                             <div class="card-attractions">
-                                <div class="form-group card-column-1">
-                                    <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市">
-                                        <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
-                                    </div>
-                                </div>
+
                             </div>
                             <div id="add-new-attraction">
                                 <input type="button" value="新增景點" class="btn btn-info" id="add-new-attraction-btn" />
@@ -357,96 +367,10 @@
                         </div>
                         <!-- /.card-body -->
                     </div>
-                    <div class="card-sessions">
-                        <div class="card-session" data-sessionNum="1">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">行程場次-1</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-row">
-                                        <!-- Product Number -->
-                                        <div class="form-group card-column-1">
-                                            <label>場次編號:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Date -->
-                                        <div class="form-group card-column-1">
-                                            <label>出發日期:</label>
-                                            <div class="input-group date" data-target-input="nearest">
-                                                <input type="text" id="departure-date-1" class="form-control datetimepicker-input" data-target="#departure-date-1" />
-                                                <div class="input-group-append" data-target="#departure-date-1" data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Price -->
-                                        <div class="form-group card-column-1">
-                                            <label>價錢:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="price-1" type="text" placeholder="輸入成人價錢">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Applicants -->
-                                        <div class="form-group card-column-1">
-                                            <label>已報名人數:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="applicants-1" type="text" placeholder="輸入目前報名人數">
-                                            </div>
-                                        </div>
-                                        <!-- Seats -->
-                                        <div class="form-group card-column-2">
-                                            <label>席次:</label>
-                                            <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="seats-1" type="text" placeholder="輸入總席次">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-row">
-                                        <!-- Bootstrap Switch -->
-                                        <div class="form-group">
-                                            <label>出團狀態:</label>
-                                            <div style="display: flex;">
-                                                <div>
-                                                    <input type="radio" id="radio-status-success-1" name="status-1" value="1" checked />
-                                                    <label for="radio-status-success-1">已成團</label>
-                                                </div>
-
-                                                <div class="card-column-2">
-                                                    <input type="radio" id="radio-status-unseccess-1" name="status-1" value="0" />
-                                                    <label for="radio-status-success-1">尚未成團</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <!-- Add new session button-->
-                    <div id="add-new-session">
-                        <input type="button" value="新增場次" class="btn btn-info" id="add-new-session-btn" />
-                    </div>
-                    <!-- /.content -->
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Create new Project" class="btn btn-success float-right card-column-2">
+                            <a href="/admin/Backstage_TravelList.html" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="儲存更新" class="btn btn-success float-right card-column-2">
                         </div>
                     </div>
                 </div>
@@ -502,7 +426,7 @@
     <!-- Bootstrap Switch -->
     <script src="../AdminLTE/js/bootstrap-switch.min.js"></script>
 
-    <!-- Page specific script -->
-    <script src="../js/Backstage_addTravel.js" charset="big5"></script>
+    <!-- Edit Travel -->
+    <script src="../js/Backstage_edit_travel.js" charset="big5"></script>
 </body>
-</html >
+</html>

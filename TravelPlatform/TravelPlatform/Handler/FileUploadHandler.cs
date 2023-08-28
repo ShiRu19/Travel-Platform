@@ -27,7 +27,7 @@
                 await file.CopyToAsync(stream);
             }
 
-            return $"/uploads/{standardFileName}";
+            return $"uploads/{standardFileName}";
         }
 
         /// <summary>

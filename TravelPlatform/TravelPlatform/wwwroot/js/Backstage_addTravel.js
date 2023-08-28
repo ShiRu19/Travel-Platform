@@ -34,6 +34,7 @@ $(function () {
                     <div class="form-group card-column-1">
                         <div class="input-group" id="attraction-${attractionNum}" data-target-input="nearest">
                             <input class="form-control attractions" type="text" placeholder="´ºÂI or ¿¤¥«">
+                            <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>§R°£</a>
                         </div>
                     </div>`;
 
@@ -41,6 +42,10 @@ $(function () {
         attractionNum += 1;
     });
 
+    $(document).on('click', '.delete-attraction', function (e) {
+        e.preventDefault();
+        $(this).parent().parent().remove();
+    });
 
     var sessionNum = 2;
     $("#add-new-session-btn").on("click", function () {
@@ -147,13 +152,13 @@ function createTravelFormData() {
     formData.append("TravelInfo.Nation", $("#nation").val());
 
     var main_image_file = $("#travel-main-image");
-    if (main_image_file.length > 0) {
+    if (main_image_file.val() !== '') {
         var file = main_image_file[0].files[0];
         formData.append('TravelInfo.MainImageFile', file);
     }
 
     var pdf_file = $("#travel-pdf");
-    if (pdf_file.length > 0) {
+    if (pdf_file.val() !== '') {
         var file = pdf_file[0].files[0];
         formData.append('TravelInfo.PdfFile', file);
     }
@@ -162,8 +167,10 @@ function createTravelFormData() {
     const attractions = Array.from($(".attractions"));
     var i = 0;
     attractions.forEach((attraction) => {
-        formData.append(`TravelAttraction[${i}]`, attraction.value);
-        i++;
+        if (attraction.value !== '') {
+            formData.append(`TravelAttraction[${i}]`, attraction.value);
+            i++;
+        }
     });
 
     // TravelSession

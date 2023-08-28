@@ -330,5 +330,127 @@ namespace TravelPlatform.Controllers.v1
                 }
             }
         }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetTravelInfo")]
+        public async Task<IActionResult> GetTravelInfo(int id)
+        {
+            var travel = _db.Travels.Where(t => t.Id == id)
+                .Select(t => new
+                {
+                    title = t.Title,
+                    date_range = t.DateRangeStart.ToString("MM/dd/yyyy") + " - " + t.DateRangeEnd.ToString("MM/dd/yyyy"),
+                    days = t.Days,
+                    nation = t.Nation,
+                    departure_location = t.DepartureLocation,
+                    pdf_url = t.PdfUrl,
+                    main_image_url = t.MainImageUrl
+                });
+
+            var attractions = _db.TravelAttractions.Where(t => t.TravelId == id)
+                .Select(t => new
+                {
+                    attraction = t.Attraction
+                }).ToList();
+
+            return Ok(new
+            {
+                travel,
+                attractions
+            });
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("EditTravel")]
+        public async Task<IActionResult> EditTravel([FromForm] TravelEditModel travelEditModel)
+        {
+            long id = travelEditModel.Id;
+            TravelInfoModel travelInfo = travelEditModel.TravelInfo;
+
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Travel Information
+                    var travel = _db.Travels.Where(t => t.Id == id).SingleOrDefault();
+
+                    if (travel == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Travel id is not found.",
+                            message = "Please confirm whether the travel id exists."
+                        });
+                    }
+
+                    travel.Title = travelInfo.Title;
+                    travel.DateRangeStart = travelInfo.DateRangeStart;
+                    travel.DateRangeEnd = travelInfo.DateRangeEnd;
+                    travel.Days = travelInfo.Days;
+                    travel.DepartureLocation = travelInfo.DepartureLocation;
+                    travel.Nation = travelInfo.Nation;
+
+                    if(travelInfo.MainImageFile != null)
+                    {
+                        var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "mainImage");
+
+                        if (mainImageUrl != null)
+                        {
+                            travel.MainImageUrl = mainImageUrl;
+                        }
+                        else
+                        {
+                            return StatusCode(500, "Main image file upload unsuccess");
+                        }
+                    }
+
+                    if(travelInfo.PdfFile != null)
+                    {
+                        var pdfUrl = await _fileUploadService.UploadFileAsync(travelInfo.PdfFile, "pdf");
+
+                        if (pdfUrl != null)
+                        {
+                            travel.PdfUrl = pdfUrl;
+                        }
+                        else
+                        {
+                            return StatusCode(500, "PDF file upload unsuccess");
+                        }
+                    }
+
+                    // Travel Attraction
+                    var attractions = _db.TravelAttractions.Where(t => t.TravelId == id).ToList();
+                    foreach(var attraction in attractions)
+                    {
+                        _db.TravelAttractions.Remove(attraction);
+                    }
+
+                    long travelAttractionId = _db.TravelAttractions.Count() == 0 ? 1 : _db.TravelAttractions.Max(t => t.Id) + 1;
+
+                    foreach (string attraction in travelEditModel.TravelAttraction)
+                    {
+                        TravelAttraction newTravelAttraction = new TravelAttraction()
+                        {
+                            Id = travelAttractionId,
+                            TravelId = id,
+                            Attraction = attraction
+                        };
+                        _db.TravelAttractions.Add(newTravelAttraction);
+                        travelAttractionId++;
+                    }
+
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
+        }
     }
 }
