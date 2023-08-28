@@ -1,8 +1,11 @@
+var travelId = 0;
 $(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    travelId = urlParams.get('id');
+
     $("form").submit(function (e) {
-        var formData = createTravelFormData();
-        console.log(formData);
-        postTravel(formData);
+        var formData = createSessionFormData();
+        postSession(formData);
     });
 
     //Initialize Select2 Elements
@@ -28,25 +31,6 @@ $(function () {
         format: 'L'
     });
 
-    var attractionNum = 2;
-    $("#add-new-attraction-btn").on("click", function () {
-        var attractionItem = `
-                    <div class="form-group card-column-1">
-                        <div class="input-group" id="attraction-${attractionNum}" data-target-input="nearest">
-                            <input class="form-control attractions" type="text" placeholder="´ºÂI or ¿¤¥«">
-                            <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>§R°£</a>
-                        </div>
-                    </div>`;
-
-        $(".card-attractions").append(attractionItem);
-        attractionNum += 1;
-    });
-
-    $(document).on('click', '.delete-attraction', function (e) {
-        e.preventDefault();
-        $(this).parent().parent().remove();
-    });
-
     var sessionNum = 2;
     $("#add-new-session-btn").on("click", function () {
         var sessionItem = `
@@ -58,6 +42,9 @@ $(function () {
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool delete-session" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -134,72 +121,47 @@ $(function () {
         });
         sessionNum += 1;
     });
+
+    $(document).on('click', '.delete-session', function (e) {
+        e.preventDefault();
+        $(this).parent().parent().parent().parent().remove();
+    });
+
+    $("#cancel-btn").on("click", function () {
+        window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
+    });
 });
 
-function createTravelFormData() {
+function createSessionFormData() {
     var formData = new FormData();
 
-    // TravelInfo
-    formData.append("TravelInfo.Title", $("#title").val());
-
-    var dateRange = $("#reservation").val().split(" - ");
-    formData.append("TravelInfo.DateRangeStart", dateRange[0]);
-    formData.append("TravelInfo.DateRangeEnd", dateRange[1]);
-
-    formData.append("TravelInfo.Days", $("#days").val());
-    formData.append("TravelInfo.DepartureLocation", $("#departure_location").val());
-
-    formData.append("TravelInfo.Nation", $("#nation").val());
-
-    var main_image_file = $("#travel-main-image");
-    if (main_image_file.val() !== '') {
-        var file = main_image_file[0].files[0];
-        formData.append('TravelInfo.MainImageFile', file);
-    }
-
-    var pdf_file = $("#travel-pdf");
-    if (pdf_file.val() !== '') {
-        var file = pdf_file[0].files[0];
-        formData.append('TravelInfo.PdfFile', file);
-    }
-
-    // TravelAttraction
-    const attractions = Array.from($(".attractions"));
-    var i = 0;
-    attractions.forEach((attraction) => {
-        if (attraction.value !== '') {
-            formData.append(`TravelAttraction[${i}]`, attraction.value);
-            i++;
-        }
-    });
+    formData.append("TravelId", travelId);
+    console.log(travelId);
 
     // TravelSession
     var s = Array.from($(".card-session"))
+    var sessionIndex = 0;
 
     s.forEach((session) => {
         var num = session.dataset.sessionnum;
 
-        formData.append(`TravelSession[${num-1}].ProductNumber`, $(`#product-number-${num}`).val());
-        formData.append(`TravelSession[${num-1}].Price`, $(`#price-${num}`).val());
-        formData.append(`TravelSession[${num-1}].DepartureDate`, $(`#departure-date-${num}`).val());
-        formData.append(`TravelSession[${num-1}].Applicants`, $(`#applicants-${num}`).val());
-        formData.append(`TravelSession[${num-1}].Seats`, $(`#seats-${num}`).val());
-        formData.append(`TravelSession[${num-1}].GroupStatus`, $(`input[name=status-${num}]:checked`, '#myForm').val());
-    });
+        formData.append(`TravelSession[${sessionIndex}].ProductNumber`, $(`#product-number-${num}`).val());
+        formData.append(`TravelSession[${sessionIndex}].Price`, $(`#price-${num}`).val());
+        formData.append(`TravelSession[${sessionIndex}].DepartureDate`, $(`#departure-date-${num}`).val());
+        formData.append(`TravelSession[${sessionIndex}].Applicants`, $(`#applicants-${num}`).val());
+        formData.append(`TravelSession[${sessionIndex}].Seats`, $(`#seats-${num}`).val());
+        formData.append(`TravelSession[${sessionIndex}].GroupStatus`, $(`input[name=status-${num}]:checked`, '#myForm').val());
 
+        sessionIndex++;
+    });
     return formData;
 }
 
-async function postTravel(formData) {
-    await axios.post('/api/v1.0/BackstageTravel/AddTravel', formData)
+async function postSession(formData) {
+    await axios.post('/api/v1.0/BackstageTravel/AddSession', formData)
         .then((response) => {
-            if (response.status === 200) {
-                alert("Create success");
-                location.reload();
-            }
-            else {
-                alert("Create error");
-            }
+            alert("Create success");
+            window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
         })
         .catch((error) => { alert(error) });
 }

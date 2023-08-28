@@ -332,8 +332,52 @@ namespace TravelPlatform.Controllers.v1
         }
 
         [MapToApiVersion("1.0")]
+        [HttpPost("AddSession")]
+        public IActionResult AddSession([FromForm] SessionAddModel sessionAddModel)
+        {
+            var travelId = sessionAddModel.TravelId;
+
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                var sessionId = _db.TravelSessions.Max(s => s.Id) == 0 ? 1 : _db.TravelSessions.Max(s => s.Id) + 1;
+
+                foreach (TravelSessionModel travelSession in sessionAddModel.TravelSession)
+                {
+                    TravelSession newTravelSession = new TravelSession()
+                    {
+                        Id = sessionId,
+                        TravelId = travelId,
+                        ProductNumber = travelSession.ProductNumber,
+                        DepartureDate = travelSession.DepartureDate,
+                        Price = travelSession.Price,
+                        RemainingSeats = travelSession.Seats - travelSession.Applicants,
+                        Seats = travelSession.Seats,
+                        GroupStatus = travelSession.GroupStatus
+                    };
+                    _db.TravelSessions.Add(newTravelSession);
+                    sessionId++;
+                }
+
+                try
+                {
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    Console.WriteLine("Transaction committed successfully.");
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
+        }
+
+        [MapToApiVersion("1.0")]
         [HttpGet("GetTravelInfo")]
-        public async Task<IActionResult> GetTravelInfo(int id)
+        public async Task<IActionResult> GetTravelInfo(long id)
         {
             var travel = _db.Travels.Where(t => t.Id == id)
                 .Select(t => new
@@ -357,6 +401,32 @@ namespace TravelPlatform.Controllers.v1
             {
                 travel,
                 attractions
+            });
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetSessionInfo")]
+        public async Task<IActionResult> GetSessionInfo(long id, string num)
+        {
+            var session = _db.TravelSessions.Where(t => t.TravelId == id && t.ProductNumber == num).FirstOrDefault();
+
+            if(session == null)
+            {
+                return BadRequest(new
+                {
+                    error = "Session is not exists.",
+                    message = "Please confirm travel id and session number."
+                });
+            }
+
+            return Ok(new
+            {
+                session.ProductNumber,
+                DepartureDate = session.DepartureDate.ToString("MM/dd/yyyy"),
+                session.Price,
+                applicants = session.Seats - session.RemainingSeats,
+                session.Seats,
+                session.GroupStatus
             });
         }
 
@@ -438,6 +508,50 @@ namespace TravelPlatform.Controllers.v1
                         _db.TravelAttractions.Add(newTravelAttraction);
                         travelAttractionId++;
                     }
+
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("EditSession")]
+        public IActionResult EditSession([FromForm] SessionEditModel sessionEditModel)
+        {
+            var travelId = sessionEditModel.TravelId;
+            var sessionNumber = sessionEditModel.SessionNumber;
+            var updSession = sessionEditModel.TravelSession;
+
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var session = _db.TravelSessions.Where(t => t.TravelId == travelId && t.ProductNumber == sessionNumber).FirstOrDefault();
+
+                    if (session == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Session is not exists.",
+                            message = "Please confirm travel id and session number."
+                        });
+                    }
+
+                    session.ProductNumber = updSession.ProductNumber;
+                    session.DepartureDate = updSession.DepartureDate;
+                    session.Price = updSession.Price;
+                    session.RemainingSeats = updSession.Seats - updSession.Applicants;
+                    session.Seats = updSession.Seats;
+                    session.GroupStatus = updSession.GroupStatus;
 
                     _db.SaveChanges();
                     transaction.Commit();

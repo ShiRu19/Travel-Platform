@@ -4,9 +4,13 @@ window.onload = function () {
 
     GetOpenTravelList(id);
     GetCloseTravelList(id);
+
+    $("#add-new-session").on("click", function () {
+        window.location.href = `/admin/Backstage_addSession.html?id=${id}`;
+    });
 }
-function GetOpenTravelList(id) {
-    axios.get("/api/v1.0/BackstageTravel/GetOpenTravelSessionList?id=" + id)
+function GetOpenTravelList(travelId) {
+    axios.get("/api/v1.0/BackstageTravel/GetOpenTravelSessionList?id=" + travelId)
         .then((response) => {
             var datas = response.data.data;
             var title = $("#travel-title").html();
@@ -18,7 +22,7 @@ function GetOpenTravelList(id) {
             }
 
             datas.forEach((data) => {
-                var id = data.id;
+                var sessionId = data.id;
                 var productNumber = data.productNumber;
                 var departureDate = data.departureDate;
                 var price = data.price;
@@ -26,7 +30,7 @@ function GetOpenTravelList(id) {
                 var seats = data.seats;
                 var groupStatus = data.groupStatus;
 
-                var item = `<tr><td class="session-id" data-id=${id}>#</td>\
+                var item = `<tr><td class="session-id" data-id=${sessionId}>#</td>\
                             <td><a>${productNumber}</a></td>\
                             <td>${title}</td>\
                             <td>${departureDate}</td>\
@@ -42,9 +46,8 @@ function GetOpenTravelList(id) {
                     item += `<td class="project-state"><span class="badge badge-warning">未開團</span></td>`;
                 }
                 item += `<td class="project-actions text-right">\
-                            <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-folder"></i>View</a>\
-                            <a class="btn btn-info btn-sm" href="#"><i class="fas fa-pencil-alt"></i>Edit</a>\
-                            <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>Delete</a>\
+                            <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Session.html?id=${travelId}&num=${productNumber}"><i class="fas fa-pencil-alt"></i>編輯</a>\
+                            <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>刪除</a>\
                         </td></tr>`;
 
                 $("#travel-table-open tbody").append(item);
@@ -91,9 +94,8 @@ function GetCloseTravelList(id) {
                     item += `<td class="project-state"><span class="badge badge-warning">未開團</span></td>`;
                 }
                 item += `<td class="project-actions text-right">\
-                            <a class="btn btn-primary btn-sm" href="#"><i class="fas fa-folder"></i>View</a>\
-                            <a class="btn btn-info btn-sm" href="#"><i class="fas fa-pencil-alt"></i>Edit</a>\
-                            <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>Delete</a>\
+                            <a class="btn btn-info btn-sm" href="#"><i class="fas fa-pencil-alt"></i>編輯</a>\
+                            <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>刪除</a>\
                         </td></tr>`;
 
                 $("#travel-table-close tbody").append(item);
