@@ -57,6 +57,39 @@ namespace TravelPlatform.Controllers
             }
         }
 
+        [MapToApiVersion("1.0")]
+        [HttpPost("SignUp")]
+        public async Task<IActionResult> SignUp(SignUpModel user)
+        {
+            User newUser = new User
+            {
+                Id = _db.Users.Max(u => u.Id) == 0 ? 1 : _db.Users.Max(u => u.Id) + 1,
+                Role = "user",
+                Provider = "native",
+                Name = user.Name,
+                Email = user.Email,
+                Password = HashPassword(user.Password)
+            };
+
+            var token = _tokenService.GenerateJwtToken(newUser);
+
+            newUser.AccessToken = token.Result;
+
+            _db.Users.Add(newUser);
+            _db.SaveChanges();
+
+            return Ok(new
+            {
+                accessToken = token.Result,
+                user = new
+                {
+                    id = newUser.Id,
+                    provider = newUser.Provider,
+                    name = newUser.Name,
+                    email = newUser.Email,
+                }
+            });
+        }
 
         [MapToApiVersion("1.0")]
         [HttpPost("SignIn")]
