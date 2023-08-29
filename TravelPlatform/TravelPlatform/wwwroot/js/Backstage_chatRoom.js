@@ -1,6 +1,8 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs/ChatHub").build();
 var myRoomId = "";
 var myUserId = "";
+var chatMessage = new Object();
+
 $(function () {
     // 與 Server 建立連線
     connection.start().then(function () {
@@ -15,8 +17,13 @@ $(function () {
         connection.invoke("JoinGroup", room_id).catch(function (err) {
             alert('無法加入: ' + err.toString());
         });
+
         $("#title-roomId").html(' - ' + room_id);
-        $("#chatroomContent").html('');
+        
+        chatMessage.roomId = room_id;
+        chatMessage.senderId = 0;
+
+        GetChatRecord(room_id);
     });
 
     //傳送訊息
@@ -26,6 +33,9 @@ $(function () {
             alert('傳送錯誤: ' + err.toString());
         });
         $("#inputMsg").val("");
+
+        chatMessage.message = msg;
+        SaveChatMessage(chatMessage);
     });
 
     // 更新連線 Room ID
@@ -71,3 +81,40 @@ $(function () {
         }
     });
 });
+
+async function GetChatRecord(roomId) {
+    $("#chatroomContent").html('');
+    await axios.get(`/api/v1.0/Chat/GetChatRecord?roomId=${roomId}`)
+        .then((response) => {
+            var records = response.data.record;
+
+            records.forEach((record) => {
+                if (record.sender === 1) {
+                    var item_left = `<div class="col-md-12">
+                                <h4>
+                                    <p>Client</p>
+                                    <span class="badge badge-light badge-pill">${record.message}</span>
+                                </h4>
+                            </div>`;
+                    $("#chatroomContent").append(item_left);
+                }
+                else {
+                    var item_right = `<div class="col-md-12 text-right">
+                                <h4>
+                                    <p>Admin</p>
+                                    <span class="badge badge-light badge-pill">${record.message}</span>
+                                </h4>
+                            </div>`;
+                    $("#chatroomContent").append(item_right);
+                }
+            });
+        })
+        .catch((error) => {
+            alert(error);
+        })
+};
+
+async function SaveChatMessage(chatMessage) {
+    await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
+        .catch((error) => alert(error));
+}

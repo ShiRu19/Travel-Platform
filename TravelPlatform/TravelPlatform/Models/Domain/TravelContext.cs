@@ -11,6 +11,8 @@ public partial class TravelContext : DbContext
     {
     }
 
+    public virtual DbSet<Chat> Chats { get; set; }
+
     public virtual DbSet<Follow> Follows { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -29,6 +31,23 @@ public partial class TravelContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Chat>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Chat__3213E83F9E42AB20");
+
+            entity.ToTable("Chat");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Message).HasColumnName("message");
+            entity.Property(e => e.RoomId).HasColumnName("room_id");
+            entity.Property(e => e.SendTime)
+                .HasColumnType("datetime")
+                .HasColumnName("send_time");
+            entity.Property(e => e.Sender).HasColumnName("sender");
+        });
+
         modelBuilder.Entity<Follow>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Follow__3213E83F76C2D996");
@@ -44,17 +63,17 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F5C748BED");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F5142996E");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.DeleteDate)
-                .HasColumnType("date")
-                .HasColumnName("delete_date");
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.Property(e => e.Check).HasColumnName("check");
+            entity.Property(e => e.CheckDate)
+                .HasColumnType("datetime")
+                .HasColumnName("check_date");
             entity.Property(e => e.Nation)
                 .HasMaxLength(255)
                 .HasColumnName("nation");

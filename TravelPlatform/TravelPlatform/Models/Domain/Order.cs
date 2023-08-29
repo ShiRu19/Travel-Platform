@@ -17,7 +17,7 @@ public partial class Order
 
     public long Total { get; set; }
 
-    public int Deleted { get; set; }
+    public int Check { get; set; }
 
-    public DateTime? DeleteDate { get; set; }
+    public DateTime? CheckDate { get; set; }
 }
