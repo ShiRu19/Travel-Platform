@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Net.WebSockets;
+using System.Text;
 using System.Text.Json.Serialization;
 using TravelPlatform.Handler;
 using TravelPlatform.Hubs;
@@ -30,7 +35,7 @@ builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
 
 // Token service
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+builder.Services.AddScoped<ITokenHandler, TravelPlatform.Handler.TokenHandler>();
 
 // Facebook service
 builder.Services.AddScoped<IFacebookService, FacebookService>();
@@ -48,6 +53,28 @@ builder.Services.AddApiVersioning(opt =>
     opt.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
                                                     new HeaderApiVersionReader("x-api-version"),
                                                     new MediaTypeApiVersionReader("x-api-version"));
+});
+
+// Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
+    };
 });
 
 var app = builder.Build();

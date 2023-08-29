@@ -10,8 +10,11 @@
 <body>
     <div class="content-page">
         <header class="header-page">
-            <div class="nav" id="profile-icon">
-                <img id="profile-image" src="images/profile.png" />
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="#" id="profile-name"></a></h6>
             </div>
         </header>
         <div class="content">
@@ -35,6 +38,13 @@
                                 <span>></span>
                             </div>
                         </a>
+                        <div class="menu-item" id="contact">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <footer class="footer-left">
@@ -57,5 +67,8 @@
 
     <!-- TravelDetail -->
     <script src="js/TravelDetail.js" charset="big5"></script>
+
+    <!-- Common -->
+    <script src="/js/ForestageCommon.js" charset="big5"></script>
 </body>
 </html>

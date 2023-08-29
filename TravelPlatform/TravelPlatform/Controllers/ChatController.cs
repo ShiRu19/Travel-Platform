@@ -44,6 +44,14 @@ namespace TravelPlatform.Controllers
         }
 
         [MapToApiVersion("1.0")]
+        [HttpGet("GetChatRoomList")]
+        public async Task<IActionResult> GetChatRoomList()
+        {
+            var chatRoomList = _db.Chats.Select(c => c.RoomId).Distinct().ToList();
+            return Ok(chatRoomList);
+        }
+
+        [MapToApiVersion("1.0")]
         [HttpPost("SaveChatMessage")]
         public async Task<IActionResult> SaveChatMessage(AddChatRecordModel addChatRecordModel)
         {

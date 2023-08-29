@@ -13,8 +13,11 @@
 <body>
     <div class="content-page">
         <header class="header-page">
-            <div class="nav" id="profile-icon">
-                <img id="profile-image" src="images/profile.png" />
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="#" id="profile-name"></a></h6>
             </div>
         </header>
         <div class="content">
@@ -34,6 +37,13 @@
                         <a class="menu-item" href="/index.html">
                             <div class="menu-item-space"></div>
                             <span>國內旅遊</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                        <a class="menu-item" href="/ChatRoom.html">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
                             <div class="menu-item-space">
                                 <span>></span>
                             </div>
@@ -90,5 +100,7 @@
 
     <!-- Chat room client -->
     <script src="/js/ChatroomClient.js" charset="big5"></script>
+    <!-- Check Login -->
+    <script src="/js/CheckLogin.js" charset="big5"></script>
 </body>
 </html>

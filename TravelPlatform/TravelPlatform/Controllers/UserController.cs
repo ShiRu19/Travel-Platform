@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +29,27 @@ namespace TravelPlatform.Controllers
             _db = db;
             _tokenService = tokenService;
             _facebookService = facebookService;
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("Profile"), Authorize]
+        public IActionResult Profile()
+        {
+            var userIdentity = HttpContext.User.Identity as ClaimsIdentity;
+            var id = userIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var provider = userIdentity.FindFirst("provider")?.Value;
+            var name = userIdentity.FindFirst(ClaimTypes.Name)?.Value;
+            var email = userIdentity.FindFirst(ClaimTypes.Email)?.Value;
+
+            var userProfile = new UserProfile
+            {
+                Id = long.Parse(id),
+                Provider = provider,
+                Name = name,
+                Email = email
+            };
+
+            return Ok(userProfile);
         }
 
         [MapToApiVersion("1.0")]

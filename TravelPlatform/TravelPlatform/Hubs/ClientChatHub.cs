@@ -58,9 +58,9 @@ namespace TravelPlatform.Hubs
             Rooms.Add(room);
             RoomsId.Add(room.Id);
 
-            // 更新連線 Room ID 列表
-            string jsonString_room = JsonConvert.SerializeObject(RoomsId);
-            await Clients.All.SendAsync("UpdRooms", jsonString_room);
+            //// 更新連線 Room ID 列表
+            //string jsonString_room = JsonConvert.SerializeObject(RoomsId);
+            //await Clients.All.SendAsync("UpdRooms", jsonString_room);
         }
 
         /// <summary>

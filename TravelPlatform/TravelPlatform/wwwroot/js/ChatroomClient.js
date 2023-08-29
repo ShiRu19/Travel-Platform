@@ -5,13 +5,16 @@ var myUserId = "";
 var chatMessage = new Object();
 
 $(function () {
+    CheckLogin();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    myUserId = urlParams.get('id');
 
     //與Server建立連線
     connection.start().then(function () {
         console.log("Hub 連線完成");
 
         // 加入聊天室
-        myUserId = prompt("What is your user id?");
         connection.invoke("JoinGroup", myUserId.toString()).catch(function (error) {
             alert("無法加入聊天室: " + error.toString());
         });
@@ -27,13 +30,11 @@ $(function () {
     // 更新連線 User ID
     connection.on("YourUserID", function (id) {
         myUserId = id;
-        console.log("userId" + myUserId);
     });
 
     // 更新連線 Room ID
     connection.on("YourRoomID", function (id) {
         myRoomId = id;
-        console.log(myRoomId);
     });
 
     // 傳送訊息

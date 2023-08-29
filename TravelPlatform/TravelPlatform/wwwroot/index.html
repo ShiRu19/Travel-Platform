@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Home</title>
-    <link href="css/index.css" rel="stylesheet" />
 
     <!-- Theme style -->
     <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
@@ -11,12 +10,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link href="css/index.css" rel="stylesheet" />
 </head>
 <body>
     <div class="content-page">
         <header class="header-page">
-            <div class="nav" id="profile-icon">
-                <img id="profile-image" src="images/profile.png" />
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="#" id="profile-name"></a></h6>
             </div>
         </header>
         <div class="content">
@@ -40,6 +44,13 @@
                                 <span>></span>
                             </div>
                         </a>
+                        <div class="menu-item" id="contact">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <footer class="footer-left">
@@ -62,7 +73,7 @@
                                 <div class="products">
                                     <!--<a class="product" href="TravelDetail.html">
                                         <img class="main-images" src="uploads/images_202308111413.jpg" />
-                                        <h5 class="product-title">古坑摘柳丁 & 落羽松秘境二日遊</h5>    
+                                        <h5 class="product-title">古坑摘柳丁 & 落羽松秘境二日遊</h5>
                                         <span class="product-date-range">2023-10-29 ~ 2023-12-22</span>
                                         <div class="travel-detail-btn-row">
                                             <div class="travel-detail-btn-container">
@@ -103,6 +114,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <!-- index -->
-    <script src="js/index.js" charset="big5"></script>
+    <script src="/js/index.js" charset="big5"></script>
+
+    <!-- Common -->
+    <script src="/js/ForestageCommon.js" charset="big5"></script>
 </body>
 </html>

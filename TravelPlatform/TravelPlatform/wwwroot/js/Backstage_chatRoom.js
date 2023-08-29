@@ -7,6 +7,7 @@ $(function () {
     // 與 Server 建立連線
     connection.start().then(function () {
         console.log("Hub 連線完成");
+        UpdateRoomList();
     }).catch(function (err) {
         alert('連線錯誤: ' + err.toString());
     });
@@ -50,13 +51,10 @@ $(function () {
         console.log("User id = " + myUserId);
     });
 
-    // 更新連線 Room ID 列表事件
+    // 更新連線 Room ID 列表
+
     connection.on("UpdRooms", function (jsonList) {
-        var list = JSON.parse(jsonList);
-        $("#IDList-room li").remove();
-        for (i = 0; i < list.length; i++) {
-            $("#IDList-room").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
-        }
+        UpdateRoomList();
     });
 
     // 更新聊天內容事件
@@ -117,4 +115,35 @@ async function GetChatRecord(roomId) {
 async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
         .catch((error) => alert(error));
+}
+
+function UpdateRoomList() {
+    $("#chatroom-list tr").remove();
+
+    axios.get("/api/v1.0/Chat/GetChatRoomList")
+        .then((response) => {
+            var list = response.data;
+            for (i = 0; i < list.length; i++) {
+                var item = `<tr>
+                            <td class="roomId" data-roomid="${list[i]}" onclick="JoinRoom(this)">${list[i]}</td>
+                        </tr>`
+                $("#chatroom-list").append(item);
+            }
+        })
+        .catch((error) => { alert(error); });
+}
+
+function JoinRoom(room) {
+    let room_id = room.dataset.roomid;
+    console.log(room_id);
+    connection.invoke("JoinGroup", room_id).catch(function (err) {
+        alert('無法加入: ' + err.toString());
+    });
+
+    $("#title-roomId").html(' - ' + room_id);
+
+    chatMessage.roomId = room_id;
+    chatMessage.senderId = 0;
+
+    GetChatRecord(room_id);
 }
