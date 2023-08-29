@@ -94,7 +94,10 @@ async function GetTravelInfo(id) {
                 attractionNum += 1;
             });
         })
-        .catch((error) => alert(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function createTravelFormData() {
@@ -145,5 +148,8 @@ async function postTravel(formData) {
             alert("Edit success");
             location.reload();
         })
-        .catch((error) => { alert(error) });
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }

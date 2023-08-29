@@ -53,7 +53,16 @@ namespace TravelPlatform.Controllers
         }
 
         [MapToApiVersion("1.0")]
+        [HttpGet("CheckAdminRole")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CheckAdminRole()
+        {
+            return Ok();
+        }
+
+        [MapToApiVersion("1.0")]
         [HttpGet("GetUserList")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetUserList()
         {
             try
@@ -97,7 +106,7 @@ namespace TravelPlatform.Controllers
             User newUser = new User
             {
                 Id = _db.Users.Max(u => u.Id) == 0 ? 1 : _db.Users.Max(u => u.Id) + 1,
-                Role = "user",
+                Role = user.Role,
                 Provider = "native",
                 Name = user.Name,
                 Email = user.Email,

@@ -1,5 +1,6 @@
 var travelId = 0;
 var sessionId = 0;
+
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     travelId = urlParams.get('travelId');
@@ -40,26 +41,6 @@ $(function () {
     })
 })
 
-//async function GetSessionInfo() {
-//    await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${travelId}&num=${num}`)
-//        .then((response) => {
-//            var sessionInfo = response.data;
-//            $("#product-number").val(sessionInfo.productNumber);
-//            $("#departure-date").val(sessionInfo.departureDate);
-//            $("#price").val(sessionInfo.price);
-//            $("#applicants").val(sessionInfo.applicants);
-//            $("#seats").val(sessionInfo.seats);
-
-//            if (sessionInfo.groupStatus === 1) {
-//                $("#radio-status-success").prop("checked", true);
-//            }
-//            else {
-//                $("#radio-status-unsuccess").prop("checked", true);
-//            }
-//        })
-//        .catch((error) => { alert(error) });
-//}
-
 async function GetSessionInfo() {
     await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${sessionId}`)
         .then((response) => {
@@ -77,7 +58,10 @@ async function GetSessionInfo() {
                 $("#radio-status-unsuccess").prop("checked", true);
             }
         })
-        .catch((error) => { alert(error) });
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function createSessionFormData() {
@@ -102,5 +86,8 @@ async function postSession(formData) {
             alert("Edit success");
             window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
         })
-        .catch((error) => { alert(error) });
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }

@@ -82,6 +82,7 @@ $(function () {
 
 async function GetChatRecord(roomId) {
     $("#chatroomContent").html('');
+
     await axios.get(`/api/v1.0/Chat/GetChatRecord?roomId=${roomId}`)
         .then((response) => {
             var records = response.data.record;
@@ -108,13 +109,17 @@ async function GetChatRecord(roomId) {
             });
         })
         .catch((error) => {
-            alert(error);
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
         })
 };
 
 async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
-        .catch((error) => alert(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function UpdateRoomList() {
@@ -130,7 +135,10 @@ function UpdateRoomList() {
                 $("#chatroom-list").append(item);
             }
         })
-        .catch((error) => { alert(error); });
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function JoinRoom(room) {

@@ -3,7 +3,13 @@ $(function () {
 });
 
 async function GetUserList() {
-    await axios.get("/api/v1.0/User/GetUserList")
+    let config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        }
+    }
+
+    await axios.get("/api/v1.0/User/GetUserList", config)
         .then((response) => {
             var datas = response.data.data;
 
@@ -24,6 +30,6 @@ async function GetUserList() {
         })
         .catch((error) => {
             console.log(error);
-            alert("Sorry, we have some error...\nPlease try again");
+            alert("抱歉...發生了一些錯誤，請再試一次！");
         })
 }

@@ -30,7 +30,10 @@ function GetOpenTravelList() {
                 $("#travel-table-open tbody").append(item);
             });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function GetCloseTravelList() {
@@ -61,5 +64,8 @@ function GetCloseTravelList() {
                 $("#travel-table-close tbody").append(item);
             });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }

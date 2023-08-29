@@ -1,4 +1,5 @@
 var travelId = 0;
+
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     travelId = urlParams.get('id');
@@ -163,5 +164,8 @@ async function postSession(formData) {
             alert("Create success");
             window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
         })
-        .catch((error) => { alert(error) });
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }

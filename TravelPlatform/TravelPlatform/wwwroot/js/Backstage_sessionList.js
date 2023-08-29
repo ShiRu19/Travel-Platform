@@ -54,7 +54,10 @@ function GetOpenTravelList(travelId) {
             });
             $("#travel-title").html(title);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function GetCloseTravelList(id) {
@@ -102,5 +105,8 @@ function GetCloseTravelList(id) {
             });
             $("#travel-title").html(title);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }

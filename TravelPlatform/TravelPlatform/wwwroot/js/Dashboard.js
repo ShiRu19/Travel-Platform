@@ -1,6 +1,4 @@
 $(function () {
-    connect();
-
     var startDate = '01-01-2023';
     var endDate = '12-31-2023';
     var nation = '台灣';
@@ -11,12 +9,16 @@ $(function () {
     ShowTopFiveOfFollows(); // Bar Chart
 });
 
+
 async function ShowDomesticGroupStatus(startDate, endDate) {
     var groupStatus = await axios.get(`/api/v1.0/Dashboard/GetDomesticGroupStatus?start=${startDate}&end=${endDate}`)
         .then((response) => {
             return response.data.data;
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 
     var locationLabels = [];
     var success = [];
@@ -125,7 +127,10 @@ async function ShowDomesticSalesVolume(startDate, endDate) {
         .then((response) => {
             return response.data.data;
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 
     var locationLabels = [];
     var counts = [];
@@ -203,7 +208,10 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
                 options: barChartOptions
             })
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 async function ShowSalesOfMonth(nation, startDate, endDate) {
@@ -249,7 +257,10 @@ async function ShowSalesOfMonth(nation, startDate, endDate) {
                 options: barChartOptions
             })
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
 
 function ShowTopFiveOfFollows() {
@@ -274,50 +285,8 @@ function ShowTopFiveOfFollows() {
                 $("#open-travel-follow-top-5").append(item);
             })
         })
-        .catch((error) => console.log(error));
-}
-
-var socket;
-var l = document.location;
-var scheme = l.protocol === 'https:' ? 'wss' : 'ws';
-var port = l.port ? (':' + l.port) : '';
-var wsUrl = scheme + '://' + l.hostname + port + '/ws';
-
-function connect() {
-    socket = new WebSocket(wsUrl + "/dashboard");
-    socket.onopen = function () {
-        logWebSocketStatus();
-    };
-    socket.onclose = logWebSocketStatus;
-    socket.onerror = logWebSocketStatus;
-    socket.onmessage = function (e) {
-        processMessage(e.data);
-    }
-}
-
-function logWebSocketStatus(event) {
-    if (!socket) return;
-    var status = 'Unknown';
-    switch (socket.readyState) {
-        case WebSocket.CLOSED:
-            status = 'Closed / Code = ' + event.code + ', Reason = ' + event.reason;
-            console.log(status);
-            break;
-        case WebSocket.CLOSING:
-            status = 'Closing';
-            console.log(status);
-            break;
-        case WebSocket.OPEN:
-            status = 'Open';
-            console.log(status);
-            break;
-        case WebSocket.CONNECTING:
-            status = 'Connecting';
-            console.log(status);
-            break;
-    }
-}
-
-function processMessage(data) {
-    console.log(data);
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
 }
