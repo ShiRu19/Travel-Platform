@@ -7,6 +7,12 @@ using TravelPlatform.Models.Order;
 
 namespace TravelPlatform.Controllers
 {
+    public class CheckModel
+    {
+        public int OrderId { get; set; }
+        public string Status { get; set; } = null!;
+    }
+
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -65,6 +71,43 @@ namespace TravelPlatform.Controllers
             }
 
             return OrderList;
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("ChangeCheckedStatus")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult ChangeCheckedStatus(CheckModel checkModel)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                var order = _db.Orders.Where(o => o.Id == checkModel.OrderId).SingleOrDefault();
+
+                if(order == null)
+                {
+                    return BadRequest(new
+                    {
+                        error = "Order id is not found.",
+                        message = "Please confirm whether the order id exists."
+                    });
+                }
+
+                order.Check = checkModel.Status == "checked" ? 1 : 2;
+                order.CheckDate = DateTime.Now;
+
+                try
+                {
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
         }
     }
 }
