@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Home</title>
+    <title>User Profile</title>
 
     <!-- Theme style -->
     <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <link href="css/index.css" rel="stylesheet" />
+    <!-- User Profile -->
+    <link href="css/UserProfile.css" rel="stylesheet" />
 </head>
 <body>
     <div class="content-page">
@@ -58,51 +60,25 @@
             </div>
             <div class="content-right">
                 <div class="content-right-scroll">
-                    <header class="header-right">
-                        <img src="images/index_header_right.jpg" class="image-header-right" />
-                    </header>
                     <section class="section-right">
-                        <div class="product-container">
-                            <div class="domestic-container">
-                                <h3 class="domestic-container-title">國內熱門推薦</h3>
+                        <div class="profile-container">
+                            <div>
+                                <img src="images/profile_photo.png" id="user-image" />
                             </div>
-                            <div class="domestic-container">
-                                <div class="split-line"></div>
+                            <div>
+                                <h3 id="user-name"></h3>
                             </div>
-                            <div class="domestic-container">
-                                <div class="products">
-                                    <!--<a class="product" href="TravelDetail.html">
-                                        <img class="main-images" src="uploads/images_202308111413.jpg" />
-                                        <h5 class="product-title">古坑摘柳丁 & 落羽松秘境二日遊</h5>
-                                        <span class="product-date-range">2023-10-29 ~ 2023-12-22</span>
-                                        <div class="travel-detail-btn-row">
-                                            <div class="travel-detail-btn-container">
-                                                <div class="travel-detail-btn">
-                                                    <div>檢視行程</div>
-                                                </div>
-                                                <div class="travel-detail-btn-icon">></div>
-                                            </div>
-                                        </div>
-                                    </a>-->
-                                </div>
+                            <div>
+                                <h4 id="user-email"></h4>
+                            </div>
+                            <div id="go-backstage-container">
+                                <button type="button" id="go-backstage-btn" class="btn btn-info">進入後台管理</button>
+                            </div>
+                            <div>
+                                <button type="button" id="logout-btn" class="btn btn-dark">登出</button>
                             </div>
                         </div>
                     </section>
-                    <footer class="footer-right">
-                        <div class="text-container">
-                            <div class="footer-text" style="width: 128px">關於樂遊趣</div>
-                            <div class="footer-split"></div>
-                            <div class="footer-text">服務條款</div>
-                            <div class="footer-split"></div>
-                            <div class="footer-text">隱私政策</div>
-                            <div class="footer-split"></div>
-                            <div class="footer-text">聯絡我們</div>
-                            <div class="footer-split"></div>
-                            <div class="footer-text">FAQ</div>
-                        </div>
-
-                        <div class="cc-container">© 2018. All rights reserved.</div>
-                    </footer>
                 </div>
             </div>
         </div>
@@ -113,10 +89,7 @@
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- index -->
-    <script src="/js/index.js" charset="big5"></script>
-
-    <!-- Common -->
-    <script src="/js/ForestageCommon.js" charset="big5"></script>
+    <!-- User Profile -->
+    <script src="/js/UserProfile.js" charset="big5"></script>
 </body>
 </html>
