@@ -5,8 +5,6 @@ var myUserId = "";
 var chatMessage = new Object();
 
 $(function () {
-    CheckLogin();
-
     const urlParams = new URLSearchParams(window.location.search);
     myUserId = urlParams.get('id');
 
