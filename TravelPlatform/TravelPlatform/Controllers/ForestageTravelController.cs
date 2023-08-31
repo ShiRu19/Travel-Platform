@@ -99,5 +99,48 @@ namespace TravelPlatform.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Get session detail
+        /// </summary>
+        /// <param name="productNumber"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetSessionDetail")]
+        public IActionResult GetSessionDetail(string productNumber)
+        {
+            try
+            {
+                var session = _db.TravelSessions.Where(t => t.ProductNumber == productNumber).FirstOrDefault();
+                if (session == null)
+                {
+                    return BadRequest(new
+                    {
+                        error = "Session id is not found.",
+                        message = "Please confirm session id."
+                    });
+                }
+
+                var travel = _db.Travels.Where(t => t.Id == session.TravelId).First();
+
+                var startDate = session.DepartureDate;
+                var endDate = session.DepartureDate.AddDays(travel.Days - 1);
+
+                return Ok(new
+                {
+                    title = travel.Title,
+                    departure_date_start = startDate + "(" + startDate.ToString("ddd").Substring(1) + ")",
+                    departure_date_end = endDate.ToString("d") + "(" + endDate.ToString("ddd").Substring(1) + ")",
+                    days = travel.Days,
+                    product_number = session.ProductNumber,
+                    price = session.Price,
+                    remaining_seats = session.RemainingSeats,
+                });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ async function GetTravelDetail(id) {
             var nation = travelInfo.nation == "台灣" ? "國內旅遊" : "國外旅遊";
 
             var sessions = "";
-            var applyUrl = "/index.html?productNumber=";
+            var applyUrl = "/Order.html?productNumber=";
 
             travelSessions.forEach((travelSession) => {
                 sessions += `<tr style="height: 40px;">
@@ -22,13 +22,18 @@ async function GetTravelDetail(id) {
                                     <td>${travelSession.remainingSeats}</td>
                                     <td>${travelSession.seats}</td>
                                     <td>${travelSession.groupStatus}</td>
-                                    <td>${travelSession.price}</td>
-                                    <td>
+                                    <td>${travelSession.price}</td>`;
+                if (travelSession.remainingSeats > 0) {
+                    sessions += `<td>
                                         <a href="${applyUrl + travelSession.productNumber}">
-                                            <input type="button" value="立即報名" />
+                                            <button type="button" class="btn btn-block btn-outline-primary btn-sm">立即報名</button>
                                         </a>
                                     </td>
                                 </tr>`;
+                }
+                else {
+                    sessions += `</tr>`;
+                }
             });
 
             var item = `<div id="page-container">

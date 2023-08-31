@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>User Profile</title>
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="css/index.css" rel="stylesheet" />
+    <!-- Order -->
+    <link href="css/Order.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content-page">
+        <header class="header-page">
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="/UserProfile.html" id="profile-name"></a></h6>
+            </div>
+        </header>
+        <div class="content">
+            <div class="content-left">
+                <header class="header-left">
+                    <a href="/index.html">
+                        <img src="images/happygotravel_logo.png" class="logo-image" />
+                    </a>
+                </header>
+                <section class="section-left">
+                    <div class="menu">
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>首頁</span>
+                            <div class="menu-item-space"></div>
+                        </a>
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>國內旅遊</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                        <div class="menu-item" id="contact">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer class="footer-left">
+                </footer>
+            </div>
+            <div class="content-right">
+                <div class="content-right-scroll">
+                    <section class="section-right">
+                        <div id="progress-nav">
+                            <div class="progress-dot progress-dot-yes"></div>
+                            <span>選擇參加人數</span>
+                            <div class="progress-dot progress-dot-no"></div>
+                            <span class="progress-text-no">填寫旅客資料</span>
+                            <div class="progress-dot progress-dot-no"></div>
+                            <span class="progress-text-no">付款</span>
+                            <div class="progress-dot progress-dot-no"></div>
+                            <span class="progress-text-no">完成</span>
+                        </div>
+                        <div class="card-cantainer">
+                            <!-- card -->
+                            <div class="card card-primary">
+                                <!-- card-header -->
+                                <div class="card-header">
+                                    <h3 class="card-title">您選擇的行程</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <h4 id="travel-title"></h4>
+                                    <h6>出發日期: <span id="departure-date-start"></span> ~ <span id="departure-date-end"></span> 共 <span id="departure-days">2</span> 日</h6>
+                                    <h6>產品代號: <span id="product-number"></span></h6>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="card-cantainer">
+                            <div class="card card-primary">
+                                <!-- card-header -->
+                                <div class="card-header">
+                                    <h3 class="card-title">選擇參團人數</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div id="apply-cantainer">
+                                    <span class="note-text">若有孩童 / 嬰幼兒請洽客服</span>
+                                    <div>
+                                        <span class="text">人數: </span>
+                                        <i class="fa fa-minus-circle count-icon"></i>
+                                        <span class="quantity_contant text" id="quantity_num">0</span>
+                                        <i class="fa fa-plus-circle count-icon"></i>
+                                    </div>
+                                    <div>
+                                        <h5 id="total-title">Total: <span id="total-number">$0</span></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="next-previous-link next">下一步 &raquo;</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Order -->
+    <script src="js/Order.js" charset="big5"></script>
+</body>
+</html>
