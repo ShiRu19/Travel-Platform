@@ -1,4 +1,5 @@
-﻿.section-right {
+﻿/* Order */
+.section-right {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,11 +32,11 @@
     color: #808080;
 }
 
-.card-cantainer {
+.card-container {
     width: 80%;
 }
 
-#apply-cantainer div {
+#apply-container div {
     display: flex;
     height: 50px;
     align-items: center;
@@ -89,12 +90,27 @@
         color: black;
     }
 
-.previous {
-    background-color: #f1f1f1;
-    color: black;
-}
-
-.next {
+.next-btn {
     background-color: #04AA6D;
     color: white;
+}
+
+/* Applicants Information */
+#contact-person-container {
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+    #contact-person-container label {
+        margin: 10px;
+    }
+
+.row {
+    margin: 10px 0px;
+    align-items: center;
+}
+
+.traveler-label-text {
+    margin: 10px;
 }
