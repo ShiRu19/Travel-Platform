@@ -95,6 +95,10 @@
     color: white;
 }
 
+.next-btn:hover {
+    cursor: pointer;
+}
+
 /* Applicants Information */
 #contact-person-container {
     display: flex;

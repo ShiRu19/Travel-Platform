@@ -18,7 +18,7 @@ $(function () {
     });
 
     $(".fa-minus-circle").on("click", function () {
-        let num = Math.max(Number($("#quantity_num").html()) - 1, 0);
+        let num = Math.max(Number($("#quantity_num").html()) - 1, 1);
         $("#quantity_num").html(num);
         let total = (num * price).toLocaleString('zh-tw', {
             style: 'currency',
@@ -28,12 +28,15 @@ $(function () {
         $("#total-number").html(total);
     });
 
+    $("#next-btn").on("click", function () {
+        let qty = $("#quantity_num").html();
+        window.location.href = `/Order_applicantInfo.html?qty=${qty}&productNumber=${productNumber}&nation=¥xÆW`;
+    });
 });
 
 async function GetSessionDetail(productNumber) {
     await axios.get(`/api/v1.0/ForestageTravel/GetSessionDetail?productNumber=${productNumber}`)
         .then((response) => {
-            console.log(response.data);
             var data = response.data;
             $("#travel-title").html(data.title);
             $("#departure-date-start").html(data.departure_date_start);
@@ -43,6 +46,13 @@ async function GetSessionDetail(productNumber) {
 
             remainingSeats = data.remaining_seats;
             price = data.price;
+
+            let total = (data.price).toLocaleString('zh-tw', {
+                style: 'currency',
+                currency: 'TWD',
+                minimumFractionDigits: 0
+            });
+            $("#total-number").html(`${total}`);
         })
         .catch((error) => {
             console.log(error);

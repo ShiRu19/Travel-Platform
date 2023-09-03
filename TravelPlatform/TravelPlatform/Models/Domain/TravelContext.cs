@@ -63,26 +63,45 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F5142996E");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F2A7E8FBF");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.Check).HasColumnName("check");
+            entity.Property(e => e.AccountFiveDigits)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("account_five_digits");
             entity.Property(e => e.CheckDate)
                 .HasColumnType("datetime")
                 .HasColumnName("check_date");
+            entity.Property(e => e.CheckStatus).HasColumnName("check_status");
             entity.Property(e => e.Nation)
                 .HasMaxLength(255)
                 .HasColumnName("nation");
             entity.Property(e => e.OrderDate)
                 .HasColumnType("datetime")
                 .HasColumnName("order_date");
+            entity.Property(e => e.PayDate)
+                .HasColumnType("datetime")
+                .HasColumnName("pay_date");
+            entity.Property(e => e.PayStatus).HasColumnName("pay_status");
             entity.Property(e => e.Total).HasColumnName("total");
             entity.Property(e => e.TravelSessionId).HasColumnName("travel_session_id");
+            entity.Property(e => e.UserEmail)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("user_email");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserName)
+                .HasMaxLength(255)
+                .HasColumnName("user_name");
+            entity.Property(e => e.UserPhoneNumber)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("user_phone_number");
         });
 
         modelBuilder.Entity<OrderList>(entity =>

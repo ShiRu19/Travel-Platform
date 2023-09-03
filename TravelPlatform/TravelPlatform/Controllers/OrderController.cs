@@ -1,18 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Order;
 
 namespace TravelPlatform.Controllers
 {
-    public class CheckModel
-    {
-        public int OrderId { get; set; }
-        public string Status { get; set; } = null!;
-    }
-
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -25,79 +17,69 @@ namespace TravelPlatform.Controllers
         }
 
         [MapToApiVersion("1.0")]
-        [HttpGet("GetOrderList")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult GetOrderList()
-        {
-            return Ok(new
-            {
-                order_unchecked = GenerateOrderList(0),
-                order_checked = GenerateOrderList(1),
-                order_canceled = GenerateOrderList(2)
-            });
-        }
-
-        private List<OrderListDto> GenerateOrderList(int checkStatus)
-        {
-            var orders = _db.Orders.Where(o => o.Check == checkStatus)
-                                                .OrderBy(o => o.OrderDate)
-                                                .ToList();
-
-            List<OrderListDto> OrderList = new List<OrderListDto>();
-
-            foreach (var order in orders)
-            {
-                var travelSession = _db.TravelSessions.Where(t => t.Id == order.TravelSessionId).Single();
-                var user = _db.Users.Where(u => u.Id == order.UserId).Single();
-                var qty = _db.OrderLists.Where(o => o.OrderId == order.Id).Count();
-
-                OrderListDto orderDto = new OrderListDto()
-                {
-                    OrderId = order.Id,
-                    ProductNumber = travelSession.ProductNumber,
-                    Qty = qty,
-                    Total = travelSession.Price * qty,
-                    UserName = user.Name,
-                    UserEmail = user.Email,
-                    OrderDate = order.OrderDate
-                };
-
-                if(checkStatus != 0)
-                {
-                    orderDto.CheckDate = order.CheckDate;
-                }
-
-                OrderList.Add(orderDto);
-            }
-
-            return OrderList;
-        }
-
-        [MapToApiVersion("1.0")]
-        [HttpPost("ChangeCheckedStatus")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult ChangeCheckedStatus(CheckModel checkModel)
+        [HttpPost("GenerateOrder")]
+        public IActionResult GenerateOrder([FromForm] OrderAddModel orderAddModel)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
-                var order = _db.Orders.Where(o => o.Id == checkModel.OrderId).SingleOrDefault();
-
-                if(order == null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Order id is not found.",
-                        message = "Please confirm whether the order id exists."
-                    });
-                }
-
-                order.Check = checkModel.Status == "checked" ? 1 : 2;
-                order.CheckDate = DateTime.Now;
-
                 try
                 {
+                    Order order = new Order
+                    {
+                        Id = _db.Orders.Count() == 0 ? 1 : _db.Orders.Max(o => o.Id) + 1,
+                        OrderDate = DateTime.UtcNow,
+                        Nation = orderAddModel.Nation,
+                        TravelSessionId = orderAddModel.SessionId,
+                        Total = orderAddModel.Total,
+                        UserId = orderAddModel.UserId,
+                        UserName = orderAddModel.UserName,
+                        UserEmail = orderAddModel.UserEmail,
+                        UserPhoneNumber = orderAddModel.UserPhone,
+                        PayStatus = 0,
+                        CheckStatus = 0
+                    };
+
+                    foreach (var traveler in orderAddModel.OrderTravelers)
+                    {
+                        OrderList orderList = new OrderList
+                        {
+                            Id = _db.OrderLists.Max(o => o.Id) == 0 ? 1 : _db.OrderLists.Max(o => o.Id) + 1,
+                            OrderId = order.Id,
+                            Price = traveler.Price,
+                            Name = traveler.Name,
+                            Sex = traveler.Sex,
+                            Birthday = traveler.Birthday,
+                            PhoneNumber = traveler.PhoneNumber
+                        };
+
+                        if(traveler.LastName != null)
+                        {
+                            orderList.LastName = traveler.LastName;
+                        }
+                        if (traveler.FirstName != null)
+                        {
+                            orderList.FirstName = traveler.FirstName;
+                        }
+                        if (traveler.IdentityCode != null)
+                        {
+                            orderList.IdentityCode = traveler.IdentityCode;
+                        }
+                        if (traveler.PassportNumber != null)
+                        {
+                            orderList.PassportNumber = traveler.PassportNumber;
+                        }
+                        if (traveler.SpecialNeed != null)
+                        {
+                            orderList.SpecialNeed = traveler.SpecialNeed;
+                        }
+
+                        _db.OrderLists.Add(orderList);
+                    }
+
+                    _db.Orders.Add(order);
                     _db.SaveChanges();
                     transaction.Commit();
+                    Console.WriteLine("Transaction committed successfully.");
                     return Ok();
                 }
                 catch (Exception ex)

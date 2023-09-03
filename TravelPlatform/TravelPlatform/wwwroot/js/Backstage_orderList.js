@@ -3,7 +3,7 @@ $(function () {
 });
 
 function GetOrderList() {
-    axios.get("/api/v1.0/Order/GetOrderList", config)
+    axios.get("/api/v1.0/BackstageOrder/GetOrderList", config)
         .then((response) => {
             var unchecked = response.data.order_unchecked;
             var checked = response.data.order_checked;
@@ -70,7 +70,7 @@ function GetOrderList() {
 }
 
 function check(checkBtn) {
-    axios.post("/api/v1.0/Order/ChangeCheckedStatus", {
+    axios.post("/api/v1.0/BackstageOrder/ChangeCheckedStatus", {
             orderId: checkBtn.dataset.orderid,
             status: "checked"
         }, config)
@@ -84,7 +84,7 @@ function check(checkBtn) {
 }
 
 function cancel(cancelBtn) {
-    axios.post("/api/v1.0/Order/ChangeCheckedStatus", {
+    axios.post("/api/v1.0/BackstageOrder/ChangeCheckedStatus", {
         orderId: cancelBtn.dataset.orderid,
         status: "canceled"
     }, config)

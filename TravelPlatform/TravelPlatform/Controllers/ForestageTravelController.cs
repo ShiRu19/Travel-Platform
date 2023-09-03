@@ -132,6 +132,7 @@ namespace TravelPlatform.Controllers
                     departure_date_start = startDate + "(" + startDate.ToString("ddd").Substring(1) + ")",
                     departure_date_end = endDate.ToString("d") + "(" + endDate.ToString("ddd").Substring(1) + ")",
                     days = travel.Days,
+                    sessionId = session.Id,
                     product_number = session.ProductNumber,
                     price = session.Price,
                     remaining_seats = session.RemainingSeats,
