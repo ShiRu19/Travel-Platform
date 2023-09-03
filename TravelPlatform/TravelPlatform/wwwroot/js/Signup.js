@@ -23,6 +23,7 @@ $(function () {
         user.Name = fullName;
         user.Email = email;
         user.Password = password;
+        user.Role = 'user';
 
         signup(user);
     });
@@ -32,6 +33,7 @@ async function signup(user) {
     await axios.post("/api/v1.0/User/SignUp", user)
         .then((response) => {
             alert("µù¥U¦¨¥\");
+            localStorage.setItem("access_token", response.data.accessToken);localStorage.setItem("access_token", response.data.accessToken);
             window.location.href = "/index.html";
         })
         .catch((error) => {

@@ -106,7 +106,7 @@ namespace TravelPlatform.Controllers
             User newUser = new User
             {
                 Id = _db.Users.Max(u => u.Id) == 0 ? 1 : _db.Users.Max(u => u.Id) + 1,
-                Role = user.Role,
+                Role = "User",
                 Provider = "native",
                 Name = user.Name,
                 Email = user.Email,
