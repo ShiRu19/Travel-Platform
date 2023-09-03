@@ -4,6 +4,7 @@ $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     productNumber = urlParams.get('productNumber');
 
+    CheckLoginRequired();
     GetSessionDetail(productNumber);
 
     $(".fa-plus-circle").on("click", function () {

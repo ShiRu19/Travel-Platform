@@ -8,6 +8,8 @@ $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     myUserId = urlParams.get('id');
 
+    CheckLoginRequired();
+
     //與Server建立連線
     connection.start().then(function () {
         console.log("Hub 連線完成");
