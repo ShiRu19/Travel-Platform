@@ -109,6 +109,14 @@ async function GetTravelDetail(id) {
 }
 
 function CheckFollow(id) {
+    var accessToken = localStorage.getItem("access_token");
+
+    if (accessToken === null) {
+        $("#add-like").removeClass("hidden").addClass("shown");
+        $("#cancel-like").removeClass("shown").addClass("hidden");
+        return;
+    }
+
     CheckLoginRequired().then(function (profile) {
         userId = profile.id;
 
@@ -125,33 +133,37 @@ function CheckFollow(id) {
 }
 
 function AddFollow(id) {
-    var follow = new Object();
-    follow.TravelId = parseInt(id);
-    follow.UserId = userId;
+    CheckLoginRequired().then(function (profile) {
+        var follow = new Object();
+        follow.TravelId = parseInt(id);
+        follow.UserId = profile.id;
 
-    axios.post("/api/v1.0/Record/AddFollow", follow, config)
-        .then((response) => {
-            $("#add-like").removeClass("shown").addClass("hidden");
-            $("#cancel-like").removeClass("hidden").addClass("shown");
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
-        })
+        axios.post("/api/v1.0/Record/AddFollow", follow, config)
+            .then((response) => {
+                $("#add-like").removeClass("shown").addClass("hidden");
+                $("#cancel-like").removeClass("hidden").addClass("shown");
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("抱歉...發生了一些錯誤，請再試一次！");
+            })
+    });
 }
 
 function CancelFollow(id) {
-    var follow = new Object();
-    follow.TravelId = parseInt(id);
-    follow.UserId = userId;
+    CheckLoginRequired().then(function (profile) {
+        var follow = new Object();
+        follow.TravelId = parseInt(id);
+        follow.UserId = userId;
 
-    axios.post("/api/v1.0/Record/CancelFollow", follow, config)
-        .then((response) => {
-            $("#add-like").removeClass("hidden").addClass("shown");
-            $("#cancel-like").removeClass("shown").addClass("hidden");
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
-        })
+        axios.post("/api/v1.0/Record/CancelFollow", follow, config)
+            .then((response) => {
+                $("#add-like").removeClass("hidden").addClass("shown");
+                $("#cancel-like").removeClass("shown").addClass("hidden");
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("抱歉...發生了一些錯誤，請再試一次！");
+            })
+    });
 }
