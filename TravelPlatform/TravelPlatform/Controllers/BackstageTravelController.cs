@@ -30,12 +30,14 @@ namespace TravelPlatform.Controllers.v1
         private readonly TravelContext _db;
         private readonly IWebHostEnvironment _environment;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IConfiguration _configuration;
 
-        public BackstageTravelController(TravelContext db, IWebHostEnvironment environment, IFileUploadService fileUploadService)
+        public BackstageTravelController(TravelContext db, IWebHostEnvironment environment, IFileUploadService fileUploadService, IConfiguration configuration)
         {
             _db = db;
             _environment = environment;
             _fileUploadService = fileUploadService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -265,7 +267,7 @@ namespace TravelPlatform.Controllers.v1
 
                     if (mainImageUrl != null)
                     {
-                        newTravel.MainImageUrl = mainImageUrl;
+                        newTravel.MainImageUrl = _configuration["S3"] + "image/" + mainImageUrl;
                     }
                     else
                     {
@@ -278,7 +280,7 @@ namespace TravelPlatform.Controllers.v1
 
                     if (pdfUrl != null)
                     {
-                        newTravel.PdfUrl = pdfUrl;
+                        newTravel.PdfUrl = _configuration["S3"] + "pdf/" + pdfUrl;
                     }
                     else
                     {
@@ -467,7 +469,7 @@ namespace TravelPlatform.Controllers.v1
 
                         if (mainImageUrl != null)
                         {
-                            travel.MainImageUrl = mainImageUrl;
+                            travel.MainImageUrl = _configuration["S3"] + "image/" + mainImageUrl;
                         }
                         else
                         {
@@ -481,7 +483,7 @@ namespace TravelPlatform.Controllers.v1
 
                         if (pdfUrl != null)
                         {
-                            travel.PdfUrl = pdfUrl;
+                            travel.PdfUrl = _configuration["S3"] + "pdf/" + pdfUrl;
                         }
                         else
                         {

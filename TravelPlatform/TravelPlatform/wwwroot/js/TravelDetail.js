@@ -76,7 +76,7 @@ async function GetTravelDetail(id) {
                         </div>
 
                         <div class="product-info-more">
-                            <a href="${travelInfo.pdfUrl}" download="${travelInfo.title}.pdf">詳細行程說明</a>
+                            <a href="${travelInfo.pdfUrl}" target="_blank">詳細行程說明</a>
                         </div>
                     </div>
                 </div>`
