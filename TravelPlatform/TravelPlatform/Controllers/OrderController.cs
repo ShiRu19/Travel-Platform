@@ -43,7 +43,7 @@ namespace TravelPlatform.Controllers
                     {
                         OrderList orderList = new OrderList
                         {
-                            Id = _db.OrderLists.Max(o => o.Id) == 0 ? 1 : _db.OrderLists.Max(o => o.Id) + 1,
+                            Id = _db.OrderLists.Count() == 0 ? 1 : _db.OrderLists.Max(o => o.Id) + 1,
                             OrderId = order.Id,
                             Price = traveler.Price,
                             Name = traveler.Name,
