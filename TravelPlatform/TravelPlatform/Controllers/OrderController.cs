@@ -39,11 +39,13 @@ namespace TravelPlatform.Controllers
                         CheckStatus = 0
                     };
 
+                    long orderListId = _db.OrderLists.Count() == 0 ? 1 : _db.OrderLists.Max(o => o.Id) + 1;
+
                     foreach (var traveler in orderAddModel.OrderTravelers)
                     {
                         OrderList orderList = new OrderList
                         {
-                            Id = _db.OrderLists.Count() == 0 ? 1 : _db.OrderLists.Max(o => o.Id) + 1,
+                            Id = orderListId++,
                             OrderId = order.Id,
                             Price = traveler.Price,
                             Name = traveler.Name,
