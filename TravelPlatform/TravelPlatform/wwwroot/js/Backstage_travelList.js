@@ -22,7 +22,7 @@ function GetOpenTravelList() {
                             <td>${nation}</td>\
                             <td>${departureLocation}</td>
                             <td class="project-actions text-right">\
-                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_sessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>\
+                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_SessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>\
                                 <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Travel.html?id=${id}"><i class="fas fa-pencil-alt"></i>編輯</a>\
                                 <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>關閉</a>\
                             </td></tr>`;

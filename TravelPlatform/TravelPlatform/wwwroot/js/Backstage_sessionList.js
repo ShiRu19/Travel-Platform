@@ -6,7 +6,7 @@ window.onload = function () {
     GetCloseTravelList(id);
 
     $("#add-new-session").on("click", function () {
-        window.location.href = `/admin/Backstage_addSession.html?id=${id}`;
+        window.location.href = `/admin/Backstage_AddSession.html?id=${id}`;
     });
 }
 function GetOpenTravelList(travelId) {
