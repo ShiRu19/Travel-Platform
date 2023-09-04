@@ -26,7 +26,7 @@ $(function () {
     });
 });
 
-function CheckLoginRequired() {
+async function CheckLoginRequired() {
     // Check login
 
     if (accessToken === null) {
@@ -47,9 +47,15 @@ function CheckLoginRequired() {
             localStorage.removeItem("access_token");
             window.location.href = "/Login.html";
         });
+
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(profile);
+        }, 300);
+    });
 }
 
-function CheckLoginToShowName() {
+async function CheckLoginToShowName() {
     // Check login
     var accessToken = localStorage.getItem("access_token");
     if (accessToken === null) {

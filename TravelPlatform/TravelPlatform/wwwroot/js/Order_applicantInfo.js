@@ -7,9 +7,11 @@ $(function () {
     const nation = urlParams.get('nation');
     const productNumber = urlParams.get('productNumber');
 
-    CheckLoginRequired();
-    GetSessionDetail(productNumber);
-    GenerateTravelerForm(qty);
+    CheckLoginRequired().then(function (profile) {
+        GetSessionDetail(productNumber);
+        GenerateTravelerForm(qty);
+    });
+
     $("form").submit(function (e) {
         var formData = GenerateOrder(qty, nation, sessionId);
         console.log(formData);
