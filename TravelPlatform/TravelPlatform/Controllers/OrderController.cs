@@ -82,9 +82,52 @@ namespace TravelPlatform.Controllers
                     _db.SaveChanges();
                     transaction.Commit();
                     Console.WriteLine("Transaction committed successfully.");
-                    return Ok();
+                    return Ok(new
+                    {
+                        orderId = order.Id
+                    });
                 }
                 catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("UpdateOrderPayStatus")]
+        public IActionResult UpdateOrderPayStatus([FromForm] OrderPaymentUpdateModel orderPaymentUpdateModel)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var order = _db.Orders.Where(o => o.Id == orderPaymentUpdateModel.OrderId && o.UserId == orderPaymentUpdateModel.UserId).FirstOrDefault();
+
+                    if(order == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "This order is not found.",
+                            message = "Please confirm whether the user has this order."
+                        });
+                    }
+
+                    order.PayStatus = 1;
+                    order.AccountFiveDigits = orderPaymentUpdateModel.AccountDigits;
+                    order.PayDate = DateTime.UtcNow;
+
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok(new
+                    {
+                        id = order.Id
+                    });
+                }
+                catch(Exception ex)
                 {
                     transaction.Rollback();
 

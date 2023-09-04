@@ -129,7 +129,7 @@ namespace TravelPlatform.Controllers
                 return Ok(new
                 {
                     title = travel.Title,
-                    departure_date_start = startDate + "(" + startDate.ToString("ddd").Substring(1) + ")",
+                    departure_date_start = startDate.ToString("d") + "(" + startDate.ToString("ddd").Substring(1) + ")",
                     departure_date_end = endDate.ToString("d") + "(" + endDate.ToString("ddd").Substring(1) + ")",
                     days = travel.Days,
                     sessionId = session.Id,

@@ -118,3 +118,13 @@
 .traveler-label-text {
     margin: 10px;
 }
+
+/* Pay */
+.pay-information-container {
+    display: flex;
+    width: 80%;
+}
+
+.account-container {
+    height: 160px;
+}

@@ -1,11 +1,13 @@
 var price = 0;
 var sessionId = 0;
+var productNumber = "";
+var qty = 0;
 
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const qty = urlParams.get('qty');
     const nation = urlParams.get('nation');
-    const productNumber = urlParams.get('productNumber');
+    qty = urlParams.get('qty');
+    productNumber = urlParams.get('productNumber');
 
     CheckLoginRequired().then(function (profile) {
         GetSessionDetail(productNumber);
@@ -93,8 +95,7 @@ function GenerateOrder(qty, nation) {
 async function postOrder(formData) {
     await axios.post('/api/v1.0/Order/GenerateOrder', formData)
         .then((response) => {
-            alert("Create success");
-            
+            window.location.href = `/Order_Pay.html?qty=${qty}&productNumber=${productNumber}&orderId=${response.data.orderId}`;
         })
         .catch((error) => {
             console.log(error);
