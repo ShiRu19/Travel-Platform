@@ -87,8 +87,21 @@
         text-align: center;
     }
 
-/* Other product information*/
+/* Like */
+.likes-container {
+    display: flex;
+    justify-content: end;
+}
 
+.hidden {
+    display: none;
+}
+
+.shown {
+    visibility: visible;
+}
+
+/* Other product information*/
 .split-container {
     display: flex;
     justify-content: center;

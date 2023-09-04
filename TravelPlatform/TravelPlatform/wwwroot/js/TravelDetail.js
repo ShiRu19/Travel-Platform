@@ -1,3 +1,5 @@
+var userId = 0;
+
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
@@ -38,6 +40,16 @@ async function GetTravelDetail(id) {
                 }
             });
 
+
+            var like = `<div class="likes-container">
+                            <div class="btn btn-app shown" id="add-like">
+                                <i class="fas fa-heart"></i> 加入追蹤
+                            </div>
+                            <div class="btn btn-app hidden" id="cancel-like">
+                                <i class="fas fa-heart" style="color: #ff0000"></i> 取消追蹤
+                            </div>
+                        </div>`;
+
             var item = `<div id="page-container">
                     <div id="content-wrap">
                         <div class="product-detail-container">
@@ -65,6 +77,7 @@ async function GetTravelDetail(id) {
                                         </tbody>
                                     </table>
                                 </div>
+                                ${like}
                             </div>
                         </div>
 
@@ -82,7 +95,63 @@ async function GetTravelDetail(id) {
                 </div>`
 
             $(".section-right").append(item);
+
+            CheckFollow(id);
+
+            $("#add-like").on("click", function () {
+                AddFollow(id);
+            });
+            $("#cancel-like").on("click", function () {
+                CancelFollow(id);
+            });
         })
         .catch((error) => console.log(error));
+}
 
+function CheckFollow(id) {
+    CheckLoginRequired().then(function (profile) {
+        userId = profile.id;
+
+        axios.get(`/api/v1.0/Record/CheckFollow?TravelId=${id}&UserId=${userId}`, config)
+            .then((response) => {
+                $("#add-like").removeClass("shown").addClass("hidden");
+                $("#cancel-like").removeClass("hidden").addClass("shown");
+            })
+            .catch((error) => {
+                $("#add-like").removeClass("hidden").addClass("shown");
+                $("#cancel-like").removeClass("shown").addClass("hidden");
+            })
+    });
+}
+
+function AddFollow(id) {
+    var follow = new Object();
+    follow.TravelId = parseInt(id);
+    follow.UserId = userId;
+
+    axios.post("/api/v1.0/Record/AddFollow", follow, config)
+        .then((response) => {
+            $("#add-like").removeClass("shown").addClass("hidden");
+            $("#cancel-like").removeClass("hidden").addClass("shown");
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        })
+}
+
+function CancelFollow(id) {
+    var follow = new Object();
+    follow.TravelId = parseInt(id);
+    follow.UserId = userId;
+
+    axios.post("/api/v1.0/Record/CancelFollow", follow, config)
+        .then((response) => {
+            $("#add-like").removeClass("hidden").addClass("shown");
+            $("#cancel-like").removeClass("shown").addClass("hidden");
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        })
 }

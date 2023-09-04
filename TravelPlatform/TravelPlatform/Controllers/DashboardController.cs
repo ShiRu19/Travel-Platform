@@ -246,28 +246,5 @@ namespace TravelPlatform.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-        [MapToApiVersion("1.0")]
-        [HttpPost("AddFollow")]
-        public IActionResult AddFollow([FromBody] FollowAddModel followAdd)
-        {
-            try
-            {
-                var follow = new Follow()
-                {
-                    Id = _db.Follows.Max(f => f.Id) == 0 ? 1 : _db.Follows.Max(f => f.Id) + 1,
-                    TravelId = followAdd.TravelId,
-                    UserId = followAdd.UserId
-                };
-
-                _db.Follows.Add(follow);
-                _db.SaveChanges();
-                return Ok(follow);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
     }
 }
