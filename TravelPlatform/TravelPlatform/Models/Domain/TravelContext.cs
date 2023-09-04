@@ -33,7 +33,7 @@ public partial class TravelContext : DbContext
     {
         modelBuilder.Entity<Chat>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Chat__3213E83F9E42AB20");
+            entity.HasKey(e => e.Id).HasName("PK__Chat__3213E83F9571E7CE");
 
             entity.ToTable("Chat");
 
@@ -50,7 +50,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Follow>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Follow__3213E83F76C2D996");
+            entity.HasKey(e => e.Id).HasName("PK__Follow__3213E83FA7E65D9A");
 
             entity.ToTable("Follow");
 
@@ -63,7 +63,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F2A7E8FBF");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F52F2F329");
 
             entity.ToTable("Order");
 
@@ -106,7 +106,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<OrderList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderLis__3213E83F1EC9511B");
+            entity.HasKey(e => e.Id).HasName("PK__OrderLis__3213E83F35C2B05E");
 
             entity.ToTable("OrderList");
 
@@ -152,7 +152,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Travel>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Travel__3213E83FEE20F736");
+            entity.HasKey(e => e.Id).HasName("PK__Travel__3213E83F9397EABF");
 
             entity.ToTable("Travel");
 
@@ -185,7 +185,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<TravelAttraction>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TravelAt__3213E83F9685ED7E");
+            entity.HasKey(e => e.Id).HasName("PK__TravelAt__3213E83F278941E5");
 
             entity.ToTable("TravelAttraction");
 
@@ -200,7 +200,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<TravelSession>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TravelSe__3213E83F8AE85B38");
+            entity.HasKey(e => e.Id).HasName("PK__TravelSe__3213E83F2B53735E");
 
             entity.ToTable("TravelSession");
 
@@ -223,7 +223,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F3C7F683B");
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83FD2D7B7F5");
 
             entity.ToTable("User");
 
@@ -256,7 +256,7 @@ public partial class TravelContext : DbContext
 
         modelBuilder.Entity<Watch>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Watch__3213E83F6091AE59");
+            entity.HasKey(e => e.Id).HasName("PK__Watch__3213E83F47900BB9");
 
             entity.ToTable("Watch");
 
