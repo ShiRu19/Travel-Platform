@@ -25,6 +25,15 @@ function GetOrderList() {
                 userInfo[`${order.orderId}`].email = order.userEmail;
                 userInfo[`${order.orderId}`].phone = order.userPhone;
 
+                var payment = "";
+
+                if (order.payStatus === 0) {
+                    payment = `<th></th>`
+                }
+                else {
+                    payment = `<th>${order.accountDigits}</th>`;
+                }
+
                 var item_unchecked = `<tr>
                                     <td>#</td>
                                     <td>${order.productNumber}</td>
@@ -33,24 +42,13 @@ function GetOrderList() {
                                     <td>
                                         <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                     </td>
-                                    <td>${order.orderDate}</td>`;
-                var payment = "";
-
-                if (order.payStatus === 0) {
-                    payment = `<th>未匯款</th>
-                                <th></th>`
-                }
-                else {
-                    payment = `<th>已匯款</th>
-                                <th>${order.accountDigits}</th>`;
-                }
-
-                item_unchecked += payment;
-                item_unchecked += `<td>
+                                    <td>${order.orderDate}</td>
+                                    ${payment}
+                                    <td>
                                         <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
                                     </td>
                                     <td class="project-actions text-right">
-                                        <div class="btn btn-success btn-sm check-btn" data-orderid="${order.orderId}" onclick="check(this)"><i class="fas fa-check"></i>確認</div>
+                                        <div class="btn btn-success btn-sm check-btn" data-orderid="${order.orderId}" data-sessionid="${order.sessionId}" data-orderSeats="${order.qty}" onclick="check(this)"><i class="fas fa-check"></i>確認</div>
                                         <div class="btn btn-dark btn-sm cancel-btn" data-orderid="${order.orderId}" onclick="cancel(this)"><i class="fas fa-ban"></i>取消</div>
                                     </td>
                                 </tr>`;
@@ -69,6 +67,15 @@ function GetOrderList() {
                 userInfo[`${order.orderId}`].email = order.userEmail;
                 userInfo[`${order.orderId}`].phone = order.userPhone;
 
+                var payment = "";
+
+                if (order.payStatus === 0) {
+                    payment = `<th></th>`
+                }
+                else {
+                    payment = `<th>${order.accountDigits}</th>`;
+                }
+
                 var item_checked = `<tr>
                                         <td>#</td>
                                         <td>${order.productNumber}</td>
@@ -78,12 +85,15 @@ function GetOrderList() {
                                             <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                         </td>
                                         <td>${order.orderDate}</td>
-                                        <td>12345</td>
+                                        ${payment}
                                         <td>
                                             <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
                                         </td>
                                         <td>${order.checkDate}</td>
                                     </tr>`;
+
+                
+
                 $("#checked-table tbody").append(item_checked);
             })
 
@@ -99,6 +109,15 @@ function GetOrderList() {
                 userInfo[`${order.orderId}`].email = order.userEmail;
                 userInfo[`${order.orderId}`].phone = order.userPhone;
 
+                var payment = "";
+
+                if (order.payStatus === 0) {
+                    payment = `<th></th>`
+                }
+                else {
+                    payment = `<th>${order.accountDigits}</th>`;
+                }
+
                 var item_canceled = `<tr>
                                         <td>#</td>
                                         <td>${order.productNumber}</td>
@@ -108,7 +127,7 @@ function GetOrderList() {
                                             <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                         </td>
                                         <td>${order.orderDate}</td>
-                                        <td>12345</td>
+                                        ${payment}
                                         <td>
                                             <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
                                         </td>
@@ -124,25 +143,32 @@ function GetOrderList() {
 }
 
 function check(checkBtn) {
-    axios.post("/api/v1.0/BackstageOrder/ChangeCheckedStatus", {
-            orderId: checkBtn.dataset.orderid,
-            status: "checked"
-        }, config)
+    axios.post("/api/v1.0/BackstageOrder/CheckOrder", {
+        OrderId: checkBtn.dataset.orderid,
+        SessionId: checkBtn.dataset.sessionid,
+        OrderSeats: checkBtn.dataset.orderseats
+    }, config)
         .then((response) => {
+            alert("入單成功");
             location.reload();
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            if (error.response.data.error === "Not enough seats.") {
+                alert("該場次座位餘額不足");
+            }
+            else {
+                alert("抱歉...發生了一些錯誤，請再試一次！");
+            }
         });
 }
 
 function cancel(cancelBtn) {
-    axios.post("/api/v1.0/BackstageOrder/ChangeCheckedStatus", {
-        orderId: cancelBtn.dataset.orderid,
-        status: "canceled"
+    axios.post("/api/v1.0/BackstageOrder/CancelOrder", {
+        orderId: cancelBtn.dataset.orderid
     }, config)
         .then((response) => {
+            alert("入單成功");
             location.reload();
         })
         .catch((error) => {

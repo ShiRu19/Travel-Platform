@@ -2,17 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TravelPlatform.Models.BackstageOrder;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Order;
 
 namespace TravelPlatform.Controllers
 {
-    public class CheckModel
-    {
-        public int OrderId { get; set; }
-        public string Status { get; set; } = null!;
-    }
-
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -48,12 +43,12 @@ namespace TravelPlatform.Controllers
             foreach (var order in orders)
             {
                 var travelSession = _db.TravelSessions.Where(t => t.Id == order.TravelSessionId).Single();
-                //var user = _db.Users.Where(u => u.Id == order.UserId).Single();
                 var qty = _db.OrderLists.Where(o => o.OrderId == order.Id).Count();
 
                 OrderListDto orderDto = new OrderListDto()
                 {
                     OrderId = order.Id,
+                    SessionId = travelSession.Id,
                     ProductNumber = travelSession.ProductNumber,
                     Qty = qty,
                     Total = travelSession.Price * qty,
@@ -80,6 +75,103 @@ namespace TravelPlatform.Controllers
             }
 
             return OrderList;
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("CancelOrder")]
+        public IActionResult CancelOrder(CancelOrderModel cancelOrderModel)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var order = _db.Orders.Where(o => o.Id == cancelOrderModel.OrderId).SingleOrDefault();
+
+                    if (order == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Order id is not found.",
+                            message = "Please confirm whether the order id exists."
+                        });
+                    }
+
+                    order.CheckStatus = 2; // Cancel
+                    order.CheckDate = DateTime.UtcNow;
+
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpPost("CheckOrder")]
+        public IActionResult CheckOrder(CheckOrderModel checkOrderModel)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Update check status
+                    var order = _db.Orders.Where(o => o.Id == checkOrderModel.OrderId).SingleOrDefault();
+
+                    if (order == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Order id is not found.",
+                            message = "Please confirm whether the order id exists."
+                        });
+                    }
+
+                    order.CheckStatus = 1; // checked
+                    order.CheckDate = DateTime.UtcNow;
+
+                    // Update session remaining seats
+                    var session = _db.TravelSessions.Where(t => t.Id == checkOrderModel.SessionId).SingleOrDefault();
+
+                    if (session == null)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Session id is not found.",
+                            message = "Please comfirm the id is exists."
+                        });
+                    }
+
+                    if (session.RemainingSeats < checkOrderModel.OrderSeats)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "Not enough seats.",
+                            message = "Please adjust the quantity."
+                        });
+                    }
+
+                    session.RemainingSeats -= checkOrderModel.OrderSeats;
+
+                    // Save changes
+                    _db.SaveChanges();
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+                    return StatusCode(500, ex.Message);
+                }
+            }
         }
     }
 }

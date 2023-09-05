@@ -4,6 +4,7 @@
     {
         // Order
         public long OrderId { get; set; }
+        public long SessionId { get; set; }
         public string ProductNumber { get; set; } = null!;
         public int Qty { get; set; }
         public int Total { get; set; }
