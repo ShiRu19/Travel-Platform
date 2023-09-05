@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>我的訂單</title>
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
+
+    <link href="css/index.css" rel="stylesheet" />
+    <!-- Overlay -->
+    <link href="css/Overlay.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content-page">
+        <header class="header-page">
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="/UserProfile.html" id="profile-name"></a></h6>
+            </div>
+        </header>
+        <div class="content">
+            <div class="content-left">
+                <header class="header-left">
+                    <a href="/index.html">
+                        <img src="images/happygotravel_logo.png" class="logo-image" />
+                    </a>
+                </header>
+                <section class="section-left">
+                    <div class="menu">
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>首頁</span>
+                            <div class="menu-item-space"></div>
+                        </a>
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>國內旅遊</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                        <div class="menu-item" id="contact">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer class="footer-left">
+                </footer>
+            </div>
+            <div class="content-right">
+                <div class="content-right-scroll" style="margin: 20px auto; width: 95%">
+                    <div class="card card-light">
+                        <div class="card-header">
+                            <h3 class="card-title">我的歷史訂單</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-striped" id="orders">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 1%">
+                                            #
+                                        </th>
+                                        <th style="width: 10%;">
+                                            行程
+                                        </th>
+                                        <th style="width: 10%">
+                                            單價
+                                        </th>
+                                        <th style="width: 5%">
+                                            人數
+                                        </th>
+                                        <th style="width: 10%">
+                                            總金額
+                                        </th>
+                                        <th style="width: 15%">
+                                            下單時間
+                                        </th>
+                                        <th style="width: 10%">
+                                            訂購詳情
+                                        </th>
+                                        <th style="width: 15%">
+                                            訂單狀態
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div id="no-list">目前尚無訂單</div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <div id="overlay-order-info" class="overlay">
+                    <span class="closebtn" onclick="closeOrderInfoOverlay()" title="Close Overlay">×</span>
+                    <div class="overlay-content" id="order-overlay-content">
+                        <h3>人數： <span id="order-qty"></span></h3>
+                        <h3>旅客資訊</h3>
+                        <div id="order-traveler-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE/js/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="/AdminLTE/js/moment.min.js"></script>
+    <script src="/AdminLTE/js/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="/AdminLTE/js/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="/AdminLTE/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Order History List -->
+    <script src="/js/Order_historyList.js" charset="big5"></script>
+
+    <!-- Common -->
+    <script src="/js/ForestageCommon.js" charset="big5"></script>
+</body>
+</html>

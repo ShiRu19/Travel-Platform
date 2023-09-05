@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Order;
@@ -156,6 +157,58 @@ namespace TravelPlatform.Controllers
                 qty = orderList.Count(),
                 travelers = orderList
             });
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetUserOrderList")]
+        [Authorize]
+        public IActionResult GetUserOrderList(int userId)
+        {
+            var orders = _db.Orders.Where(o => o.UserId == userId).ToList();
+            if(orders == null)
+            {
+                return NotFound();
+            }
+
+            List<UserOrderDto> userOrderListDto = new List<UserOrderDto>();
+
+            foreach(var order in orders)
+            {
+                var qty = _db.OrderLists.Where(o => o.OrderId == order.Id).Count();
+
+                var session = _db.TravelSessions.Where(t => t.Id == order.TravelSessionId).SingleOrDefault();
+                if(session == null)
+                {
+                    return BadRequest(new
+                    {
+                        error = "The session id is not found.",
+                        message = "Please confirm whether this order data is correct."
+                    });
+                }
+
+                var travel = _db.Travels.Where(t => t.Id == session.TravelId).SingleOrDefault();
+                if(travel == null)
+                {
+                    return BadRequest(new
+                    {
+                        error = "The travel id is not found.",
+                        message = "Please confirm whether this order data is correct."
+                    });
+                }
+
+                UserOrderDto userOrder = new UserOrderDto()
+                {
+                    OrderId = order.Id,
+                    Title = travel.Title,
+                    Price = session.Price,
+                    Qty = qty,
+                    OrderDate = order.OrderDate,
+                    CheckStatus = order.CheckStatus
+                };
+                userOrderListDto.Add(userOrder);
+            }
+
+            return Ok(userOrderListDto);
         }
     }
 }
