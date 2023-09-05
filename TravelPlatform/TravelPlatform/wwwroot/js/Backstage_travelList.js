@@ -16,7 +16,7 @@ function GetOpenTravelList() {
                 var departureLocation = data.departureLocation;
 
                 var item = `<tr><td>#</td>\
-                            <td><a href="/admin/TravelDetail.html?id=${id}">${title}</a></td>\
+                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>\
                             <td>${dateRange}</td>\
                             <td>${days}</td>\
                             <td>${nation}</td>\
@@ -50,7 +50,7 @@ function GetCloseTravelList() {
                 var departureLocation = data.departureLocation;
 
                 var item = `<tr><td>#</td>\
-                            <td><a href="/admin/TravelDetail.html?id=${id}">${title}</a></td>\
+                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>\
                             <td>${dateRange}</td>\
                             <td>${days}</td>\
                             <td>${nation}</td>\
