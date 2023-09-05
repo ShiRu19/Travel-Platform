@@ -40,12 +40,12 @@ function GetOrderList() {
                                     <td>${order.qty}</td>
                                     <td>${total}</td>
                                     <td>
-                                        <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
+                                        <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                     </td>
                                     <td>${order.orderDate}</td>
                                     ${payment}
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
+                                        <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
                                     </td>
                                     <td class="project-actions text-right">
                                         <div class="btn btn-success btn-sm check-btn" data-orderid="${order.orderId}" data-sessionid="${order.sessionId}" data-orderSeats="${order.qty}" onclick="check(this)"><i class="fas fa-check"></i>確認</div>
@@ -82,12 +82,12 @@ function GetOrderList() {
                                         <td>${order.qty}</td>
                                         <td>${total}</td>
                                         <td>
-                                            <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
+                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                         </td>
                                         <td>${order.orderDate}</td>
                                         ${payment}
                                         <td>
-                                            <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
+                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
                                         </td>
                                         <td>${order.checkDate}</td>
                                     </tr>`;
@@ -124,12 +124,12 @@ function GetOrderList() {
                                         <td>${order.qty}</td>
                                         <td>${total}</td>
                                         <td>
-                                            <button class="btn  btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
+                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
                                         </td>
                                         <td>${order.orderDate}</td>
                                         ${payment}
                                         <td>
-                                            <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
+                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
                                         </td>
                                         <td>${order.checkDate}</td>
                                     </tr>`;
@@ -178,12 +178,67 @@ function cancel(cancelBtn) {
 }
 
 function openUserInfoOverlay(orderId) {
-    document.getElementById("myOverlay").style.display = "block";
+    document.getElementById("overlay-user-info").style.display = "block";
     $("#user-name").html(userInfo[orderId].name);
     $("#user-email").html(userInfo[orderId].email);
     $("#user-phone").html(userInfo[orderId].phone);
 }
 
 function closeUserInfoOverlay(orderId) {
-    document.getElementById("myOverlay").style.display = "none";
+    document.getElementById("overlay-user-info").style.display = "none";
+}
+
+function openOrderInfoOverlay(orderId) {
+    axios.get(`/api/v1.0/Order/GetOrderDetail?orderId=${orderId}`)
+        .then((response) => {
+            var data = response.data;
+            $("#order-id").html(data.orderId);
+            $("#order-qty").html(data.qty);
+
+            $("#order-traveler-content").html("");
+            var travel_i = 1;
+
+            data.travelers.forEach((traveler) => {
+                var birthday = new Date(traveler.birthday.toLocaleString());
+                var day = birthday.getDate();
+                var month = birthday.getMonth() + 1;
+                var year = birthday.getFullYear();
+
+                birthday = year + "/" + month + "/" + day;
+
+                var item = `<!-- card -->
+                        <div id="traveler-container">
+                            <div class="card card-info" style="margin: 5px;">
+                                <div class="card-header">
+                                    <h3 class="card-title">旅客 - ${travel_i}</h3>
+                                </div>
+                                <div class="traveler-row">
+                                    <label class="traveler-label-text" for="traveler-name-${travel_i}">姓名</label>
+                                    <input type="text" class="form-control col-3" id="traveler-name-${travel_i}" readonly="readonly" value="${traveler.name}" />
+                                    <label class="traveler-label-text">性別</label>
+                                    <input type="text" class="form-control col-3" id="traveler-sex-${travel_i}" readonly="readonly" value="${traveler.sex}" />
+                                </div>
+                                <div class="traveler-row">
+                                    <label class="traveler-label-text">出生日期</label>
+                                    <input type="text" class="form-control col-3" id="traveler-birthday-${travel_i}" readonly="readonly" value="${birthday}" />
+                                    <label class="traveler-label-text" for="traveler-phone-${travel_i}">手機</label>
+                                    <input type="text" class="form-control col-3" id="traveler-phone-${travel_i}" readonly="readonly" value="${traveler.phoneNumber}" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->`;
+
+                $("#order-traveler-content").append(item);
+            });
+
+            document.getElementById("overlay-order-info").style.display = "block";
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        })
+}
+
+function closeOrderInfoOverlay(orderId) {
+    document.getElementById("overlay-order-info").style.display = "none";
 }

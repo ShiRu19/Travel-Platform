@@ -363,12 +363,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- /.card-body -->
                 </div>
 
-                <div id="myOverlay" class="overlay" style="display: none;">
+                <div id="overlay-user-info" class="overlay" style="display: none;">
                     <span class="closebtn" onclick="closeUserInfoOverlay()" title="Close Overlay">×</span>
                     <div class="overlay-content">
                         <h3>訂購人： <span id="user-name"></span></h3>
                         <h3>聯絡信箱： <span id="user-email"></span></h3>
                         <h3>手機號碼： <span id="user-phone"></span></h3>
+                    </div>
+                </div>
+
+                <div id="overlay-order-info" class="overlay">
+                    <span class="closebtn" onclick="closeOrderInfoOverlay()" title="Close Overlay">×</span>
+                    <div class="overlay-content" id="order-overlay-content">
+                        <h3>訂單編號： <span id="order-id"></span></h3>
+                        <h3>訂單數量： <span id="order-qty"></span></h3>
+                        <h3>旅客資訊：</h3>
+                        <div id="order-traveler-content"></div>
                     </div>
                 </div>
             </section>

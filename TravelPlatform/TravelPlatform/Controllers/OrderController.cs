@@ -136,5 +136,26 @@ namespace TravelPlatform.Controllers
                 }
             }
         }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetOrderDetail")]
+        public IActionResult GetOrderDetail(int orderId)
+        {
+            var orderList = _db.OrderLists.Where(o => o.OrderId == orderId)
+                                        .Select(o => new
+                                        {
+                                            name = o.Name,
+                                            sex = o.Sex == "man" ? "男" : "女",
+                                            birthday = o.Birthday,
+                                            phoneNumber = o.PhoneNumber
+                                        })
+                                        .ToList();
+            return Ok(new
+            {
+                orderId = orderId,
+                qty = orderList.Count(),
+                travelers = orderList
+            });
+        }
     }
 }
