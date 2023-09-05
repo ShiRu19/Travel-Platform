@@ -1,12 +1,90 @@
 $(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    var paging = urlParams.get('paging');
+
+    if (paging === null) {
+        window.location.href = "/Order_HistoryList.html?paging=1";
+        return;
+    }
+
     $("#no-list").hide();
-    CheckLoginRequired().then(function(profile) {
-        GetOrderList();
+    CheckLoginRequired().then(function (profile) {
+        ShowPagination(paging);
+        GetOrderList(paging);
     });
 });
 
-function GetOrderList() {
-    axios.get(`/api/v1.0/Order/GetUserOrderList?userId=${profile.id}`, config)
+function ShowPagination(paging) {
+    axios.get(`/api/v1.0/Order/GetUserOrderPageCount?userId=${profile.id}`, config)
+        .then((response) => {
+            var count = response.data;
+
+            if (count !== 0) {
+                if (paging < 1) {
+                    window.location.href = "/Order_HistoryList.html?paging=1";
+                    return;
+                }
+
+                if (paging > count) {
+                    window.location.href = `/Order_HistoryList.html?paging=${count}`;
+                    return;
+                }
+
+                $("#pagination-content").html("");
+                var paging_li = "";
+                for (let i = 1; i < count + 1; i++) {
+                    if (i < paging || i > paging) {
+                        paging_li += `<li class="page-item"><a class="page-link" href="/Order_HistoryList.html?paging=${i}">${i}</a></li>`;
+                    }
+                    else {
+                        paging_li += `<li class="page-item active"><a class="page-link" href="/Order_HistoryList.html?paging=${i}">${i}</a></li>`;
+                    }
+                }
+
+                var previous = "";
+                if (paging > 1) {
+                    previous = `<li class="page-item">
+                                    <a class="page-link" href="/Order_HistoryList.html?paging=${paging - 1}" tabindex="-1">Previous</a>
+                                </li>`;
+                }
+                else {
+                    previous = `<li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>`;
+                }
+
+                var next = "";
+                if (paging < count) {
+                    next = `<li class="page-item">
+                                <a class="page-link" href="/Order_HistoryList.html?paging=${paging + 1}">Next</a>
+                            </li>`;
+                }
+                else {
+                    next = `<li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Next</a>
+                                </li>`;
+                }
+
+                var item = `<ul class="pagination justify-content-center">
+                                        ${previous}
+                                        ${paging_li}
+                                        ${next}
+                                    </ul>`;
+
+                $("#pagination-content").append(item);
+            }
+            else {
+                $(".pagination").show();
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("抱歉...發生了一些錯誤，請再試一次！");
+        });
+}
+
+function GetOrderList(paging) {
+    axios.get(`/api/v1.0/Order/GetUserOrderList?userId=${profile.id}&paging=${paging}`, config)
         .then((response) => {
             var orders = response.data;
             orders.forEach((order) => {
@@ -60,7 +138,6 @@ function GetOrderList() {
                 $("#no-list").show();
                 return;
             }
-            console.log(error);
             alert("抱歉...發生了一些錯誤，請再試一次！");
         })
 }

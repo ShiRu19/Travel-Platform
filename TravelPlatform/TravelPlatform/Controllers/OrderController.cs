@@ -160,12 +160,28 @@ namespace TravelPlatform.Controllers
         }
 
         [MapToApiVersion("1.0")]
+        [HttpGet("GetUserOrderPageCount")]
+        [Authorize]
+        public IActionResult GetUserOrderPageCount(int userId)
+        {
+            var count = _db.Orders.Where(o => o.UserId == userId).Count();
+            var pagings = Convert.ToInt32(Math.Ceiling(count / 6.0));
+            return Ok(pagings);
+        }
+
+        [MapToApiVersion("1.0")]
         [HttpGet("GetUserOrderList")]
         [Authorize]
-        public IActionResult GetUserOrderList(int userId)
+        public IActionResult GetUserOrderList(int userId, int paging)
         {
+            if(paging == 0)
+            {
+                paging = 1;
+            }
             var orders = _db.Orders.Where(o => o.UserId == userId)
                                 .OrderByDescending(o => o.OrderDate)
+                                .Skip((paging-1) * 6)
+                                .Take(6)
                                 .ToList();
             if(orders == null)
             {
