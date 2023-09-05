@@ -19,6 +19,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Backstage Order List -->
+    <link rel="stylesheet" href="../css/Backstage_orderList.css">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -236,18 +239,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         總金額
                                     </th>
                                     <th>
-                                        訂購人
-                                    </th>
-                                    <th>
-                                        聯絡信箱
+                                        訂購人資訊
                                     </th>
                                     <th>
                                         下單時間
                                     </th>
                                     <th>
+                                        匯款狀態
+                                    </th>
+                                    <th>
+                                        匯款帳號
+                                    </th>
+                                    <th>
                                         訂購詳情
                                     </th>
-                                    <th style="width: 21%">
+                                    <th style="width: 15%">
                                     </th>
                                 </tr>
                             </thead>
@@ -260,6 +266,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <td>張小玉</td>
                                     <td>yuyu@gmail.com</td>
                                     <td>2023/8/30  09:25:12 PM</td>
+                                    <th>
+                                        已匯款
+                                    </th>
+                                    <th>
+                                        12345
+                                    </th>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="#">訂單詳情</a>
                                     </td>
@@ -302,13 +314,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         總金額
                                     </th>
                                     <th>
-                                        訂購人
-                                    </th>
-                                    <th>
-                                        聯絡信箱
+                                        訂購人資訊
                                     </th>
                                     <th>
                                         下單時間
+                                    </th>
+                                    <th>
+                                        匯款帳號
                                     </th>
                                     <th>
                                         訂購詳情
@@ -366,13 +378,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         總金額
                                     </th>
                                     <th>
-                                        訂購人
-                                    </th>
-                                    <th>
-                                        聯絡信箱
+                                        訂購人資訊
                                     </th>
                                     <th>
                                         下單時間
+                                    </th>
+                                    <th>
+                                        匯款帳號
                                     </th>
                                     <th>
                                         訂購詳情
@@ -400,6 +412,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </table>
                     </div>
                     <!-- /.card-body -->
+                </div>
+
+                <div id="myOverlay" class="overlay" style="display: none;">
+                    <span class="closebtn" onclick="closeUserInfoOverlay()" title="Close Overlay">×</span>
+                    <div class="overlay-content">
+                        <h3>訂購人： <span id="user-name"></span></h3>
+                        <h3>聯絡信箱： <span id="user-email"></span></h3>
+                        <h3>手機號碼： <span id="user-phone"></span></h3>
+                    </div>
                 </div>
             </section>
             <!-- /.content -->

@@ -48,7 +48,7 @@ namespace TravelPlatform.Controllers
             foreach (var order in orders)
             {
                 var travelSession = _db.TravelSessions.Where(t => t.Id == order.TravelSessionId).Single();
-                var user = _db.Users.Where(u => u.Id == order.UserId).Single();
+                //var user = _db.Users.Where(u => u.Id == order.UserId).Single();
                 var qty = _db.OrderLists.Where(o => o.OrderId == order.Id).Count();
 
                 OrderListDto orderDto = new OrderListDto()
@@ -57,12 +57,21 @@ namespace TravelPlatform.Controllers
                     ProductNumber = travelSession.ProductNumber,
                     Qty = qty,
                     Total = travelSession.Price * qty,
-                    UserName = user.Name,
-                    UserEmail = user.Email,
-                    OrderDate = order.OrderDate
+                    OrderDate = order.OrderDate,
+                    UserName = order.UserName,
+                    UserEmail = order.UserEmail,
+                    UserPhone = order.UserPhoneNumber,
+                    PayStatus = order.PayStatus,
+                    CheckStatus = order.CheckStatus
                 };
 
-                if(checkStatus != 0)
+                if(order.PayStatus != 0)
+                {
+                    orderDto.AccountDigits = order.AccountFiveDigits;
+                    orderDto.PayDate = order.PayDate;
+                }
+
+                if (checkStatus != 0)
                 {
                     orderDto.CheckDate = order.CheckDate;
                 }
@@ -71,42 +80,6 @@ namespace TravelPlatform.Controllers
             }
 
             return OrderList;
-        }
-
-        [MapToApiVersion("1.0")]
-        [HttpPost("ChangeCheckedStatus")]
-        public IActionResult ChangeCheckedStatus(CheckModel checkModel)
-        {
-            using (var transaction = _db.Database.BeginTransaction())
-            {
-                var order = _db.Orders.Where(o => o.Id == checkModel.OrderId).SingleOrDefault();
-
-                if(order == null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Order id is not found.",
-                        message = "Please confirm whether the order id exists."
-                    });
-                }
-
-                order.CheckStatus = checkModel.Status == "checked" ? 1 : 2;
-                order.CheckDate = DateTime.Now;
-
-                try
-                {
-                    _db.SaveChanges();
-                    transaction.Commit();
-                    return Ok();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-
-                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
-                    return StatusCode(500, ex.Message);
-                }
-            }
         }
     }
 }
