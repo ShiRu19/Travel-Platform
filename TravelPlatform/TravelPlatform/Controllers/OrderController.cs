@@ -164,7 +164,9 @@ namespace TravelPlatform.Controllers
         [Authorize]
         public IActionResult GetUserOrderList(int userId)
         {
-            var orders = _db.Orders.Where(o => o.UserId == userId).ToList();
+            var orders = _db.Orders.Where(o => o.UserId == userId)
+                                .OrderByDescending(o => o.OrderDate)
+                                .ToList();
             if(orders == null)
             {
                 return NotFound();
