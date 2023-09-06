@@ -44,6 +44,7 @@ function GetOpenTravelList() {
                             </td></tr>`;
 
                 $("#travel-table-open tbody").append(item);
+                $("#loading-travel-open").hide();
             });
         })
         .catch((error) => {
@@ -94,6 +95,7 @@ function GetCloseTravelList() {
                             </td></tr>`;
 
                 $("#travel-table-close tbody").append(item);
+                $("#loading-travel-close").hide();
             });
         })
         .catch((error) => {
