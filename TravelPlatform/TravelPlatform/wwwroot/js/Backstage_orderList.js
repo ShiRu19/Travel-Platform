@@ -64,6 +64,7 @@ function GetOrderList() {
                                     </td>
                                 </tr>`;
                 $("#unchecked-table tbody").append(item_unchecked);
+                $("#loading-unchecked").hide();
             })
 
             checked.forEach((order) => {
@@ -118,9 +119,8 @@ function GetOrderList() {
                                         <td>${checkDate}</td>
                                     </tr>`;
 
-                
-
                 $("#checked-table tbody").append(item_checked);
+                $("#loading-checked").hide();
             })
 
             canceled.forEach((order) => {
@@ -175,11 +175,13 @@ function GetOrderList() {
                                         <td>${checkDate}</td>
                                     </tr>`;
                 $("#canceled-table tbody").append(item_canceled);
+                $("#loading-canceled").hide();
             })
 
         })
         .catch((error) => {
             console.log(error);
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 }
 
