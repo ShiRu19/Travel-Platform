@@ -43,7 +43,7 @@ $(function () {
             })
             .catch((error) => {
                 console.log(error);
-                alert("抱歉...發生了一些錯誤，請再試一次！");
+                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
             })
     });
 });

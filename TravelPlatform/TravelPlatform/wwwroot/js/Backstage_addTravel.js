@@ -193,16 +193,20 @@ function createTravelFormData() {
 async function postTravel(formData) {
     await axios.post('/api/v1.0/BackstageTravel/AddTravel', formData)
         .then((response) => {
-            if (response.status === 200) {
-                alert("Create success");
-                location.reload();
-            }
-            else {
-                alert("Create error");
-            }
+            toastr.success(
+                '行程新增成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

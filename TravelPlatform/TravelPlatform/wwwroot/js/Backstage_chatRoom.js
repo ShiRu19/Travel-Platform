@@ -9,14 +9,14 @@ $(function () {
         console.log("Hub 連線完成");
         UpdateRoomList();
     }).catch(function (err) {
-        alert('連線錯誤: ' + err.toString());
+        toastr.error('連線錯誤: ' + err.toString(), '錯誤');
     });
 
     // 加入聊天室
     $(".roomId").on("click", function () {
         let room_id = $(this)[0].dataset.roomid
         connection.invoke("JoinGroup", room_id).catch(function (err) {
-            alert('無法加入: ' + err.toString());
+            toastr.error('無法加入: ' + err.toString(), '錯誤');
         });
 
         $("#title-roomId").html(' - ' + room_id);
@@ -31,7 +31,7 @@ $(function () {
     $('#sendButton').on('click', function () {
         var msg = $("#inputMsg").val();
         connection.invoke("SendMessage", myRoomId, 'Admin', msg).catch(function (err) {
-            alert('傳送錯誤: ' + err.toString());
+            toastr.error('傳送錯誤: ' + err.toString(), '錯誤');
         });
         $("#inputMsg").val("");
 
@@ -110,7 +110,7 @@ async function GetChatRecord(roomId) {
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 };
 
@@ -118,7 +118,7 @@ async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -137,7 +137,7 @@ function UpdateRoomList() {
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -145,7 +145,7 @@ function JoinRoom(room) {
     let room_id = room.dataset.roomid;
     console.log(room_id);
     connection.invoke("JoinGroup", room_id).catch(function (err) {
-        alert('無法加入: ' + err.toString());
+        toastr.error('無法加入: ' + err.toString(), '錯誤');
     });
 
     $("#title-roomId").html(' - ' + room_id);

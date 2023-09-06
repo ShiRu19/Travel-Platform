@@ -68,7 +68,6 @@ var attractionNum = 1;
 async function GetTravelInfo(id) {
     await axios.get("/api/v1.0/BackstageTravel/GetTravelInfo?id=" + id)
         .then((response) => {
-            console.log(response);
             var travel = response.data.travel[0];
             var attractions = response.data.attractions;
             
@@ -96,7 +95,7 @@ async function GetTravelInfo(id) {
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -145,11 +144,20 @@ function createTravelFormData() {
 async function postTravel(formData) {
     await axios.post('/api/v1.0/BackstageTravel/EditTravel', formData)
         .then((response) => {
-            alert("Edit success");
-            location.reload();
+            toastr.success(
+                '編輯成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

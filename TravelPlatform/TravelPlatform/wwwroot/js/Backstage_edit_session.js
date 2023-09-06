@@ -60,7 +60,7 @@ async function GetSessionInfo() {
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -83,11 +83,20 @@ function createSessionFormData() {
 async function postSession(formData) {
     await axios.post('/api/v1.0/BackstageTravel/EditSession', formData)
         .then((response) => {
-            alert("Edit success");
-            window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
+            toastr.success(
+                '編輯成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

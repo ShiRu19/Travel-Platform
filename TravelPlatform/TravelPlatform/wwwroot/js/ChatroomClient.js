@@ -16,7 +16,7 @@ $(function () {
 
         // 加入聊天室
         connection.invoke("JoinGroup", myUserId.toString()).catch(function (error) {
-            alert("無法加入聊天室: " + error.toString());
+            toastr.error("無法加入聊天室: " + error.toString(), '錯誤');
         });
 
         chatMessage.roomId = myUserId;
@@ -24,7 +24,7 @@ $(function () {
 
         GetChatRecord(myUserId);
     }).catch(function (err) {
-        alert('連線錯誤: ' + err.toString());
+        toastr.error("連線錯誤: " + error.toString(), '錯誤');
     });
 
     // 更新連線 User ID
@@ -41,7 +41,7 @@ $(function () {
     $('#sendButton').on('click', function () {
         var msg = $("#inputMsg").val();
         connection.invoke("SendMessage", myRoomId, 'Client', msg).catch(function (err) {
-            alert('傳送錯誤: ' + err.toString());
+            toastr.error('傳送錯誤: ' + err.toString(), '錯誤');
         });
         $("#inputMsg").val('');
         chatMessage.message = msg;
@@ -99,11 +99,15 @@ async function GetChatRecord(roomId) {
             });
         })
         .catch((error) => {
-            alert(error);
+            console.log(error);
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 };
 
 async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
-        .catch((error) => alert(error));
+        .catch((error) => {
+            console.log(error);
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+        });
 }
