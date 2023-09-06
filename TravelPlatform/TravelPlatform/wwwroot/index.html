@@ -14,6 +14,9 @@
     <!-- Toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 
+    <!-- Loading -->
+    <link href="css/Loading.css" rel="stylesheet" />
+
     <link href="css/index.css" rel="stylesheet" />
 </head>
 <body>
@@ -74,19 +77,25 @@
                             </div>
                             <div class="domestic-container">
                                 <div class="products">
-                                    <!--<a class="product" href="TravelDetail.html">
-                                        <img class="main-images" src="uploads/images_202308111413.jpg" />
-                                        <h5 class="product-title">古坑摘柳丁 & 落羽松秘境二日遊</h5>
-                                        <span class="product-date-range">2023-10-29 ~ 2023-12-22</span>
-                                        <div class="travel-detail-btn-row">
-                                            <div class="travel-detail-btn-container">
-                                                <div class="travel-detail-btn">
-                                                    <div>檢視行程</div>
-                                                </div>
-                                                <div class="travel-detail-btn-icon">></div>
-                                            </div>
+                                    <div id="loading">
+                                        <div class="cssload-dots">
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
                                         </div>
-                                    </a>-->
+
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                                <filter id="goo">
+                                                    <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12"></feGaussianBlur>
+                                                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0	0 1 0 0 0	0 0 1 0 0	0 0 0 18 -7" result="goo"></feColorMatrix>
+                                                    <!--<feBlend in2="goo" in="SourceGraphic" result="mix" ></feBlend>-->
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>

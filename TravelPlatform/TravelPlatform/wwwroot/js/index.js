@@ -36,6 +36,7 @@ async function GetTravelList() {
                                 </div>
                             </a>`
                 $(".products").append(item);
+                $("#loading").hide();
             })
         })
         .catch((error) => console.log(error));
