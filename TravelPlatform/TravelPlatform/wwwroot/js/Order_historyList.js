@@ -94,6 +94,12 @@ function GetOrderList(paging) {
                     minimumFractionDigits: 0
                 }); 
 
+                let price = (order.price).toLocaleString('zh-tw', {
+                    style: 'currency',
+                    currency: 'TWD',
+                    minimumFractionDigits: 0
+                }); 
+
                 var options = {
                     timeZone: 'Asia/Taipei',
                     year: 'numeric',
@@ -126,7 +132,7 @@ function GetOrderList(paging) {
                 var item = `<tr>
                             <td>#</td>
                             <td>${order.title}</td>
-                            <td>${order.price}</td>
+                            <td>${price}</td>
                             <td>${order.qty}</td>
                             <td>${total}</td>
                             <td>${orderDate}</td>

@@ -1,4 +1,22 @@
 $(function () {
+    toastr.options = {
+        closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "2000",
+    extendedTimeOut: "2000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+    };
+
     GetOrderList();
 });
 
@@ -190,16 +208,25 @@ function check(checkBtn) {
         OrderSeats: checkBtn.dataset.orderseats
     }, config)
         .then((response) => {
-            alert("入單成功");
-            location.reload();
+            toastr.success(
+                '訂單確認成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
             if (error.response.data.error === "Not enough seats.") {
-                alert("該場次座位餘額不足");
+                toastr.warning('該場次座位餘額不足', '警告');
             }
             else {
-                alert("抱歉...發生了一些錯誤，請再試一次！");
+                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
             }
         });
 }
@@ -209,12 +236,21 @@ function cancel(cancelBtn) {
         orderId: cancelBtn.dataset.orderid
     }, config)
         .then((response) => {
-            alert("入單成功");
-            location.reload();
+            toastr.success(
+                '訂單取消成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -277,7 +313,7 @@ function openOrderInfoOverlay(orderId) {
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 }
 
