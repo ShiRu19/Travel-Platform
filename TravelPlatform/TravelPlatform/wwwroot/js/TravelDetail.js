@@ -12,6 +12,7 @@ async function GetTravelDetail(id) {
     await axios.get(`/api/v1.0/ForestageTravel/GetTravelDetail?id=${id}`)
         .then((response) => {
             var data = response.data.data;
+
             var travelInfo = data.travelInfo[0];
             var travelSessions = data.travelSessions;
 
@@ -20,9 +21,19 @@ async function GetTravelDetail(id) {
             var sessions = "";
             var applyUrl = "/Order.html?productNumber=";
 
+            var day_list = ['日', '一', '二', '三', '四', '五', '六'];
+            
             travelSessions.forEach((travelSession) => {
+                // 出發日期
+                var departureDate_utcDate = new Date(travelSession.departureDate + "Z");
+                var departureDate_year = departureDate_utcDate.getFullYear();
+                var departureDate_month = ("0" + (departureDate_utcDate.getMonth() + 1)).slice(-2);
+                var departureDate_date = ("0" + departureDate_utcDate.getDate()).slice(-2);
+                var departureDate_day = departureDate_utcDate.getDay();
+                var departureDate = `${departureDate_year}/${departureDate_month}/${departureDate_date}(${day_list[departureDate_day]})`;
+
                 sessions += `<tr style="height: 40px;">
-                                    <td>${travelSession.departureDate}</td>
+                                    <td>${departureDate}</td>
                                     <td>${travelSession.remainingSeats}</td>
                                     <td>${travelSession.seats}</td>
                                     <td>${travelSession.groupStatus}</td>
@@ -40,6 +51,19 @@ async function GetTravelDetail(id) {
                 }
             });
 
+            // 日期區間_起始
+            var dateRangeStart_utcDate = new Date(travelInfo.dateRangeStart + "Z");
+            var dateRangeStart_year = dateRangeStart_utcDate.getFullYear();
+            var dateRangeStart_month = ("0" + (dateRangeStart_utcDate.getMonth() + 1)).slice(-2);
+            var dateRangeStart_date = ("0" + dateRangeStart_utcDate.getDate()).slice(-2);
+            var dateRangeStart = `${dateRangeStart_year}/${dateRangeStart_month}/${dateRangeStart_date}`;
+
+            // 日期區間_起始
+            var dateRangeEnd_utcDate = new Date(travelInfo.dateRangeEnd + "Z");
+            var dateRangeEnd_year = dateRangeEnd_utcDate.getFullYear();
+            var dateRangeEnd_month = ("0" + (dateRangeEnd_utcDate.getMonth() + 1)).slice(-2);
+            var dateRangeEnd_date = ("0" + dateRangeEnd_utcDate.getDate()).slice(-2);
+            var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}`;
 
             var like = `<div class="likes-container">
                             <div class="btn btn-app shown" id="add-like">
@@ -57,7 +81,7 @@ async function GetTravelDetail(id) {
                             <div id="product-main-info-container">
                                 <div id="product-travel-category"><strong>${nation}</strong></div>
                                 <div id="product-title">${travelInfo.title}</div>
-                                <div id="product-date">${travelInfo.dateRangeStart} ~ ${travelInfo.dateRangeEnd}</div>
+                                <div id="product-date">${dateRangeStart} ~ ${dateRangeEnd}</div>
                                 <div id="split-horizontal-1"></div>
 
                                 <div id="product-sessions-container">
@@ -105,7 +129,10 @@ async function GetTravelDetail(id) {
                 CancelFollow(id);
             });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+        });
 }
 
 function CheckFollow(id) {

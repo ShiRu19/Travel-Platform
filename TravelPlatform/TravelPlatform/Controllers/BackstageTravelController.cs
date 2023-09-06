@@ -50,13 +50,14 @@ namespace TravelPlatform.Controllers.v1
         {
             try
             {
-                var travels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now)
+                var travels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.UtcNow)
                     .OrderBy(t => t.DateRangeStart)
                     .Select(t => new
                     {
                         t.Id,
                         t.Title,
-                        DateRange = t.DateRangeStart.ToString("d") + " ~ " + t.DateRangeEnd.ToString("d"),
+                        t.DateRangeStart,
+                        t.DateRangeEnd,
                         t.Days,
                         t.Nation,
                         t.DepartureLocation
@@ -85,13 +86,14 @@ namespace TravelPlatform.Controllers.v1
         {
             try
             {
-                var travels = _db.Travels.Where(t => t.DateRangeEnd < DateTime.Now)
+                var travels = _db.Travels.Where(t => t.DateRangeEnd < DateTime.UtcNow)
                     .OrderBy(t => t.DateRangeStart)
                     .Select(t => new
                     {
                         t.Id,
                         t.Title,
-                        DateRange = t.DateRangeStart.ToString("d") + " ~ " + t.DateRangeEnd.ToString("d"),
+                        t.DateRangeStart,
+                        t.DateRangeEnd,
                         t.Days,
                         t.Nation,
                         t.DepartureLocation
@@ -121,7 +123,7 @@ namespace TravelPlatform.Controllers.v1
             try
             {
                 var travelSession = _db.TravelSessions
-                    .Where(s => s.TravelId == id && s.DepartureDate >= DateTime.Now)
+                    .Where(s => s.TravelId == id && s.DepartureDate >= DateTime.UtcNow)
                     .OrderBy(t => t.DepartureDate)
                     .Select(s => new
                     {
@@ -184,7 +186,7 @@ namespace TravelPlatform.Controllers.v1
             try
             {
                 var travelSession = _db.TravelSessions
-                    .Where(s => s.TravelId == id && s.DepartureDate < DateTime.Now)
+                    .Where(s => s.TravelId == id && s.DepartureDate < DateTime.UtcNow)
                     .OrderBy(t => t.DepartureDate)
                     .Select(s => new
                     {
@@ -390,7 +392,8 @@ namespace TravelPlatform.Controllers.v1
                 .Select(t => new
                 {
                     title = t.Title,
-                    date_range = t.DateRangeStart.ToString("MM/dd/yyyy") + " - " + t.DateRangeEnd.ToString("MM/dd/yyyy"),
+                    t.DateRangeStart,
+                    t.DateRangeEnd,
                     days = t.Days,
                     nation = t.Nation,
                     departure_location = t.DepartureLocation,

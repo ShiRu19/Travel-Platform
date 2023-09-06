@@ -10,7 +10,23 @@ function GetOpenTravelList() {
             datas.forEach((data) => {
                 var id = data.id;
                 var title = data.title;
-                var dateRange = data.dateRange;
+
+                // 日期區間_起始
+                var dateRangeStart_utcDate = new Date(data.dateRangeStart + "Z");
+                var dateRangeStart_year = dateRangeStart_utcDate.getFullYear();
+                var dateRangeStart_month = ("0" + (dateRangeStart_utcDate.getMonth() + 1)).slice(-2);
+                var dateRangeStart_date = ("0" + dateRangeStart_utcDate.getDate()).slice(-2);
+                var dateRangeStart = `${dateRangeStart_year}/${dateRangeStart_month}/${dateRangeStart_date}`;
+
+                // 日期區間_起始
+                var dateRangeEnd_utcDate = new Date(data.dateRangeEnd + "Z");
+                var dateRangeEnd_year = dateRangeEnd_utcDate.getFullYear();
+                var dateRangeEnd_month = ("0" + (dateRangeEnd_utcDate.getMonth() + 1)).slice(-2);
+                var dateRangeEnd_date = ("0" + dateRangeEnd_utcDate.getDate()).slice(-2);
+                var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}`;
+
+                var dateRange = `${dateRangeStart} ~ ${dateRangeEnd}`;
+
                 var days = data.days;
                 var nation = data.nation;
                 var departureLocation = data.departureLocation;
@@ -44,7 +60,23 @@ function GetCloseTravelList() {
             datas.forEach((data) => {
                 var id = data.id;
                 var title = data.title;
-                var dateRange = data.dateRange;
+
+                // 日期區間_起始
+                var dateRangeStart_utcDate = new Date(data.dateRangeStart + "Z");
+                var dateRangeStart_year = dateRangeStart_utcDate.getFullYear();
+                var dateRangeStart_month = ("0" + (dateRangeStart_utcDate.getMonth() + 1)).slice(-2);
+                var dateRangeStart_date = ("0" + dateRangeStart_utcDate.getDate()).slice(-2);
+                var dateRangeStart = `${dateRangeStart_year}/${dateRangeStart_month}/${dateRangeStart_date}`;
+
+                // 日期區間_起始
+                var dateRangeEnd_utcDate = new Date(data.dateRangeEnd + "Z");
+                var dateRangeEnd_year = dateRangeEnd_utcDate.getFullYear();
+                var dateRangeEnd_month = ("0" + (dateRangeEnd_utcDate.getMonth() + 1)).slice(-2);
+                var dateRangeEnd_date = ("0" + dateRangeEnd_utcDate.getDate()).slice(-2);
+                var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}`;
+
+                var dateRange = `${dateRangeStart} ~ ${dateRangeEnd}`;
+
                 var days = data.days;
                 var nation = data.nation;
                 var departureLocation = data.departureLocation;

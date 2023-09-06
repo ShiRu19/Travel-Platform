@@ -65,7 +65,7 @@ namespace TravelPlatform.Controllers
                         RoomId = addChatRecordModel.roomId,
                         Sender = addChatRecordModel.senderId,
                         Message = addChatRecordModel.message,
-                        SendTime = DateTime.Now
+                        SendTime = DateTime.UtcNow
                     };
 
                     _db.Chats.Add(newChat);

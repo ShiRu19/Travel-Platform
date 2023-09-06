@@ -70,9 +70,25 @@ async function GetTravelInfo(id) {
         .then((response) => {
             var travel = response.data.travel[0];
             var attractions = response.data.attractions;
-            
+
+            // 日期區間_起始
+            var dateRangeStart_utcDate = new Date(travel.dateRangeStart + "Z");
+            var dateRangeStart_year = dateRangeStart_utcDate.getFullYear();
+            var dateRangeStart_month = ("0" + (dateRangeStart_utcDate.getMonth() + 1)).slice(-2);
+            var dateRangeStart_date = ("0" + dateRangeStart_utcDate.getDate()).slice(-2);
+            var dateRangeStart = `${dateRangeStart_year}/${dateRangeStart_month}/${dateRangeStart_date}`;
+
+            // 日期區間_起始
+            var dateRangeEnd_utcDate = new Date(travel.dateRangeEnd + "Z");
+            var dateRangeEnd_year = dateRangeEnd_utcDate.getFullYear();
+            var dateRangeEnd_month = ("0" + (dateRangeEnd_utcDate.getMonth() + 1)).slice(-2);
+            var dateRangeEnd_date = ("0" + dateRangeEnd_utcDate.getDate()).slice(-2);
+            var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}`;
+
+            var dateRange = `${dateRangeStart} ~ ${dateRangeEnd}`;
+
             $("#title").val(travel.title);
-            $("#reservation").val(travel.date_range);
+            $("#reservation").val(dateRange);
             $("#days").val(travel.days);
             $("#departure_location").val(travel.departure_location);
             $("#nation").val(travel.nation);

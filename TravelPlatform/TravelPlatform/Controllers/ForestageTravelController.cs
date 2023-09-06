@@ -32,8 +32,8 @@ namespace TravelPlatform.Controllers
                     {
                         t.Id,
                         t.Title,
-                        DateRangeStart = t.DateRangeStart.ToString("yyyy-MM-dd"),
-                        DateRangeEnd = t.DateRangeEnd.ToString("yyyy-MM-dd"),
+                        t.DateRangeStart,
+                        t.DateRangeEnd,
                         t.MainImageUrl
                     }).ToList();
 
@@ -65,8 +65,8 @@ namespace TravelPlatform.Controllers
                     .Select(t => new
                     {
                         t.Title,
-                        DateRangeStart = t.DateRangeStart.ToString("d"),
-                        DateRangeEnd = t.DateRangeEnd.ToString("d"),
+                        t.DateRangeStart,
+                        t.DateRangeEnd,
                         t.Nation,
                         t.PdfUrl,
                         t.MainImageUrl
@@ -76,7 +76,7 @@ namespace TravelPlatform.Controllers
                     .Select(t => new
                     {
                         t.ProductNumber,
-                        DepartureDate = t.DepartureDate.ToString("d") + "(" + t.DepartureDate.ToString("ddd").Substring(1) + ")",
+                        DepartureDate = t.DepartureDate,
                         t.RemainingSeats,
                         t.Seats,
                         GroupStatus = t.GroupStatus == 1 ? "已成團" : "尚未成團",
@@ -129,8 +129,8 @@ namespace TravelPlatform.Controllers
                 return Ok(new
                 {
                     title = travel.Title,
-                    departure_date_start = startDate.ToString("d") + "(" + startDate.ToString("ddd").Substring(1) + ")",
-                    departure_date_end = endDate.ToString("d") + "(" + endDate.ToString("ddd").Substring(1) + ")",
+                    departure_date_start = startDate,
+                    departure_date_end = endDate,
                     days = travel.Days,
                     sessionId = session.Id,
                     product_number = session.ProductNumber,
