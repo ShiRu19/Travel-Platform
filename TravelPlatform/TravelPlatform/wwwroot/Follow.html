@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>User Profile</title>
+    <title>我的追蹤列表</title>
 
     <!-- Theme style -->
     <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
@@ -10,10 +10,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
 
     <link href="css/index.css" rel="stylesheet" />
-    <!-- User Profile -->
-    <link href="css/UserProfile.css" rel="stylesheet" />
+    <!-- Overlay -->
+    <link href="css/Overlay.css" rel="stylesheet" />
+
+    <style>
+        .product-close {
+            opacity: 0.3;
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     <div class="content-page">
@@ -59,29 +70,18 @@
                 </footer>
             </div>
             <div class="content-right">
-                <div class="content-right-scroll">
+                <div class="content-right-scroll" style="margin: 20px auto; width: 95%">
                     <section class="section-right">
-                        <div class="profile-container">
-                            <div>
-                                <img src="images/profile_photo.png" id="user-image" />
+                        <div class="product-container">
+                            <div class="domestic-container">
+                                <h3 class="domestic-container-title">我的追蹤清單</h3>
                             </div>
-                            <div>
-                                <h3 id="user-name"></h3>
+                            <div class="domestic-container">
+                                <div class="split-line"></div>
                             </div>
-                            <div>
-                                <h4 id="user-email"></h4>
-                            </div>
-                            <div id="my-orders-container">
-                                <a href="Order_HistoryList.html?paging=1" type="button" id="my-orders-btn" class="btn btn-info">我的訂單</a>
-                            </div>
-                            <div id="my-orders-container">
-                                <a href="Follow.html" type="button" id="my-orders-btn" class="btn btn-info">我的追蹤清單</a>
-                            </div>
-                            <div id="go-backstage-container" class="hidden">
-                                <button type="button" id="go-backstage-btn" class="btn btn-info">進入後台管理</button>
-                            </div>
-                            <div>
-                                <button type="button" id="logout-btn" class="btn btn-dark">登出</button>
+                            <div class="domestic-container">
+                                <div class="products">
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -95,8 +95,8 @@
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- User Profile -->
-    <script src="/js/UserProfile.js" charset="big5"></script>
+    <!-- Follow -->
+    <script src="/js/Follow.js" charset="big5"></script>
 
     <!-- Common -->
     <script src="/js/ForestageCommon.js" charset="big5"></script>

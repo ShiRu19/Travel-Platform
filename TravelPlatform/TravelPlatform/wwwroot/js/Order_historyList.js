@@ -109,10 +109,18 @@ function GetOrderList(paging) {
 
                 var checkStatus = "";
                 if (order.checkStatus === 0) {
-                    checkStatus = `<td>待審核<br/>(預計於三個工作天內完成)</td>`;
+                    if (order.payStatus === 0) {
+                        checkStatus = `<td><a class="btn btn-info btn-sm" href="/Order_Pay.html?qty=${order.qty}&productNumber=${order.productNumber}&orderId=${order.orderId}">前往付款</a></td>`
+                    }
+                    else if (order.payStatus === 1) {
+                        checkStatus = `<td>待審核<br/>(預計於三個工作天內完成)</td>`;
+                    }
                 }
-                else {
+                else if(order.checkStatus === 1) {
                     checkStatus = `<td>已成立</td>`;
+                }
+                else if (order.checkStatus === 2) {
+                    checkStatus = `<td>已取消</td>`;
                 }
 
                 var item = `<tr>

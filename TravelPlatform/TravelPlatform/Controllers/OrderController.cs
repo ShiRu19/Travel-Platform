@@ -218,9 +218,11 @@ namespace TravelPlatform.Controllers
                 {
                     OrderId = order.Id,
                     Title = travel.Title,
+                    ProductNumber = session.ProductNumber,
                     Price = session.Price,
                     Qty = qty,
                     OrderDate = order.OrderDate,
+                    PayStatus = order.PayStatus,
                     CheckStatus = order.CheckStatus
                 };
                 userOrderListDto.Add(userOrder);

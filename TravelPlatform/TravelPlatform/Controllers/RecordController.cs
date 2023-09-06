@@ -20,6 +20,11 @@ namespace TravelPlatform.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// User follow this travel
+        /// </summary>
+        /// <param name="followModel"></param>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost("AddFollow")]
         public IActionResult AddFollow([FromBody] FollowModel followModel)
@@ -54,6 +59,11 @@ namespace TravelPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// User unfollow this travel
+        /// </summary>
+        /// <param name="followModel"></param>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost("CancelFollow")]
         public IActionResult CancelFollow([FromBody] FollowModel followModel)
@@ -81,6 +91,12 @@ namespace TravelPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Comfirm whether the user is following this travel
+        /// </summary>
+        /// <param name="TravelId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("CheckFollow")]
         public IActionResult CheckFollow(long TravelId, long UserId)
@@ -99,6 +115,48 @@ namespace TravelPlatform.Controllers
                 }
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get following travel list
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetFollowList")]
+        public IActionResult GetFollowList(long UserId)
+        {
+            try
+            {
+                var follow_all = _db.Follows.Where(f => f.UserId == UserId).ToList();
+                
+                var followList_open = new List<Travel>();
+                var followList_close = new List<Travel>();
+
+                foreach (var follow in follow_all)
+                {
+                    var travel = _db.Travels.Where(t => t.Id == follow.TravelId).First();
+
+                    if(travel.DateRangeEnd < DateTime.UtcNow)
+                    {
+                        followList_close.Add(travel);
+                    }
+                    else
+                    {
+                        followList_open.Add(travel);
+                    }
+                }
+
+                return Ok(new
+                {
+                    open = followList_open,
+                    close = followList_close
+                });
             }
             catch (Exception ex)
             {
