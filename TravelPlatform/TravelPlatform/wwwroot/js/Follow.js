@@ -5,6 +5,8 @@ $(function () {
                 var openTravels = response.data.open;
                 var closeTravels = response.data.close;
 
+                var travels = "";
+
                 openTravels.forEach((openTravel) => {
                     // 日期區間_起始
                     var dateRangeStart_utcDate = new Date(openTravel.dateRangeStart + "Z");
@@ -34,7 +36,7 @@ $(function () {
                                     </div>
                                 </a>`;
 
-                    $(".products").append(item_open);
+                    travels += item_open;
                 })
 
                 closeTravels.forEach((closeTravel) => {
@@ -66,8 +68,11 @@ $(function () {
                                         </div>
                                     </div>`;
 
-                    $(".products").append(item_close);
+                    travels += item_close;
                 })
+
+                $(".products").append(travels);
+                $("#loading").hide();
             })
             .catch((error) => {
                 console.log(error);

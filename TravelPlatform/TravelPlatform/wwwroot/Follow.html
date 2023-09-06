@@ -18,7 +18,11 @@
     <!-- Toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 
+    <!-- Loading -->
+    <link href="css/Loading.css" rel="stylesheet" />
+
     <link href="css/index.css" rel="stylesheet" />
+    
     <!-- Overlay -->
     <link href="css/Overlay.css" rel="stylesheet" />
 
@@ -84,6 +88,25 @@
                             </div>
                             <div class="domestic-container">
                                 <div class="products">
+                                    <div id="loading">
+                                        <div class="cssload-dots">
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                            <div class="cssload-dot"></div>
+                                        </div>
+
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                                <filter id="goo">
+                                                    <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12"></feGaussianBlur>
+                                                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0	0 1 0 0 0	0 0 1 0 0	0 0 0 18 -7" result="goo"></feColorMatrix>
+                                                    <!--<feBlend in2="goo" in="SourceGraphic" result="mix" ></feBlend>-->
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>
