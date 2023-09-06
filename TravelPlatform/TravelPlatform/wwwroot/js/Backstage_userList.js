@@ -26,6 +26,7 @@ async function GetUserList() {
                             <td>${provider}</td>`;
 
                 $("#user-table tbody").append(item);
+                $("#loading-user-list").hide();
             });
         })
         .catch((error) => {
