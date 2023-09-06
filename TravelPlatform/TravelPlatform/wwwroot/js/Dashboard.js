@@ -120,6 +120,8 @@ async function ShowDomesticGroupStatus(startDate, endDate) {
         data: data,
         options: stackedBarChartOptions
     });
+
+    $("#loading-domestic-group-status").hide();
 }
 
 async function ShowDomesticSalesVolume(startDate, endDate) {
@@ -163,6 +165,8 @@ async function ShowDomesticSalesVolume(startDate, endDate) {
         data: pieData,
         options: pieOptions
     })
+
+    $("#loading-domestic-sales-volume").hide();
 }
 
 async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
@@ -212,6 +216,8 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
             console.log(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
+
+    $("#loading-sales-volume-month").hide();
 }
 
 async function ShowSalesOfMonth(nation, startDate, endDate) {
@@ -261,6 +267,8 @@ async function ShowSalesOfMonth(nation, startDate, endDate) {
             console.log(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
+
+    $("#loading-sales-month").hide();
 }
 
 function ShowTopFiveOfFollows() {
@@ -289,4 +297,6 @@ function ShowTopFiveOfFollows() {
             console.log(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
+
+    $("#loading-open-travel-follow-top-5").hide();
 }
