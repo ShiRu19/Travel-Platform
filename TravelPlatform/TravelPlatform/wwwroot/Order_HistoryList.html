@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
 
     <link href="css/index.css" rel="stylesheet" />
+
+    <!-- Loading -->
+    <link href="css/Loading.css" rel="stylesheet" />
+
     <!-- Overlay -->
     <link href="css/Overlay.css" rel="stylesheet" />
 </head>
@@ -104,6 +108,25 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                            <div id="loading">
+                                <div class="cssload-dots">
+                                    <div class="cssload-dot"></div>
+                                    <div class="cssload-dot"></div>
+                                    <div class="cssload-dot"></div>
+                                    <div class="cssload-dot"></div>
+                                    <div class="cssload-dot"></div>
+                                </div>
+
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <filter id="goo">
+                                            <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12"></feGaussianBlur>
+                                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0	0 1 0 0 0	0 0 1 0 0	0 0 0 18 -7" result="goo"></feColorMatrix>
+                                            <!--<feBlend in2="goo" in="SourceGraphic" result="mix" ></feBlend>-->
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
                             <br />
                             <nav id="pagination-content">
                                 <ul class="pagination justify-content-center" style="display: none;">
