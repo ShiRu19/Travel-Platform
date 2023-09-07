@@ -1,4 +1,12 @@
-﻿namespace TravelPlatform.Handler
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using TravelPlatform.Models.AwsS3;
+using TravelPlatform.Services;
+
+namespace TravelPlatform.Handler
 {
     public interface IFileUploadHandler
     {
@@ -8,26 +16,31 @@
     public class FileUploadHandler : IFileUploadHandler
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly IStorageService _storageService;
+        private readonly IConfiguration _configuration;
 
-        public FileUploadHandler(IWebHostEnvironment environment)
+        public FileUploadHandler(IWebHostEnvironment environment, IStorageService storageService, IConfiguration configuration)
         {
             _environment = environment;
+            _storageService = storageService;
+            _configuration = configuration;
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string fileHeader)
         {
-            string wwwPath = _environment.WebRootPath + "\\uploads\\";
-
             string fileName = file.FileName;
             string ext = Path.GetExtension(fileName);
             string standardFileName = ConvertStandardFileFormat(fileHeader, ext);
+            var uploadResult = await UploadFile(standardFileName, file, fileHeader);
 
-            using (var stream = File.Create(wwwPath + standardFileName))
+            if(uploadResult.StatusCode != 200)
             {
-                await file.CopyToAsync(stream);
+                return null;
             }
 
-            return $"uploads/{standardFileName}";
+            var url_s3 = _configuration["S3"];
+
+            return $"{url_s3}{fileHeader}/{standardFileName}";
         }
 
         /// <summary>
@@ -39,6 +52,34 @@
         {
             var now = DateTime.Now.ToString("yyyyMMddHHmmss");
             var result = $"{fileHeader}_{now}{extension}";
+            return result;
+        }
+
+        private async Task<S3ResponseDto> UploadFile(string objName, IFormFile file, string fileHeader)
+        {
+            // Proccess the file
+            await using var memoryStr = new MemoryStream();
+            await file.CopyToAsync(memoryStr);
+
+            string s3ObjectName = $"{fileHeader}/{objName}";
+
+            var s3Obj = new Models.AwsS3.S3Object()
+            {
+                BucketName = "travelplatformbucket",
+                InputStream = memoryStr,
+                Name = s3ObjectName
+            };
+
+            DotNetEnv.Env.Load();
+
+            var cred = new AwsCredentials()
+            {
+                AwsKey = Environment.GetEnvironmentVariable("ASPNETCORE_IAM__ACCESS_KEY"),
+                AwsSecretKey = Environment.GetEnvironmentVariable("ASPNETCORE_IAM__SECRET_KEY")
+            };
+
+            var result = await _storageService.UploadFileAsync(s3Obj, cred);
+
             return result;
         }
     }

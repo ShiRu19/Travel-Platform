@@ -44,6 +44,9 @@ builder.Services.AddScoped<IFacebookHandler, FacebookHandler>();
 // SignalR
 builder.Services.AddSignalR();
 
+// S3
+builder.Services.AddScoped<IStorageService, StorageService>();
+
 // App Api Version
 builder.Services.AddApiVersioning(opt =>
 {

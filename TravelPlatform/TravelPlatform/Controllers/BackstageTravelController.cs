@@ -269,16 +269,20 @@ namespace TravelPlatform.Controllers.v1
                     };
 
                     // Main image
-                    var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "mainImage");
+                    var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "image");
 
                     if (mainImageUrl != null)
                     {
-                        newTravel.MainImageUrl = _configuration["S3"] + "image/" + mainImageUrl;
+                        newTravel.MainImageUrl = mainImageUrl;
                     }
                     else
                     {
                         Console.WriteLine("[api/v1.0/TravelBackstage/AddTravel] Error: Main image file upload failed.");
-                        return StatusCode(500);
+                        return StatusCode(500, new
+                        {
+                            error = "Image file upload failed.",
+                            message = "Please try again."
+                        });
                     }
 
                     // PDF
@@ -286,12 +290,16 @@ namespace TravelPlatform.Controllers.v1
 
                     if (pdfUrl != null)
                     {
-                        newTravel.PdfUrl = _configuration["S3"] + "pdf/" + pdfUrl;
+                        newTravel.PdfUrl = pdfUrl;
                     }
                     else
                     {
                         Console.WriteLine("[api/v1.0/TravelBackstage/AddTravel] Error: Pdf file upload failed.");
-                        return StatusCode(500);
+                        return StatusCode(500, new
+                        {
+                            error = "PDF file upload failed.",
+                            message = "Please try again."
+                        });
                     }
 
                     _db.Travels.Add(newTravel);
@@ -472,11 +480,11 @@ namespace TravelPlatform.Controllers.v1
 
                     if(travelInfo.MainImageFile != null)
                     {
-                        var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "mainImage");
+                        var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "image");
 
                         if (mainImageUrl != null)
                         {
-                            travel.MainImageUrl = _configuration["S3"] + "image/" + mainImageUrl;
+                            travel.MainImageUrl = mainImageUrl;
                         }
                         else
                         {
@@ -490,7 +498,7 @@ namespace TravelPlatform.Controllers.v1
 
                         if (pdfUrl != null)
                         {
-                            travel.PdfUrl = _configuration["S3"] + "pdf/" + pdfUrl;
+                            travel.PdfUrl = pdfUrl;
                         }
                         else
                         {
