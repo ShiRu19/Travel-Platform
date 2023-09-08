@@ -6,10 +6,19 @@
 
 #container {
     width: 100%;
+    height: calc(100vh - 170px - 100px);
+}
+
+#chatroom {
+    height: 100%;
+}
+
+.chatroomContent-container {
+    height: 100%;
 }
 
 #chatroomContent{
-    height: 250px;
+    height: 90%;
 }
 
     #chatroomContent::-webkit-scrollbar-track {
