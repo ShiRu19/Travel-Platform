@@ -6,8 +6,7 @@ var chatMessage = new Object();
 
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
-    myUserId = urlParams.get('id');
-
+    var userId = urlParams.get('id');
     CheckLoginRequired();
 
     //與Server建立連線
@@ -15,14 +14,14 @@ $(function () {
         console.log("Hub 連線完成");
 
         // 加入聊天室
-        connection.invoke("JoinGroup", myUserId.toString()).catch(function (error) {
+        connection.invoke("JoinGroup", userId.toString()).catch(function (error) {
             toastr.error("無法加入聊天室: " + error.toString(), '錯誤');
         });
 
-        chatMessage.roomId = myUserId;
+        chatMessage.roomId = userId;
         chatMessage.senderId = 1;
 
-        GetChatRecord(myUserId);
+        GetChatRecord(userId);
     }).catch(function (err) {
         toastr.error("連線錯誤: " + error.toString(), '錯誤');
     });
@@ -100,7 +99,7 @@ async function GetChatRecord(roomId) {
         })
         .catch((error) => {
             console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            toastr.error('抱歉...取得聊天紀錄時發生了一些錯誤，請再試一次！', '錯誤');
         })
 };
 
@@ -108,6 +107,6 @@ async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
         .catch((error) => {
             console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            toastr.error('抱歉...訊息存取發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
