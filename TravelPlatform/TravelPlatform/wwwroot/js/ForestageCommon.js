@@ -14,18 +14,6 @@ let config = {
 var profile;
 var id = 0;
 
-$(function () {
-    // Go to chat room
-    $("#contact").on("click", function () {
-        if (id === 0) {
-            window.location.href = "/Login.html";
-        }
-        else {
-            window.location.href = "/Chatroom.html";
-        }
-    });
-});
-
 async function CheckLoginRequired() {
     // Check login
 
