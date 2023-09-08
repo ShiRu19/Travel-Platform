@@ -39,6 +39,12 @@
     width: 30vw;
 }
 
+#product-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
 #product-date {
     font-family: 'Noto Sans TC';
     font-style: normal;
@@ -86,6 +92,12 @@
     .sessionTable tbody tr td {
         text-align: center;
     }
+
+/* PDF */
+.pdf-container {
+    display: flex;
+    justify-content: end;
+}
 
 /* Like */
 .likes-container {

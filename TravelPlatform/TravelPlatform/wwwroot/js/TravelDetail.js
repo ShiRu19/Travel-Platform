@@ -81,7 +81,13 @@ async function GetTravelDetail(id) {
                             <div id="product-main-info-container">
                                 <div id="product-travel-category"><strong>${nation}</strong></div>
                                 <div id="product-title">${travelInfo.title}</div>
-                                <div id="product-date">${dateRangeStart} ~ ${dateRangeEnd}</div>
+                                <div id="product-info-row">
+                                    <div id="product-date">${dateRangeStart} ~ ${dateRangeEnd}</div>
+                                    <div class="pdf-container">
+                                        <i class="fa fa-info-circle"></i>
+                                        <a href="${travelInfo.pdfUrl}" target="_blank">詳細行程說明</a>
+                                    </div>
+                                </div>
                                 <div id="split-horizontal-1"></div>
 
                                 <div id="product-sessions-container">
@@ -103,17 +109,6 @@ async function GetTravelDetail(id) {
                                 </div>
                                 ${like}
                             </div>
-                        </div>
-
-                        <div class="split-container">
-                            <div id="split-text">
-                                更多產品資訊
-                            </div>
-                            <div id="split-horizontal-2"></div>
-                        </div>
-
-                        <div class="product-info-more">
-                            <a href="${travelInfo.pdfUrl}" target="_blank">詳細行程說明</a>
                         </div>
                     </div>
                 </div>`
