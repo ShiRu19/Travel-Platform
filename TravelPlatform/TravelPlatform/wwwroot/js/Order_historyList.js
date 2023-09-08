@@ -143,8 +143,8 @@ function GetOrderList(paging) {
                             </tr>`;
 
                 $("#orders tbody").append(item);
-                $("#loading").hide();
             });
+            $("#loading").hide();
         })
         .catch((error) => {
             console.log(error);
