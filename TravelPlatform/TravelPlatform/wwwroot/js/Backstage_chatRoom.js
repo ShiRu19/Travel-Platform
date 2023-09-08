@@ -127,13 +127,14 @@ function UpdateRoomList() {
 
     axios.get("/api/v1.0/Chat/GetChatRoomList")
         .then((response) => {
-            var list = response.data;
-            for (i = 0; i < list.length; i++) {
+            var datas = response.data;
+
+            datas.forEach((data) => {
                 var item = `<tr>
-                            <td class="roomId" data-roomid="${list[i]}" onclick="JoinRoom(this)">${list[i]}</td>
-                        </tr>`
+                            <td class="roomId" data-roomid="${data.roomId}" onclick="JoinRoom(this)">${data.userName}</td>
+                        </tr>`;
                 $("#chatroom-list").append(item);
-            }
+            })
         })
         .catch((error) => {
             console.log(error);

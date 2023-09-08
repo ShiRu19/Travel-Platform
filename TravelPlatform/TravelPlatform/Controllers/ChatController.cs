@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlatform.Models.ChatRoom;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
 
@@ -48,7 +49,20 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetChatRoomList()
         {
             var chatRoomList = _db.Chats.Select(c => c.RoomId).Distinct().ToList();
-            return Ok(chatRoomList);
+            var chatUserRoomList = new List<ChatUserRoomModel>();
+            foreach (var chatRoom in chatRoomList)
+            {
+                ChatUserRoomModel chatUserRoom = new ChatUserRoomModel();
+
+                var user = _db.Users.SingleOrDefault(u => u.Id == chatRoom);
+                if(user != null)
+                {
+                    chatUserRoom.RoomId = chatRoom;
+                    chatUserRoom.UserName = user.Name;
+                    chatUserRoomList.Add(chatUserRoom);
+                }
+            }
+            return Ok(chatUserRoomList);
         }
 
         [MapToApiVersion("1.0")]
