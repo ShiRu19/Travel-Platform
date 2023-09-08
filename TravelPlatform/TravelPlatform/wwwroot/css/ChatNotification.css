@@ -1,0 +1,21 @@
+﻿.contact-label {
+    position: relative;
+}
+
+.notification-circle {
+    position: absolute;
+    background: #ff0000;
+    width: 10px;
+    height: 10px;
+    right: -20px;
+    top: 0px;
+    border-radius: 25px;
+}
+
+.shown {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}

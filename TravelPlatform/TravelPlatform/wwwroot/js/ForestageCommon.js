@@ -21,7 +21,7 @@ $(function () {
             window.location.href = "/Login.html";
         }
         else {
-            window.location.href = "/Chatroom.html?id=" + id;
+            window.location.href = "/Chatroom.html";
         }
     });
 });

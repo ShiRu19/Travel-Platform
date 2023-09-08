@@ -5,25 +5,25 @@ var myUserId = "";
 var chatMessage = new Object();
 
 $(function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    var userId = urlParams.get('id');
-    CheckLoginRequired();
-
     //與Server建立連線
     connection.start().then(function () {
         console.log("Hub 連線完成");
 
-        // 加入聊天室
-        connection.invoke("JoinGroup", userId.toString()).catch(function (error) {
-            toastr.error("無法加入聊天室: " + error.toString(), '錯誤');
-        });
+        CheckLoginRequired().then((profile) => {
+            // 加入聊天室
+            connection.invoke("JoinGroup", profile.id.toString()).catch(function (error) {
+                toastr.error("無法加入聊天室", '錯誤');
+                console.log(error);
+            });
 
-        chatMessage.roomId = userId;
-        chatMessage.senderId = 1;
+            chatMessage.roomId = profile.id;
+            chatMessage.senderId = 1;
 
-        GetChatRecord(userId);
-    }).catch(function (err) {
-        toastr.error("連線錯誤: " + error.toString(), '錯誤');
+            GetChatRecord(profile.id);
+        })
+    }).catch(function (error) {
+        toastr.error("連線錯誤", '錯誤');
+        console.log(error);
     });
 
     // 更新連線 User ID
@@ -39,8 +39,9 @@ $(function () {
     // 傳送訊息
     $('#sendButton').on('click', function () {
         var msg = $("#inputMsg").val();
-        connection.invoke("SendMessage", myRoomId, 'Client', msg).catch(function (err) {
-            toastr.error('傳送錯誤: ' + err.toString(), '錯誤');
+        connection.invoke("SendMessage", myRoomId, 'Client', msg).catch(function (error) {
+            toastr.error('傳送錯誤', '錯誤');
+            console.log(error);
         });
         $("#inputMsg").val('');
         chatMessage.message = msg;
