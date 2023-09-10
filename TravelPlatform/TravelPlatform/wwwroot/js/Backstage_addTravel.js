@@ -22,8 +22,10 @@ $(function () {
         }
 
         if (correct) {
+            $("#circularG").show();
             var formData = createTravelFormData();
             postTravel(formData);
+            //$("#circularG").hide();
         }
     });
 
@@ -215,6 +217,7 @@ function createTravelFormData() {
 async function postTravel(formData) {
     await axios.post('/api/v1.0/BackstageTravel/AddTravel', formData)
         .then((response) => {
+            $("#circularG").hide();
             toastr.success(
                 '行程新增成功',
                 '成功',
@@ -229,6 +232,7 @@ async function postTravel(formData) {
         })
         .catch((error) => {
             console.log(error);
+            $("#circularG").hide();
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

@@ -28,3 +28,13 @@
     align-content: center;
     margin-bottom: 10px;
 }
+
+#loading-submit {
+    width: 30px;
+    display: flex;
+    align-content: center;
+}
+
+#circularG {
+    display: none;
+}
