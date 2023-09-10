@@ -1,5 +1,15 @@
 $(function () {
     $("form").submit(function (e) {
+        var sessions = $(".card-session");
+        for (let i = 0; i < sessions.length; i++) {
+            var applicants = Number($(`#applicants-${i + 1}`).val());
+            var seats = Number($(`#seats-${i + 1}`).val());
+            if (applicants > seats) {
+                toastr.info(`行程場次${i + 1} 已報名人數不可大於席次`);
+                return false;
+            }
+        }
+
         var formData = createTravelFormData();
         postTravel(formData);
     });
@@ -180,7 +190,7 @@ function createTravelFormData() {
 
         formData.append(`TravelSession[${num-1}].ProductNumber`, $(`#product-number-${num}`).val());
         formData.append(`TravelSession[${num-1}].Price`, $(`#price-${num}`).val());
-        formData.append(`TravelSession[${num-1}].DepartureDate`, $(`#departure-date-${num}`).val());
+        formData.append(`TravelSession[${num - 1}].DepartureDate`, $(`#departure-date-${num}`).val());
         formData.append(`TravelSession[${num-1}].Applicants`, $(`#applicants-${num}`).val());
         formData.append(`TravelSession[${num-1}].Seats`, $(`#seats-${num}`).val());
         formData.append(`TravelSession[${num-1}].GroupStatus`, $(`input[name=status-${num}]:checked`, '#myForm').val());
