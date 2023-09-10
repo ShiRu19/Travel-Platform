@@ -15,9 +15,17 @@ $(function () {
     });
 
     $("form").submit(function (e) {
+        var birthdates = $(e.target).find("input.datetimepicker-input");
+        for (var index = 0; index < birthdates.length; index++) {
+            if (new Date(birthdates[index].value) >= new Date()) {
+                toastr.info(`第${index + 1}位旅客生日填寫錯誤`, '警告');
+                return false;
+            }
+        }
+
         var formData = GenerateOrder(qty, nation, sessionId);
-        console.log(formData);
         postOrder(formData);
+        return true;
     });
 });
 
@@ -56,7 +64,7 @@ function GenerateTravelerForm(qty) {
                                 </div>
                                 <!-- /.Date-->
                                 <label class="traveler-label-text" for="traveler-phone-${i}">手機</label>
-                                <input type="text" class="form-control col-3" id="traveler-phone-${i}" placeholder="請輸入手機號碼" required />
+                                <input type="tel" pattern="09[0-9]{8}" class="form-control col-3" id="traveler-phone-${i}" placeholder="請輸入手機號碼" required />
                             </div>
                         </div>
                     </div>
@@ -95,7 +103,7 @@ function GenerateOrder(qty, nation) {
 async function postOrder(formData) {
     await axios.post('/api/v1.0/Order/GenerateOrder', formData)
         .then((response) => {
-            window.location.href = `/Order_Pay.html?qty=${qty}&productNumber=${productNumber}&orderId=${response.data.orderId}`;
+            window.location.replace(`/Order_Pay.html?qty=${qty}&productNumber=${productNumber}&orderId=${response.data.orderId}`);
         })
         .catch((error) => {
             console.log(error);
