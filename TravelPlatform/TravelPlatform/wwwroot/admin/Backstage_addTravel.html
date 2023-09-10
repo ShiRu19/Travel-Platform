@@ -167,7 +167,7 @@
                                 <div class="form-group card-column-1">
                                     <label>行程名稱:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱">
+                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱" required>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control float-right" id="reservation">
+                                        <input type="text" class="form-control float-right" id="reservation" required>
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -190,7 +190,7 @@
                                 <div class="form-group card-column-2">
                                     <label>天數:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="days" type="text" placeholder="輸入行程天數">
+                                        <input class="form-control" id="days" type="text" placeholder="輸入行程天數" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');">
                                     </div>
                                 </div>
                             </div>
@@ -199,14 +199,14 @@
                                 <div class="form-group card-column-1">
                                     <label>出發地點:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)">
+                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)" required>
                                     </div>
                                 </div>
                                 <!-- Nation -->
                                 <div class="form-group card-column-2">
                                     <label>目的地國家:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)">
+                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)" required>
                                     </div>
                                 </div>
                             </div>
@@ -215,14 +215,14 @@
                                 <div class="form-group">
                                     <label>行程 PDF:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-pdf" accept=".pdf" />
+                                        <input type="file" id="travel-pdf" accept=".pdf" required />
                                     </div>
                                 </div>
                                 <!-- Travel Information PDF -->
                                 <div class="form-group">
                                     <label>宣傳圖:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input type="file" id="travel-main-image" accept="image/*" />
+                                        <input type="file" id="travel-main-image" accept="image/*" required />
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                             <div class="card-attractions">
                                 <div class="form-group card-column-1">
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市">
+                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市" required>
                                         <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
                                     </div>
                                 </div>
@@ -272,7 +272,7 @@
                                         <div class="form-group card-column-1">
                                             <label>場次編號:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號">
+                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號" required>
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +281,7 @@
                                         <div class="form-group card-column-1">
                                             <label>出發日期:</label>
                                             <div class="input-group date" data-target-input="nearest">
-                                                <input type="text" id="departure-date-1" class="form-control datetimepicker-input" data-target="#departure-date-1" />
+                                                <input type="text" id="departure-date-1" class="form-control datetimepicker-input" data-target="#departure-date-1" required />
                                                 <div class="input-group-append" data-target="#departure-date-1" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -293,7 +293,7 @@
                                         <div class="form-group card-column-1">
                                             <label>價錢:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="price-1" type="text" placeholder="輸入成人價錢">
+                                                <input class="form-control" id="price-1" type="text" placeholder="輸入成人價錢" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                     </div>
@@ -302,14 +302,14 @@
                                         <div class="form-group card-column-1">
                                             <label>已報名人數:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="applicants-1" type="text" placeholder="輸入目前報名人數">
+                                                <input class="form-control" id="applicants-1" type="text" placeholder="輸入目前報名人數" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                         <!-- Seats -->
                                         <div class="form-group card-column-2">
                                             <label>席次:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="seats-1" type="text" placeholder="輸入總席次">
+                                                <input class="form-control" id="seats-1" type="text" placeholder="輸入總席次" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@
                     <div class="row">
                         <div class="col-12">
                             <a href="#" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Create new Project" class="btn btn-success float-right card-column-2">
+                            <input type="submit" value="新增行程" class="btn btn-success float-right card-column-2">
                         </div>
                     </div>
                 </div>

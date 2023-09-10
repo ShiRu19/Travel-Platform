@@ -1,7 +1,6 @@
 $(function () {
     $("form").submit(function (e) {
         var formData = createTravelFormData();
-        console.log(formData);
         postTravel(formData);
     });
 
@@ -33,7 +32,7 @@ $(function () {
         var attractionItem = `
                     <div class="form-group card-column-1">
                         <div class="input-group" id="attraction-${attractionNum}" data-target-input="nearest">
-                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市">
+                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市" required />
                             <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
                         </div>
                     </div>`;
@@ -67,7 +66,7 @@ $(function () {
                                         <div class="form-group card-column-1">
                                             <label>場次編號:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-${sessionNum}" type="text" placeholder="輸入行程編號">
+                                                <input class="form-control" id="product-number-${sessionNum}" type="text" placeholder="輸入行程編號" required />
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +75,7 @@ $(function () {
                                         <div class="form-group card-column-1">
                                             <label>出發日期:</label>
                                             <div class="input-group date" data-target-input="nearest">
-                                                <input type="text" id="departure-date-${sessionNum}" class="form-control datetimepicker-input" data-target="#departure-date-${sessionNum}" />
+                                                <input type="text" id="departure-date-${sessionNum}" class="form-control datetimepicker-input" data-target="#departure-date-${sessionNum}" required />
                                                 <div class="input-group-append" data-target="#departure-date-${sessionNum}" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -88,7 +87,7 @@ $(function () {
                                         <div class="form-group card-column-1">
                                             <label>價錢:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="price-${sessionNum}" type="text" placeholder="輸入成人價錢">
+                                                <input class="form-control" id="price-${sessionNum}" type="text" placeholder="輸入成人價錢" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                     </div>
@@ -97,14 +96,14 @@ $(function () {
                                         <div class="form-group card-column-1">
                                             <label>已報名人數:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="applicants-${sessionNum}" type="text" placeholder="輸入目前報名人數">
+                                                <input class="form-control" id="applicants-${sessionNum}" type="text" placeholder="輸入目前報名人數" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                         <!-- Seats -->
                                         <div class="form-group card-column-2">
                                             <label>席次:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="seats-${sessionNum}" type="text" placeholder="輸入總席次">
+                                                <input class="form-control" id="seats-${sessionNum}" type="text" placeholder="輸入總席次" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');" required />
                                             </div>
                                         </div>
                                     </div>
