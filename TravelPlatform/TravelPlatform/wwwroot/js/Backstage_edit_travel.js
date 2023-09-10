@@ -76,16 +76,16 @@ async function GetTravelInfo(id) {
             var dateRangeStart_year = dateRangeStart_utcDate.getFullYear();
             var dateRangeStart_month = ("0" + (dateRangeStart_utcDate.getMonth() + 1)).slice(-2);
             var dateRangeStart_date = ("0" + dateRangeStart_utcDate.getDate()).slice(-2);
-            var dateRangeStart = `${dateRangeStart_year}/${dateRangeStart_month}/${dateRangeStart_date}`;
+            var dateRangeStart = `${dateRangeStart_month}/${dateRangeStart_date}/${dateRangeStart_year}`;
 
             // 日期區間_起始
             var dateRangeEnd_utcDate = new Date(travel.dateRangeEnd + "Z");
             var dateRangeEnd_year = dateRangeEnd_utcDate.getFullYear();
             var dateRangeEnd_month = ("0" + (dateRangeEnd_utcDate.getMonth() + 1)).slice(-2);
             var dateRangeEnd_date = ("0" + dateRangeEnd_utcDate.getDate()).slice(-2);
-            var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}`;
+            var dateRangeEnd = `${dateRangeEnd_month}/${dateRangeEnd_date}/${dateRangeEnd_year}`;
 
-            var dateRange = `${dateRangeStart} ~ ${dateRangeEnd}`;
+            var dateRange = `${dateRangeStart} - ${dateRangeEnd}`;
 
             $("#title").val(travel.title);
             $("#reservation").val(dateRange);
