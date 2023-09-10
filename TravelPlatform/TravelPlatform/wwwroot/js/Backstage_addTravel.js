@@ -200,7 +200,7 @@ async function postTravel(formData) {
                     timeOut: 2000,
                     fadeOut: 2000,
                     onHidden: function () {
-                        window.location.reload();
+                        window.location.href = "/admin/Backstage_TravelList.html";
                     }
                 }
             );
