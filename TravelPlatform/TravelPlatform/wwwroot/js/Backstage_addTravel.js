@@ -1,17 +1,30 @@
 $(function () {
     $("form").submit(function (e) {
+        var correct = true;
+
         var sessions = $(".card-session");
+        var dateRange = $("#reservation").val().split(" - ");
+        var dateRangeStart = new Date(dateRange[0]);
+        var dateRangeEnd = new Date(dateRange[1]);
         for (let i = 0; i < sessions.length; i++) {
             var applicants = Number($(`#applicants-${i + 1}`).val());
             var seats = Number($(`#seats-${i + 1}`).val());
             if (applicants > seats) {
                 toastr.info(`行程場次${i + 1} 已報名人數不可大於席次`);
-                return false;
+                correct = false;
+            }
+
+            var departureDate = new Date($(`#departure-date-${i + 1}`).val());
+            if (departureDate < dateRangeStart || departureDate > dateRangeEnd) {
+                toastr.info(`行程場次${i + 1} 出發日期不在活動區間內`);
+                correct = false;
             }
         }
 
-        var formData = createTravelFormData();
-        postTravel(formData);
+        if (correct) {
+            var formData = createTravelFormData();
+            postTravel(formData);
+        }
     });
 
     //Initialize Select2 Elements
