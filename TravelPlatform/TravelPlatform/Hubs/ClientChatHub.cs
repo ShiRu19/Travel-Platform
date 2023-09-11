@@ -70,6 +70,8 @@ namespace TravelPlatform.Hubs
         /// <returns></returns>
         public async Task JoinGroup(string roomId)
         {
+            LeaveGroup();
+
             var user = Users.Where(u => u.ConnectionId == Context.ConnectionId).First();
             var room = Rooms.Where(r => r.Id == roomId).FirstOrDefault();
 
@@ -85,6 +87,28 @@ namespace TravelPlatform.Hubs
 
             // 更新連線 Room ID
             await Clients.Client(Context.ConnectionId).SendAsync("YourRoomID", room.Id);
+        }
+
+        /// <summary>
+        /// 離開聊天室
+        /// </summary>
+        /// <returns></returns>
+        public async Task LeaveGroup()
+        {
+            var user = Users.Where(u => u.ConnectionId == Context.ConnectionId).First();
+            //var room = Rooms.Where(r => r.Id == roomId).FirstOrDefault();
+            
+            //if(room != null)
+            //{
+            //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, room.Id);
+            //    await Clients.Client(Context.ConnectionId).SendAsync("YourRoomID", 0);
+            //}
+
+            for(int i = 0; i < Rooms.Count; i++)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, Rooms[i].Id);
+            }
+            await Clients.Client(Context.ConnectionId).SendAsync("YourRoomID", "");
         }
 
         /// <summary>
