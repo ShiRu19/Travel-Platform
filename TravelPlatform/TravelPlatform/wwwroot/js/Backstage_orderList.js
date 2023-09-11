@@ -64,8 +64,8 @@ function GetOrderList() {
                                     </td>
                                 </tr>`;
                 $("#unchecked-table tbody").append(item_unchecked);
-                $("#loading-unchecked").hide();
             })
+            $("#loading-unchecked").hide();
 
             checked.forEach((order) => {
                 let total = (order.total).toLocaleString('zh-tw', {
@@ -120,8 +120,8 @@ function GetOrderList() {
                                     </tr>`;
 
                 $("#checked-table tbody").append(item_checked);
-                $("#loading-checked").hide();
             })
+            $("#loading-checked").hide();
 
             canceled.forEach((order) => {
                 let total = (order.total).toLocaleString('zh-tw', {
@@ -175,9 +175,8 @@ function GetOrderList() {
                                         <td>${checkDate}</td>
                                     </tr>`;
                 $("#canceled-table tbody").append(item_canceled);
-                $("#loading-canceled").hide();
             })
-
+            $("#loading-canceled").hide();
         })
         .catch((error) => {
             console.log(error);
