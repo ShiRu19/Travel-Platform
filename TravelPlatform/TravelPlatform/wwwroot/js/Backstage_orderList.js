@@ -1,11 +1,129 @@
+var unchecked = 1;
+var checked = 1;
+var canceled = 1;
+
 $(function () {
-    GetOrderList();
+    const urlParams = new URLSearchParams(window.location.search);
+    unchecked = urlParams.get('unchecked');
+    checked = urlParams.get('checked');
+    canceled = urlParams.get('canceled');
+
+    ShowPagination();
 });
 
 var userInfo = {};
 
+function ShowPagination() {
+    axios.get(`/api/v1.0/BackstageOrder/GetOrderPageCount`, config)
+        .then((response) => {
+            var count = response.data;
+            var pagings_unchecked = count.pagings_unchecked;
+            var pagings_checked = count.pagings_checked;
+            var pagings_canceled = count.pagings_canceled;
+
+            if (unchecked < 1) {
+                unchecked = 1;
+            }
+            else if (unchecked > pagings_unchecked) {
+                unchecked = pagings_unchecked;
+            }
+
+            if (checked < 1) {
+                checked = 1;
+            }
+            else if (checked > pagings_checked) {
+                checked = pagings_checked;
+            }
+
+            if (canceled < 1) {
+                canceled = 1;
+            }
+            else if (canceled > pagings_canceled) {
+                canceled = pagings_canceled;
+            }
+
+            GeneratePagination($("#pagination-content-unchecked"), unchecked, pagings_unchecked, 0);
+            GeneratePagination($("#pagination-content-checked"), checked, pagings_checked, 1);
+            GeneratePagination($("#pagination-content-canceled"), canceled, pagings_canceled, 2);
+            GetOrderList();
+        })
+        .catch((error) => {
+            console.log(error);
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+        });
+}
+
+function GeneratePagination(pagination, paging, count, type) { // type: 0=unchecked, 1=checked, 2=canceled
+    console.log(pagination);
+    if (count !== 0) {
+        pagination.html("");
+
+        var pagingList = [unchecked, checked, canceled];
+        pagingList[type] = 0;
+
+        var paging_li = "";
+        for (let i = 1; i < count + 1; i++) {
+            pagingList[type] = i;
+            if (i < paging || i > paging) {
+                paging_li += `<li class="page-item"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">${i}</a></li>`;
+            }
+            else {
+                paging_li += `<li class="page-item active"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">${i}</a></li>`;
+            }
+        }
+
+        pagingList = [unchecked, checked, canceled];
+        var previous = "";
+        if (paging > 1) {
+            pagingList[type]--;
+            previous = `<li class="page-item">
+                            <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}" tabindex="-1">Previous</a>
+                        </li>`;
+        }
+        else {
+            previous = `<li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>`;
+        }
+
+        pagingList = [unchecked, checked, canceled];
+        var next = "";
+        if (paging < count) {
+            pagingList[type]++;
+            next = `<li class="page-item">
+                        <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">Next</a>
+                    </li>`;
+        }
+        else {
+            next = `<li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Next</a>
+                    </li>`;
+        }
+
+        var item = `<ul class="pagination justify-content-center">
+                        ${previous}
+                        ${paging_li}
+                        ${next}
+                    </ul>`;
+
+        pagination.append(item);
+    }
+    else {
+        var item = `<ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>`;
+        pagination.append(item);
+    }
+}
+
 function GetOrderList() {
-    axios.get("/api/v1.0/BackstageOrder/GetOrderList", config)
+    axios.get(`/api/v1.0/BackstageOrder/GetOrderList?page_unchecked=${unchecked}&page_checked=${checked}&page_canceled=${canceled}`, config)
         .then((response) => {
             var unchecked = response.data.order_unchecked;
             var checked = response.data.order_checked;

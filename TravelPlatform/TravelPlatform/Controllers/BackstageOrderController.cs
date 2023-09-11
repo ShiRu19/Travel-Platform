@@ -21,21 +21,42 @@ namespace TravelPlatform.Controllers
         }
 
         [MapToApiVersion("1.0")]
-        [HttpGet("GetOrderList")]
-        public IActionResult GetOrderList()
+        [HttpGet("GetOrderPageCount")]
+        public IActionResult GetOrderPageCount()
         {
+            var count_unchecked = _db.Orders.Where(o => o.CheckStatus == 0).Count();
+            var count_checked = _db.Orders.Where(o => o.CheckStatus == 1).Count();
+            var count_canceled = _db.Orders.Where(o => o.CheckStatus == 2).Count();
+            var pagings_unchecked = Convert.ToInt32(Math.Ceiling(count_unchecked / 5.0));
+            var pagings_checked = Convert.ToInt32(Math.Ceiling(count_checked / 5.0));
+            var pagings_canceled = Convert.ToInt32(Math.Ceiling(count_canceled / 5.0));
             return Ok(new
             {
-                order_unchecked = GenerateOrderList(0),
-                order_checked = GenerateOrderList(1),
-                order_canceled = GenerateOrderList(2)
+                pagings_unchecked,
+                pagings_checked,
+                pagings_canceled
             });
         }
 
-        private List<OrderListDto> GenerateOrderList(int checkStatus)
+        [MapToApiVersion("1.0")]
+        [HttpGet("GetOrderList")]
+        public IActionResult GetOrderList(int page_unchecked, int page_checked, int page_canceled)
         {
+            return Ok(new
+            {
+                order_unchecked = GenerateOrderList(0, page_unchecked),
+                order_checked = GenerateOrderList(1, page_checked),
+                order_canceled = GenerateOrderList(2, page_canceled)
+            });
+        }
+
+        private List<OrderListDto> GenerateOrderList(int checkStatus, int page)
+        {
+            page = Math.Max(0, page);
             var orders = _db.Orders.Where(o => o.CheckStatus == checkStatus)
                                                 .OrderBy(o => o.OrderDate)
+                                                .Skip(6 * (page - 1))
+                                                .Take(6)
                                                 .ToList();
 
             List<OrderListDto> OrderList = new List<OrderListDto>();
