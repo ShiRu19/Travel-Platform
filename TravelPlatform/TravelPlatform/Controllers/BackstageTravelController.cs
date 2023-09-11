@@ -269,6 +269,17 @@ namespace TravelPlatform.Controllers.v1
                     };
 
                     // Main image
+                    var isImageLegal = await _fileUploadService.ConfirmExtensionAsync(travelInfo.MainImageFile, "image");
+
+                    if(isImageLegal == false)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "It's not image file.",
+                            message = "Please try again."
+                        });
+                    }
+
                     var mainImageUrl = await _fileUploadService.UploadFileAsync(travelInfo.MainImageFile, "image");
 
                     if (mainImageUrl != null)
@@ -286,6 +297,17 @@ namespace TravelPlatform.Controllers.v1
                     }
 
                     // PDF
+                    var isPdfLegal = await _fileUploadService.ConfirmExtensionAsync(travelInfo.MainImageFile, "image");
+
+                    if (isPdfLegal == false)
+                    {
+                        return BadRequest(new
+                        {
+                            error = "It's not pdf file.",
+                            message = "Please try again."
+                        });
+                    }
+
                     var pdfUrl = await _fileUploadService.UploadFileAsync(travelInfo.PdfFile, "pdf");
 
                     if (pdfUrl != null)
@@ -343,7 +365,11 @@ namespace TravelPlatform.Controllers.v1
                     transaction.Rollback();
 
                     Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
-                    return StatusCode(500, ex.Message);
+                    return StatusCode(500, new
+                    {
+                        error = ex.Message,
+                        message = "Please try again."
+                    });
                 }
             }
         }
@@ -387,7 +413,11 @@ namespace TravelPlatform.Controllers.v1
                     transaction.Rollback();
 
                     Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
-                    return StatusCode(500, ex.Message);
+                    return StatusCode(500, new
+                    {
+                        error = ex.Message,
+                        message = "Please try again."
+                    });
                 }
             }
         }
@@ -488,7 +518,11 @@ namespace TravelPlatform.Controllers.v1
                         }
                         else
                         {
-                            return StatusCode(500, "Main image file upload unsuccess");
+                            return StatusCode(500, new
+                            {
+                                error = "Main image file upload unsuccess.",
+                                message = "Please try again."
+                            });
                         }
                     }
 
@@ -502,7 +536,11 @@ namespace TravelPlatform.Controllers.v1
                         }
                         else
                         {
-                            return StatusCode(500, "PDF file upload unsuccess");
+                            return StatusCode(500, new
+                            {
+                                error = "PDF file upload unsuccess.",
+                                message = "Please try again."
+                            });
                         }
                     }
 
@@ -536,7 +574,11 @@ namespace TravelPlatform.Controllers.v1
                     transaction.Rollback();
 
                     Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
-                    return StatusCode(500, ex.Message);
+                    return StatusCode(500, new
+                    {
+                        error = ex.Message,
+                        message = "Please try again."
+                    });
                 }
             }
         }
@@ -579,7 +621,11 @@ namespace TravelPlatform.Controllers.v1
                     transaction.Rollback();
 
                     Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
-                    return StatusCode(500, ex.Message);
+                    return StatusCode(500, new
+                    {
+                        error = ex.Message,
+                        message = "Please try again."
+                    });
                 }
             }
         }

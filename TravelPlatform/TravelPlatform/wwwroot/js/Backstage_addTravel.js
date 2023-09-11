@@ -232,7 +232,16 @@ async function postTravel(formData) {
         })
         .catch((error) => {
             console.log(error);
+
             $("#circularG").hide();
+            if (error.response.data.error == "It's not pdf file.") {
+                toastr.error("行程PDF檔案類型錯誤", "錯誤");
+                return;
+            }
+            if (error.response.data.error == "It's not image file.") {
+                toastr.error("宣傳圖片檔案類型錯誤", "錯誤");
+                return;
+            }
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

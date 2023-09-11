@@ -3,11 +3,6 @@ using TravelPlatform.Handler;
 
 namespace TravelPlatform.Services
 {
-    public interface IFileUploadService
-    {
-        Task<string> UploadFileAsync(IFormFile file, string fileHeader);
-    }
-
     public class FileUploadService : IFileUploadService
     {
         private readonly IFileUploadHandler _fileUploadHandler;
@@ -15,6 +10,20 @@ namespace TravelPlatform.Services
         public FileUploadService(IFileUploadHandler fileUploadHandler)
         {
             _fileUploadHandler = fileUploadHandler;
+        }
+
+        public async Task<bool> ConfirmExtensionAsync(IFormFile file, string fileType)
+        {
+            try
+            {
+                bool result = await _fileUploadHandler.ConfirmExtensionAsync(file, fileType);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string fileHeader)

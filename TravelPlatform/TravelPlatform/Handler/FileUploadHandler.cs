@@ -8,22 +8,38 @@ using TravelPlatform.Services;
 
 namespace TravelPlatform.Handler
 {
-    public interface IFileUploadHandler
-    {
-        Task<string> UploadFileAsync(IFormFile file, string fileHeader);
-    }
-
     public class FileUploadHandler : IFileUploadHandler
     {
-        private readonly IWebHostEnvironment _environment;
         private readonly IStorageService _storageService;
         private readonly IConfiguration _configuration;
 
-        public FileUploadHandler(IWebHostEnvironment environment, IStorageService storageService, IConfiguration configuration)
+        public FileUploadHandler(IStorageService storageService, IConfiguration configuration)
         {
-            _environment = environment;
             _storageService = storageService;
             _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Check whether the file extension is legal.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="fileType">pdf or image</param>
+        /// <returns></returns>
+        public async Task<bool> ConfirmExtensionAsync(IFormFile file, string fileType)
+        {
+            string ext = Path.GetExtension(file.FileName).ToLower();
+            fileType = fileType.ToLower();
+
+            if (fileType == "pdf")
+            {
+                return ext == "pdf";
+            }
+            else if(fileType == "image")
+            {
+                return ext == "png" || ext == "jpg" || ext == "jpeg";
+            }
+
+            return false;
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string fileHeader)
