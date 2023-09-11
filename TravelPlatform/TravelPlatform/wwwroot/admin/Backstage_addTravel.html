@@ -169,7 +169,7 @@
                                 <div class="form-group card-column-1">
                                     <label>行程名稱:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱" required>
+                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱" maxlength="24" required>
                                     </div>
                                 </div>
                             </div>
@@ -201,14 +201,14 @@
                                 <div class="form-group card-column-1">
                                     <label>出發地點:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)" required>
+                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)" maxlength="10" required>
                                     </div>
                                 </div>
                                 <!-- Nation -->
                                 <div class="form-group card-column-2">
                                     <label>目的地國家:</label>
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)" required>
+                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)" maxlength="10" required>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
                             <div class="card-attractions">
                                 <div class="form-group card-column-1">
                                     <div class="input-group" data-target-input="nearest">
-                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市" required>
+                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市" maxlength="24" required>
                                         <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                                         <div class="form-group card-column-1">
                                             <label>場次編號:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號" required>
+                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號" maxlength="24" required>
                                             </div>
                                         </div>
                                     </div>

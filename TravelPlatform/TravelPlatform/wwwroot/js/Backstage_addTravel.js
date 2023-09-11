@@ -57,7 +57,7 @@ $(function () {
         var attractionItem = `
                     <div class="form-group card-column-1">
                         <div class="input-group" id="attraction-${attractionNum}" data-target-input="nearest">
-                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市" required />
+                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市" maxlength="24" required />
                             <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
                         </div>
                     </div>`;
@@ -91,7 +91,7 @@ $(function () {
                                         <div class="form-group card-column-1">
                                             <label>場次編號:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number-${sessionNum}" type="text" placeholder="輸入行程編號" required />
+                                                <input class="form-control" id="product-number-${sessionNum}" type="text" placeholder="輸入行程編號" maxlength="24" required />
                                             </div>
                                         </div>
                                     </div>
