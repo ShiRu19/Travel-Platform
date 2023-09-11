@@ -52,7 +52,7 @@ namespace TravelPlatform.Controllers
 
         private List<OrderListDto> GenerateOrderList(int checkStatus, int page)
         {
-            page = Math.Max(0, page);
+            page = Math.Max(1, page);
             var orders = _db.Orders.Where(o => o.CheckStatus == checkStatus)
                                                 .OrderBy(o => o.OrderDate)
                                                 .Skip(6 * (page - 1))
