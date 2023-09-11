@@ -129,177 +129,83 @@ function GetOrderList() {
             var checked = response.data.order_checked;
             var canceled = response.data.order_canceled;
 
-            unchecked.forEach((order) => {
-                let total = (order.total).toLocaleString('zh-tw', {
-                    style: 'currency',
-                    currency: 'TWD',
-                    minimumFractionDigits: 0
-                }); 
-
-                userInfo[`${order.orderId}`] = new Object();
-                userInfo[`${order.orderId}`].name = order.userName;
-                userInfo[`${order.orderId}`].email = order.userEmail;
-                userInfo[`${order.orderId}`].phone = order.userPhone;
-
-                var utcDate = new Date(order.orderDate + "Z");
-                var options = {
-                    timeZone: 'Asia/Taipei',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true
-                };
-                var orderDate = utcDate.toLocaleString('en-US', options);
-
-                var payment = "";
-
-                if (order.payStatus === 0) {
-                    payment = `<th></th>`
-                }
-                else {
-                    payment = `<th>${order.accountDigits}</th>`;
-                }
-
-                var item_unchecked = `<tr>
-                                    <td>#</td>
-                                    <td>${order.productNumber}</td>
-                                    <td>${order.qty}</td>
-                                    <td>${total}</td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
-                                    </td>
-                                    <td>${orderDate}</td>
-                                    ${payment}
-                                    <td>
-                                        <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
-                                    </td>
-                                    <td class="project-actions text-right">
-                                        <div class="btn btn-success btn-sm check-btn" data-orderid="${order.orderId}" data-sessionid="${order.sessionId}" data-orderSeats="${order.qty}" onclick="check(this)"><i class="fas fa-check"></i>確認</div>
-                                        <div class="btn btn-dark btn-sm cancel-btn" data-orderid="${order.orderId}" onclick="cancel(this)"><i class="fas fa-ban"></i>取消</div>
-                                    </td>
-                                </tr>`;
-                $("#unchecked-table tbody").append(item_unchecked);
-            })
-            $("#loading-unchecked").hide();
-
-            checked.forEach((order) => {
-                let total = (order.total).toLocaleString('zh-tw', {
-                    style: 'currency',
-                    currency: 'TWD',
-                    minimumFractionDigits: 0
-                }); 
-
-                userInfo[`${order.orderId}`] = new Object();
-                userInfo[`${order.orderId}`].name = order.userName;
-                userInfo[`${order.orderId}`].email = order.userEmail;
-                userInfo[`${order.orderId}`].phone = order.userPhone;
-
-                var options = {
-                    timeZone: 'Asia/Taipei',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true
-                };
-                var utcOrderDate = new Date(order.orderDate + "Z");
-                var utcCheckDate = new Date(order.checkDate + "Z");
-                var orderDate = utcOrderDate.toLocaleString('en-US', options);
-                var checkDate = utcCheckDate.toLocaleString('en-US', options);
-
-                var payment = "";
-
-                if (order.payStatus === 0) {
-                    payment = `<th></th>`
-                }
-                else {
-                    payment = `<th>${order.accountDigits}</th>`;
-                }
-
-                var item_checked = `<tr>
-                                        <td>#</td>
-                                        <td>${order.productNumber}</td>
-                                        <td>${order.qty}</td>
-                                        <td>${total}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
-                                        </td>
-                                        <td>${orderDate}</td>
-                                        ${payment}
-                                        <td>
-                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
-                                        </td>
-                                        <td>${checkDate}</td>
-                                    </tr>`;
-
-                $("#checked-table tbody").append(item_checked);
-            })
-            $("#loading-checked").hide();
-
-            canceled.forEach((order) => {
-                let total = (order.total).toLocaleString('zh-tw', {
-                    style: 'currency',
-                    currency: 'TWD',
-                    minimumFractionDigits: 0
-                }); 
-
-                userInfo[`${order.orderId}`] = new Object();
-                userInfo[`${order.orderId}`].name = order.userName;
-                userInfo[`${order.orderId}`].email = order.userEmail;
-                userInfo[`${order.orderId}`].phone = order.userPhone;
-
-                var options = {
-                    timeZone: 'Asia/Taipei',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true
-                };
-                var utcOrderDate = new Date(order.orderDate + "Z");
-                var orderDate = utcOrderDate.toLocaleString('en-US', options);
-                var utcCheckDate = new Date(order.checkDate + "Z");
-                var checkDate = utcCheckDate.toLocaleString('en-US', options);
-
-                var payment = "";
-
-                if (order.payStatus === 0) {
-                    payment = `<th></th>`
-                }
-                else {
-                    payment = `<th>${order.accountDigits}</th>`;
-                }
-
-                var item_canceled = `<tr>
-                                        <td>#</td>
-                                        <td>${order.productNumber}</td>
-                                        <td>${order.qty}</td>
-                                        <td>${total}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
-                                        </td>
-                                        <td>${orderDate}</td>
-                                        ${payment}
-                                        <td>
-                                            <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
-                                        </td>
-                                        <td>${checkDate}</td>
-                                    </tr>`;
-                $("#canceled-table tbody").append(item_canceled);
-            })
-            $("#loading-canceled").hide();
+            GenerateOrderList($("#unchecked-table tbody"), $("#loading-unchecked"), unchecked, 0);
+            GenerateOrderList($("#checked-table tbody"), $("#loading-checked"), checked, 1);
+            GenerateOrderList($("#canceled-table tbody"), $("#loading-canceled"), canceled, 2);
         })
         .catch((error) => {
             console.log(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
+}
+
+function GenerateOrderList(listParent, loading, orders, orderType) {
+    orders.forEach((order) => {
+        let total = (order.total).toLocaleString('zh-tw', {
+            style: 'currency',
+            currency: 'TWD',
+            minimumFractionDigits: 0
+        });
+
+        userInfo[`${order.orderId}`] = new Object();
+        userInfo[`${order.orderId}`].name = order.userName;
+        userInfo[`${order.orderId}`].email = order.userEmail;
+        userInfo[`${order.orderId}`].phone = order.userPhone;
+
+        var options = {
+            timeZone: 'Asia/Taipei',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        };
+        var utcOrderDate = new Date(order.orderDate + "Z");
+        var orderDate = utcOrderDate.toLocaleString('en-US', options);
+        var utcCheckDate = new Date(order.checkDate + "Z");
+        var checkDate = utcCheckDate.toLocaleString('en-US', options);
+
+        var payment = "";
+
+        if (order.payStatus === 0) {
+            payment = `<th></th>`
+        }
+        else {
+            payment = `<th>${order.accountDigits}</th>`;
+        }
+
+        var item_last = "";
+
+        if (orderType == 0) {
+            item_last = `<td class="project-actions text-right">
+                <div class="btn btn-success btn-sm check-btn" data-orderid="${order.orderId}" data-sessionid="${order.sessionId}" data-orderSeats="${order.qty}" onclick="check(this)"><i class="fas fa-check"></i>確認</div>
+                <div class="btn btn-dark btn-sm cancel-btn" data-orderid="${order.orderId}" onclick="cancel(this)"><i class="fas fa-ban"></i>取消</div>
+            </td>`;
+        }
+        else {
+            item_last = `<td>${checkDate}</td>`;
+        }
+
+        var item = `<tr>
+                        <td>#</td>
+                        <td>${order.productNumber}</td>
+                        <td>${order.qty}</td>
+                        <td>${total}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm user-info-btn" onclick="openUserInfoOverlay(${order.orderId})">訂購人資訊</button>
+                        </td>
+                        <td>${orderDate}</td>
+                        ${payment}
+                        <td>
+                            <button class="btn btn-info btn-sm user-info-btn" onclick="openOrderInfoOverlay(${order.orderId})">訂單詳情</button>
+                        </td>
+                        ${item_last}
+                    </tr>`;
+        listParent.append(item);
+    })
+    loading.hide();
 }
 
 function check(checkBtn) {
