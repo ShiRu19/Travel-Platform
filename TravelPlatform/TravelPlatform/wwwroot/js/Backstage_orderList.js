@@ -1,25 +1,41 @@
 var unchecked = 1;
 var checked = 1;
 var canceled = 1;
+var productNumber = "all";
 
 $(function () {
     const urlParams = new URLSearchParams(window.location.search);
-    unchecked = urlParams.get('unchecked');
-    checked = urlParams.get('checked');
-    canceled = urlParams.get('canceled');
+    unchecked = Number(urlParams.get('unchecked')) === 0 ? 1 : Number(urlParams.get('unchecked'));
+    checked = Number(urlParams.get('checked')) === 0 ? 1 : Number(urlParams.get('checked'));
+    canceled = Number(urlParams.get('canceled')) === 0 ? 1 : Number(urlParams.get('canceled'));
+    productNumber = urlParams.get('productNumber') == null ? "all" : urlParams.get('productNumber');
+
+    if (productNumber != "all") {
+        $("#product-number-search").val(productNumber);
+    }
 
     ShowPagination();
+
+    $("#product-number-search").on("keydown", function (event) {
+        if (event.keyCode === 13) {
+            var productNumber = $("#product-number-search").val();
+            if (productNumber == '') {
+                productNumber = "all";
+            }
+            window.location.replace(`/admin/Backstage_OrderList.html?unchecked=1&checked=1&canceled=1&productNumber=${productNumber}`);
+        }
+    });
 });
 
 var userInfo = {};
 
 function ShowPagination() {
-    axios.get(`/api/v1.0/BackstageOrder/GetOrderPageCount`, config)
+    axios.get(`/api/v1.0/BackstageOrder/GetOrderPageCount?productNumber=${productNumber}`, config)
         .then((response) => {
             var count = response.data;
-            var pagings_unchecked = count.pagings_unchecked;
-            var pagings_checked = count.pagings_checked;
-            var pagings_canceled = count.pagings_canceled;
+            var pagings_unchecked = Number(count.pagings_unchecked) === 0 ? 1 : Number(count.pagings_unchecked);
+            var pagings_checked = Number(count.pagings_checked) === 0 ? 1 : Number(count.pagings_checked);
+            var pagings_canceled = Number(count.pagings_canceled) === 0 ? 1 : Number(count.pagings_canceled);
 
             if (unchecked < 1) {
                 unchecked = 1;
@@ -54,7 +70,6 @@ function ShowPagination() {
 }
 
 function GeneratePagination(pagination, paging, count, type) { // type: 0=unchecked, 1=checked, 2=canceled
-    console.log(pagination);
     if (count !== 0) {
         pagination.html("");
 
@@ -65,10 +80,10 @@ function GeneratePagination(pagination, paging, count, type) { // type: 0=unchec
         for (let i = 1; i < count + 1; i++) {
             pagingList[type] = i;
             if (i < paging || i > paging) {
-                paging_li += `<li class="page-item"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">${i}</a></li>`;
+                paging_li += `<li class="page-item"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}&productNumber=${productNumber}">${i}</a></li>`;
             }
             else {
-                paging_li += `<li class="page-item active"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">${i}</a></li>`;
+                paging_li += `<li class="page-item active"><a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}&productNumber=${productNumber}">${i}</a></li>`;
             }
         }
 
@@ -77,7 +92,7 @@ function GeneratePagination(pagination, paging, count, type) { // type: 0=unchec
         if (paging > 1) {
             pagingList[type]--;
             previous = `<li class="page-item">
-                            <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}" tabindex="-1">Previous</a>
+                            <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}&productNumber=${productNumber}" tabindex="-1">Previous</a>
                         </li>`;
         }
         else {
@@ -91,7 +106,7 @@ function GeneratePagination(pagination, paging, count, type) { // type: 0=unchec
         if (paging < count) {
             pagingList[type]++;
             next = `<li class="page-item">
-                        <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}">Next</a>
+                        <a class="page-link" href="/admin/Backstage_OrderList.html?unchecked=${pagingList[0]}&checked=${pagingList[1]}&canceled=${pagingList[2]}&productNumber=${productNumber}">Next</a>
                     </li>`;
         }
         else {
@@ -123,7 +138,7 @@ function GeneratePagination(pagination, paging, count, type) { // type: 0=unchec
 }
 
 function GetOrderList() {
-    axios.get(`/api/v1.0/BackstageOrder/GetOrderList?page_unchecked=${unchecked}&page_checked=${checked}&page_canceled=${canceled}`, config)
+    axios.get(`/api/v1.0/BackstageOrder/GetOrderList?page_unchecked=${unchecked}&page_checked=${checked}&page_canceled=${canceled}&productNumber=${productNumber}`, config)
         .then((response) => {
             var unchecked = response.data.order_unchecked;
             var checked = response.data.order_checked;

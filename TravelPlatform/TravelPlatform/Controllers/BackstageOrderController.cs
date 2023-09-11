@@ -22,14 +22,35 @@ namespace TravelPlatform.Controllers
 
         [MapToApiVersion("1.0")]
         [HttpGet("GetOrderPageCount")]
-        public IActionResult GetOrderPageCount()
+        public IActionResult GetOrderPageCount(string? productNumber)
         {
-            var count_unchecked = _db.Orders.Where(o => o.CheckStatus == 0).Count();
-            var count_checked = _db.Orders.Where(o => o.CheckStatus == 1).Count();
-            var count_canceled = _db.Orders.Where(o => o.CheckStatus == 2).Count();
-            var pagings_unchecked = Convert.ToInt32(Math.Ceiling(count_unchecked / 5.0));
-            var pagings_checked = Convert.ToInt32(Math.Ceiling(count_checked / 5.0));
-            var pagings_canceled = Convert.ToInt32(Math.Ceiling(count_canceled / 5.0));
+            var count_unchecked = _db.Orders.Where(o => o.CheckStatus == 0);
+            var count_checked = _db.Orders.Where(o => o.CheckStatus == 1);
+            var count_canceled = _db.Orders.Where(o => o.CheckStatus == 2);
+
+            if (productNumber != "all")
+            {
+                var travelSession = _db.TravelSessions.Where(t => t.ProductNumber.ToLower() == productNumber.ToLower()).SingleOrDefault();
+
+                if(travelSession == null)
+                {
+                    return Ok(new
+                    {
+                        pagings_unchecked = 0,
+                        pagings_checked = 0,
+                        pagings_canceled = 0
+                    });
+                }
+
+                count_unchecked = count_unchecked.Where(o => o.TravelSessionId == travelSession.Id);
+                count_checked = count_checked.Where(o => o.TravelSessionId == travelSession.Id);
+                count_canceled = count_canceled.Where(o => o.TravelSessionId == travelSession.Id);
+            }
+
+            var pagings_unchecked = Convert.ToInt32(Math.Ceiling(count_unchecked.Count() / 5.0));
+            var pagings_checked = Convert.ToInt32(Math.Ceiling(count_checked.Count() / 5.0));
+            var pagings_canceled = Convert.ToInt32(Math.Ceiling(count_canceled.Count() / 5.0));
+
             return Ok(new
             {
                 pagings_unchecked,
@@ -40,27 +61,45 @@ namespace TravelPlatform.Controllers
 
         [MapToApiVersion("1.0")]
         [HttpGet("GetOrderList")]
-        public IActionResult GetOrderList(int page_unchecked, int page_checked, int page_canceled)
+        public IActionResult GetOrderList(int page_unchecked, int page_checked, int page_canceled, string? productNumber)
         {
             return Ok(new
             {
-                order_unchecked = GenerateOrderList(0, page_unchecked),
-                order_checked = GenerateOrderList(1, page_checked),
-                order_canceled = GenerateOrderList(2, page_canceled)
+                order_unchecked = GenerateOrderList(0, page_unchecked, productNumber),
+                order_checked = GenerateOrderList(1, page_checked, productNumber),
+                order_canceled = GenerateOrderList(2, page_canceled, productNumber)
             });
         }
 
-        private List<OrderListDto> GenerateOrderList(int checkStatus, int page)
+        private List<OrderListDto> GenerateOrderList(int checkStatus, int page, string? productNumber)
         {
             page = Math.Max(1, page);
-            var orders = _db.Orders.Where(o => o.CheckStatus == checkStatus)
-                                                .OrderBy(o => o.OrderDate)
-                                                .Skip(6 * (page - 1))
-                                                .Take(6)
-                                                .ToList();
+
+            var orders = new List<Order>();
+            if(productNumber == "all")
+            {
+                orders = _db.Orders.Where(o => o.CheckStatus == checkStatus)
+                                            .OrderBy(o => o.OrderDate)
+                                            .Skip(5 * (page - 1))
+                                            .Take(5)
+                                            .ToList();
+            }
+            else
+            {
+                var travelSession = _db.TravelSessions.Where(t => t.ProductNumber.ToLower() == productNumber.ToLower()).SingleOrDefault();
+                if(travelSession == null)
+                {
+                    return new List<OrderListDto>();
+                }
+
+                orders = _db.Orders.Where(o => o.CheckStatus == checkStatus && o.TravelSessionId == travelSession.Id)
+                                            .OrderBy(o => o.OrderDate)
+                                            .Skip(5 * (page - 1))
+                                            .Take(5)
+                                            .ToList();
+            }
 
             List<OrderListDto> OrderList = new List<OrderListDto>();
-
             foreach (var order in orders)
             {
                 var travelSession = _db.TravelSessions.Where(t => t.Id == order.TravelSessionId).Single();

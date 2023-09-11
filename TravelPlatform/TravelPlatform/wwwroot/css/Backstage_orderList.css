@@ -1,0 +1,8 @@
+﻿.search{
+    display: flex;
+    align-items: center;
+    margin: 10px 5px;
+}
+#product-number-search {
+    border-radius: 10px;
+}

@@ -24,9 +24,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Loading -->
     <link href="../css/Loading.css" rel="stylesheet" />
-        
-    <!-- Backstage Order List -->
+
+    <!-- Overlay -->
     <link rel="stylesheet" href="../css/Overlay.css">
+
+    <!-- Backstage Order List -->
+    <link rel="stylesheet" href="../css/Backstage_orderList.css">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -149,7 +152,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content-header -->
             <!-- Main content -->
             <section class="content">
-
+                <div class="search">
+                    <div class="col-1">場次編號</div>
+                    <input type="search" id="product-number-search" placeholder="Search" aria-label="Search">
+                    <i class="fas fa-search fa-fw"></i>
+                </div>
                 <!-- Default box -->
                 <div class="card card-info">
                     <div class="card-header">
