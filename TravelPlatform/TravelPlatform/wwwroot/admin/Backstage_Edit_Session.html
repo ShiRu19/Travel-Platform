@@ -169,7 +169,7 @@
                                         <div class="form-group card-column-1">
                                             <label>場次編號:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="product-number" type="text" placeholder="輸入行程編號">
+                                                <input class="form-control" id="product-number" type="text" placeholder="輸入行程編號" maxlength="24" required>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@
                                         <div class="form-group card-column-1">
                                             <label>出發日期:</label>
                                             <div class="input-group date" data-target-input="nearest">
-                                                <input type="text" id="departure-date" class="form-control datetimepicker-input" data-target="#departure-date" />
+                                                <input type="text" id="departure-date" class="form-control datetimepicker-input" data-target="#departure-date" required />
                                                 <div class="input-group-append" data-target="#departure-date" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -190,7 +190,7 @@
                                         <div class="form-group card-column-1">
                                             <label>價錢:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="price" type="text" placeholder="輸入成人價錢">
+                                                <input class="form-control" id="price" type="text" placeholder="輸入成人價錢" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                             </div>
                                         </div>
                                     </div>
@@ -199,14 +199,14 @@
                                         <div class="form-group card-column-1">
                                             <label>已報名人數:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="applicants" type="text" placeholder="輸入目前報名人數">
+                                                <input class="form-control" id="applicants" type="text" placeholder="輸入目前報名人數" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                             </div>
                                         </div>
                                         <!-- Seats -->
                                         <div class="form-group card-column-2">
                                             <label>席次:</label>
                                             <div class="input-group" data-target-input="nearest">
-                                                <input class="form-control" id="seats" type="text" placeholder="輸入總席次">
+                                                <input class="form-control" id="seats" type="text" placeholder="輸入總席次" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');" required>
                                             </div>
                                         </div>
                                     </div>

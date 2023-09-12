@@ -9,8 +9,19 @@ $(function () {
     GetSessionInfo();
 
     $("form").submit(function (e) {
-        var formData = createSessionFormData();
-        postSession(formData);
+        var correct = true;
+
+        var applicants = Number($("#applicants").val());
+        var seats = Number($("#seats").val());
+        if (applicants > seats) {
+            toastr.info("已報名人數不可大於席次");
+            correct = false;
+        }
+
+        if (correct) {
+            var formData = createSessionFormData();
+            postSession(formData);
+        }
     });
 
     //Initialize Select2 Elements
