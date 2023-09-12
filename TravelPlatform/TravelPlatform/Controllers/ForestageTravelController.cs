@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
+using TravelPlatform.Services.Response;
+using TravelPlatform.Services.Travel.Forestage;
 
 namespace TravelPlatform.Controllers
 {
@@ -11,137 +13,52 @@ namespace TravelPlatform.Controllers
     public class ForestageTravelController : ControllerBase
     {
         private readonly TravelContext _db;
+        private readonly IForestageTravelService _travelService;
+        private readonly IResponseService _responseService;
 
-        public ForestageTravelController(TravelContext db)
+        public ForestageTravelController(TravelContext db, IForestageTravelService travelService, IResponseService responseService)
         {
             _db = db;
+            _travelService = travelService;
+            _responseService = responseService;
         }
 
         /// <summary>
-        /// Get travel list
+        /// 取得目前開放中的行程
         /// </summary>
-        /// <returns>Travels list</returns>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetTravelList")]
-        public IActionResult GetTravelList()
+        public async Task<IActionResult> GetTravelList()
         {
-            try
-            {
-                var travels = _db.Travels.Where(t => t.DateRangeEnd >= DateTime.Now)
-                    .Select(t => new
-                    {
-                        t.Id,
-                        t.Title,
-                        t.DateRangeStart,
-                        t.DateRangeEnd,
-                        t.MainImageUrl
-                    }).ToList();
-
-                var result = new
-                {
-                    data = travels
-                };
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _travelService.GetOpenTravelList();
+            return _responseService.ReturnResponse(response);
         }
 
         /// <summary>
-        /// Get travel detail
+        /// 取得行程詳細資訊
         /// </summary>
-        /// <param name="id">travel id</param>
+        /// <param name="id">行程 id</param>
         /// <returns>Travel detail</returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetTravelDetail")]
-        public IActionResult GetTravelDetail(long id)
+        public async Task<IActionResult> GetTravelDetail(long id)
         {
-            try
-            {
-                var travel = _db.Travels.Where(t => t.Id == id)
-                    .Select(t => new
-                    {
-                        t.Title,
-                        t.DateRangeStart,
-                        t.DateRangeEnd,
-                        t.Nation,
-                        t.PdfUrl,
-                        t.MainImageUrl
-                    });
-
-                var travelSessions = _db.TravelSessions.Where(t => t.TravelId == id && t.DepartureDate >= DateTime.Now)
-                    .Select(t => new
-                    {
-                        t.ProductNumber,
-                        DepartureDate = t.DepartureDate,
-                        t.RemainingSeats,
-                        t.Seats,
-                        GroupStatus = t.GroupStatus == 1 ? "已成團" : "尚未成團",
-                        Price = t.Price.ToString("N0")
-                    });
-
-                var result = new
-                {
-                    data = new
-                    {
-                        travelInfo = travel,
-                        travelSessions = travelSessions
-                    }
-                };
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _travelService.GetTravelDetail(id);
+            return _responseService.ReturnResponse(response);   
         }
 
         /// <summary>
-        /// Get session detail
+        /// 取得場次詳細資訊
         /// </summary>
-        /// <param name="productNumber"></param>
+        /// <param name="productNumber">場次編號</param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("GetSessionDetail")]
-        public IActionResult GetSessionDetail(string productNumber)
+        public async Task<IActionResult> GetSessionDetail(string productNumber)
         {
-            try
-            {
-                var session = _db.TravelSessions.Where(t => t.ProductNumber == productNumber).FirstOrDefault();
-                if (session == null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Session id is not found.",
-                        message = "Please confirm session id."
-                    });
-                }
-
-                var travel = _db.Travels.Where(t => t.Id == session.TravelId).First();
-
-                var startDate = session.DepartureDate;
-                var endDate = session.DepartureDate.AddDays(travel.Days - 1);
-
-                return Ok(new
-                {
-                    title = travel.Title,
-                    departure_date_start = startDate,
-                    departure_date_end = endDate,
-                    days = travel.Days,
-                    sessionId = session.Id,
-                    product_number = session.ProductNumber,
-                    price = session.Price,
-                    remaining_seats = session.RemainingSeats,
-                });
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _travelService.GetSessionDetail(productNumber);
+            return _responseService.ReturnResponse(response);
         }
     }
 }

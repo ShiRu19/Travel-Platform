@@ -40,6 +40,11 @@ async function GetSessionDetail(productNumber) {
     await axios.get(`/api/v1.0/ForestageTravel/GetSessionDetail?productNumber=${productNumber}`)
         .then((response) => {
             var data = response.data;
+
+            /* ==================
+             *   Date range
+             * ==================
+             */
             var day_list = ['日', '一', '二', '三', '四', '五', '六'];
 
             // 日期區間_起始
@@ -58,13 +63,16 @@ async function GetSessionDetail(productNumber) {
             var dateRangeEnd_day = dateRangeEnd_utcDate.getDay();
             var dateRangeEnd = `${dateRangeEnd_year}/${dateRangeEnd_month}/${dateRangeEnd_date}(${day_list[dateRangeEnd_day]})`;
 
-            $("#travel-title").html(data.title);
-            $("#departure-date-start").html(dateRangeStart);
-            $("#departure-date-end").html(dateRangeEnd);
-            $("#departure-days").html(data.days);
-            $("#product-number").html(data.product_number);
-
+            /* ===================
+             *   Remaining seats
+             * ===================
+             */
             remainingSeats = data.remaining_seats;
+
+            /* =========
+             *   Price 
+             * =========
+             */
             price = data.price;
 
             let total = (data.price).toLocaleString('zh-tw', {
@@ -72,10 +80,25 @@ async function GetSessionDetail(productNumber) {
                 currency: 'TWD',
                 minimumFractionDigits: 0
             });
+
+            /* ====================
+             *  HTML travel detail
+             * ====================
+             */
+            $("#travel-title").html(data.title);
+            $("#departure-date-start").html(dateRangeStart);
+            $("#departure-date-end").html(dateRangeEnd);
+            $("#departure-days").html(data.days);
+            $("#product-number").html(data.product_number);
             $("#total-number").html(`${total}`);
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            if (error.response.status === 404) {
+                location.replace("/pages/404.html");
+            }
+            else {
+                ShowErrorMessage(error);
+                toastr.error('抱歉...取得場次資訊時發生了一些錯誤，請再試一次！', '錯誤');
+            }
         })
 }

@@ -119,6 +119,12 @@ async function GetSessionDetail(productNumber) {
             sessionId = data.sessionId;
         })
         .catch((error) => {
-            console.log(error);
+            if (error.response.status === 404) {
+                location.replace("/pages/404.html");
+            }
+            else {
+                ShowErrorMessage(error);
+                toastr.error('抱歉...取得場次資訊發生了一些錯誤，請再試一次！', '錯誤');
+            }
         })
 }

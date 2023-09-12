@@ -18,6 +18,7 @@ using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
 using TravelPlatform.Services.Response;
 using TravelPlatform.Services.Token;
+using TravelPlatform.Services.Travel.Forestage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +66,9 @@ builder.Services.AddScoped<IFacebookHandler, FacebookHandler>();
 
 // Chat service
 builder.Services.AddScoped<IChatService, ChatService>();
+
+// Forestage travel service
+builder.Services.AddScoped<IForestageTravelService, ForestageTravelService>();
 
 /*
  ======================
