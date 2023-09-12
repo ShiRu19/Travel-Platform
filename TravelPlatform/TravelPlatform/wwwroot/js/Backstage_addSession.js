@@ -137,7 +137,6 @@ function createSessionFormData() {
     var formData = new FormData();
 
     formData.append("TravelId", travelId);
-    console.log(travelId);
 
     // TravelSession
     var s = Array.from($(".card-session"))
@@ -161,11 +160,20 @@ function createSessionFormData() {
 async function postSession(formData) {
     await axios.post('/api/v1.0/BackstageTravel/AddSession', formData)
         .then((response) => {
-            alert("Create success");
-            window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
+            toastr.success(
+                '場次新增成功',
+                '成功',
+                {
+                    timeOut: 2000,
+                    fadeOut: 2000,
+                    onHidden: function () {
+                        window.location.href = `/admin/Backstage_SessionList.html?id=${travelId}`;
+                    }
+                }
+            );
         })
         .catch((error) => {
             console.log(error);
-            alert("抱歉...發生了一些錯誤，請再試一次！");
+            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
