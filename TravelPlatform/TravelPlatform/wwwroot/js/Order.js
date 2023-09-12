@@ -32,7 +32,7 @@ $(function () {
 
     $("#next-btn").on("click", function () {
         let qty = $("#quantity_num").html();
-        window.location.href = `/Order_applicantInfo.html?qty=${qty}&productNumber=${productNumber}&nation=台灣`;
+        window.location.href = `/Order_ApplicantInfo.html?qty=${qty}&productNumber=${productNumber}&nation=台灣`;
     });
 });
 
