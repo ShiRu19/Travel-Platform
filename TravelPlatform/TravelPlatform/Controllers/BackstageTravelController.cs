@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelPlatform.Models.BackstageTravel;
 using TravelPlatform.Models.Domain;
-using TravelPlatform.Services;
+using TravelPlatform.Services.File.FileUpload;
 
 namespace TravelPlatform.Controllers.v1
 {

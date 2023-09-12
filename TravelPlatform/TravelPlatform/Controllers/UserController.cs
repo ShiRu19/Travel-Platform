@@ -10,7 +10,8 @@ using System.Security.Claims;
 using System.Text;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.User;
-using TravelPlatform.Services;
+using TravelPlatform.Services.Facebook;
+using TravelPlatform.Services.Token;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TravelPlatform.Controllers
@@ -21,10 +22,10 @@ namespace TravelPlatform.Controllers
     public class UserController : ControllerBase
     {
         private readonly TravelContext _db;
-        private readonly ITokenService _tokenService;
+        private readonly IJwtTokenService _tokenService;
         private readonly IFacebookService _facebookService;
 
-        public UserController(TravelContext db, ITokenService tokenService, IFacebookService facebookService)
+        public UserController(TravelContext db, IJwtTokenService tokenService, IFacebookService facebookService)
         {
             _db = db;
             _tokenService = tokenService;

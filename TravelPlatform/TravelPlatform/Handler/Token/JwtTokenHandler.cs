@@ -4,18 +4,13 @@ using System.Security.Claims;
 using System.Text;
 using TravelPlatform.Models.Domain;
 
-namespace TravelPlatform.Handler
+namespace TravelPlatform.Handler.Token
 {
-    public interface ITokenHandler
-    {
-        Task<string> GenerateJwtToken(User user);
-    }
-
-    public class TokenHandler : ITokenHandler
+    public class JwtTokenHandler : IJwtTokenHandler
     {
         private readonly IConfiguration _configuration;
 
-        public TokenHandler(IConfiguration configuration)
+        public JwtTokenHandler(IConfiguration configuration)
         {
             _configuration = configuration;
         }

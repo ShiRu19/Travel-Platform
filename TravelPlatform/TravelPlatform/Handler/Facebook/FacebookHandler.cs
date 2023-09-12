@@ -2,14 +2,8 @@
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace TravelPlatform.Handler
+namespace TravelPlatform.Handler.Facebook
 {
-    public interface IFacebookHandler
-    {
-        Task<T> GetAsync<T>(string accessToken, string endpoint, string args = null);
-        Task PostAsync(string accessToken, string endpoint, object data, string args = null);
-    }
-
     public class FacebookHandler : IFacebookHandler
     {
         private readonly HttpClient _httpClient;
@@ -29,7 +23,7 @@ namespace TravelPlatform.Handler
         {
             var response = await _httpClient.GetAsync($"{endpoint}?access_token={accessToken}&debug=all&{args}&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors");
             if (!response.IsSuccessStatusCode)
-                return default(T);
+                return default;
 
             var result = await response.Content.ReadAsStringAsync();
 

@@ -1,14 +1,8 @@
-﻿using TravelPlatform.Handler;
+﻿using TravelPlatform.Handler.Facebook;
 using TravelPlatform.Models.User;
 
-namespace TravelPlatform.Services
+namespace TravelPlatform.Services.Facebook
 {
-    public interface IFacebookService
-    {
-        Task<FBProfile> GetProfileAsync(string accessToken);
-        Task PostOnWallAsync(string accessToken, string message);
-    }
-
     public class FacebookService : IFacebookService
     {
         public readonly IFacebookHandler _facebookHandler;

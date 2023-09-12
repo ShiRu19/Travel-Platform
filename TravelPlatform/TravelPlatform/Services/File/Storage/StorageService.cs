@@ -3,7 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using TravelPlatform.Models.AwsS3;
 
-namespace TravelPlatform.Services;
+namespace TravelPlatform.Services.File.Storage;
 
 public class StorageService : IStorageService
 {
@@ -12,7 +12,7 @@ public class StorageService : IStorageService
         DotNetEnv.Env.Load();
         var AwsKey = Environment.GetEnvironmentVariable("ASPNETCORE_IAM__ACCESS_KEY");
         var SecretKey = Environment.GetEnvironmentVariable("ASPNETCORE_IAM__SECRET_KEY");
-        
+
         // Adding AWS credentials
         var credentials = new BasicAWSCredentials(AwsKey, SecretKey);
 
@@ -47,7 +47,7 @@ public class StorageService : IStorageService
             response.StatusCode = 200;
             response.Message = $"{s3obj.Name} has been uploaded successfully";
         }
-        catch(AmazonS3Exception ex)
+        catch (AmazonS3Exception ex)
         {
             response.StatusCode = (int)ex.StatusCode;
             response.Message = ex.Message;

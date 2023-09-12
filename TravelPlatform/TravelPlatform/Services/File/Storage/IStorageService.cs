@@ -1,6 +1,6 @@
 ﻿using TravelPlatform.Models.AwsS3;
 
-namespace TravelPlatform.Services;
+namespace TravelPlatform.Services.File.Storage;
 
 public interface IStorageService
 {

@@ -7,12 +7,17 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json.Serialization;
-using TravelPlatform.Handler;
+using TravelPlatform.Handler.Facebook;
+using TravelPlatform.Handler.File;
+using TravelPlatform.Handler.Token;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
-using TravelPlatform.Services;
 using TravelPlatform.Services.ChatRoom;
+using TravelPlatform.Services.Facebook;
+using TravelPlatform.Services.File.FileUpload;
+using TravelPlatform.Services.File.Storage;
 using TravelPlatform.Services.Response;
+using TravelPlatform.Services.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,8 +56,8 @@ builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
 
 // Token service
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<ITokenHandler, TravelPlatform.Handler.TokenHandler>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IJwtTokenHandler, JwtTokenHandler>();
 
 // Facebook service
 builder.Services.AddScoped<IFacebookService, FacebookService>();

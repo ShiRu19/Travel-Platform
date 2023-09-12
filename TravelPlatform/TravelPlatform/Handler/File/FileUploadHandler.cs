@@ -4,9 +4,9 @@ using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TravelPlatform.Models.AwsS3;
-using TravelPlatform.Services;
+using TravelPlatform.Services.File.Storage;
 
-namespace TravelPlatform.Handler
+namespace TravelPlatform.Handler.File
 {
     public class FileUploadHandler : IFileUploadHandler
     {
@@ -32,11 +32,11 @@ namespace TravelPlatform.Handler
 
             if (fileType == "pdf")
             {
-                return ext == "pdf";
+                return ext == ".pdf";
             }
-            else if(fileType == "image")
+            else if (fileType == "image")
             {
-                return ext == "png" || ext == "jpg" || ext == "jpeg";
+                return ext == ".png" || ext == ".jpg" || ext == ".jpeg";
             }
 
             return false;
@@ -49,7 +49,7 @@ namespace TravelPlatform.Handler
             string standardFileName = ConvertStandardFileFormat(fileHeader, ext);
             var uploadResult = await UploadFile(standardFileName, file, fileHeader);
 
-            if(uploadResult.StatusCode != 200)
+            if (uploadResult.StatusCode != 200)
             {
                 return null;
             }

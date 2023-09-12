@@ -1,7 +1,7 @@
 ﻿using System.Threading;
-using TravelPlatform.Handler;
+using TravelPlatform.Handler.File;
 
-namespace TravelPlatform.Services
+namespace TravelPlatform.Services.File.FileUpload
 {
     public class FileUploadService : IFileUploadService
     {

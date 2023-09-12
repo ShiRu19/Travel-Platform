@@ -1,4 +1,4 @@
-﻿namespace TravelPlatform.Handler
+﻿namespace TravelPlatform.Handler.File
 {
     public interface IFileUploadHandler
     {
