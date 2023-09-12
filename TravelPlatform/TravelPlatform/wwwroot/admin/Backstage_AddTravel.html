@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Travel Backstage - Add Travel</title>
+    <link rel="icon" type="image/x-icon" href="../images/happygotravel_icon.ico">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../AdminLTE/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE/css/adminlte.min.css">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../AdminLTE/css/select2.min.css">
+    <link rel="stylesheet" href="../AdminLTE/css/select2-bootstrap4.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="../AdminLTE/css/tempusdominus-bootstrap-4.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE/css/daterangepicker.css">
+
+    <!-- Backstage_addTravel -->
+    <link rel="stylesheet" href="../css/Backstage_addTravel.css">
+
+    <!-- Loading -->
+    <link rel="stylesheet" href="../css/Loading.css" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-comments"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="/admin/Backstage_ChatRoom.html" class="dropdown-item dropdown-footer">See All Messages</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="/admin/Dashboard.html" class="brand-link">
+                <span class="brand-text font-weight-light">Backstage</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <a href="/index.html" class="d-block">HappyGoTravel</a>
+                    </div>
+                    <div class="admin-info"></div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="/admin/Dashboard.html" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>
+                                    Home
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/Backstage_TravelList.html" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    My Travels
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/Backstage_AddTravel.html" class="nav-link">
+                                <i class="nav-icon fas fa-plus"></i>
+                                <p>
+                                    Add Travel
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/Backstage_UserList.html" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Users
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/Backstage_OrderList.html" class="nav-link">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>
+                                    Orders
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Add Travel</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/Backstage_AddTravel.html">Add Travels</a></li>
+                                <li class="breadcrumb-item active">Backstage</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <form id="myForm" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault()">
+                <div class="main-content">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">行程資訊</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-row">
+                                <!-- Title -->
+                                <div class="form-group card-column-1">
+                                    <label>行程名稱:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input class="form-control" id="title" type="text" placeholder="輸入行程名稱" maxlength="24" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-row">
+                                <!-- Date range -->
+                                <div class="form-group card-column-1">
+                                    <label>活動區間:</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="reservation" required>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                                <!-- Days -->
+                                <div class="form-group card-column-2">
+                                    <label>天數:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input class="form-control" id="days" type="text" placeholder="輸入行程天數" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-row">
+                                <!-- Departure Location -->
+                                <div class="form-group card-column-1">
+                                    <label>出發地點:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input class="form-control" id="departure_location" type="text" placeholder="輸入上車地點 (ex: 台北)" maxlength="10" required>
+                                    </div>
+                                </div>
+                                <!-- Nation -->
+                                <div class="form-group card-column-2">
+                                    <label>目的地國家:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input class="form-control" id="nation" type="text" placeholder="輸入目的地國家 (ex: 台灣)" maxlength="10" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-row">
+                                <!-- Travel Information PDF -->
+                                <div class="form-group">
+                                    <label>行程 PDF:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input type="file" id="travel-pdf" accept=".pdf" required />
+                                    </div>
+                                </div>
+                                <!-- Travel Information PDF -->
+                                <div class="form-group">
+                                    <label>宣傳圖:</label>
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input type="file" id="travel-main-image" accept=".png, .jpg, .jpeg" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">景點綱要</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6>請輸入景點名稱或縣市</h6>
+                            <div class="card-attractions">
+                                <div class="form-group card-column-1">
+                                    <div class="input-group" data-target-input="nearest">
+                                        <input class="form-control attractions" id="attraction-1" type="text" placeholder="景點 or 縣市" maxlength="24" required>
+                                        <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="add-new-attraction">
+                                <input type="button" value="新增景點" class="btn btn-info" id="add-new-attraction-btn" />
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="card-sessions">
+                        <div class="card-session" data-sessionNum="1">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">行程場次-1</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-row">
+                                        <!-- Product Number -->
+                                        <div class="form-group card-column-1">
+                                            <label>場次編號:</label>
+                                            <div class="input-group" data-target-input="nearest">
+                                                <input class="form-control" id="product-number-1" type="text" placeholder="輸入行程編號" maxlength="24" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-row">
+                                        <!-- Date -->
+                                        <div class="form-group card-column-1">
+                                            <label>出發日期:</label>
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input type="text" id="departure-date-1" class="form-control datetimepicker-input" data-target="#departure-date-1" required />
+                                                <div class="input-group-append" data-target="#departure-date-1" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-row">
+                                        <!-- Price -->
+                                        <div class="form-group card-column-1">
+                                            <label>價錢:</label>
+                                            <div class="input-group" data-target-input="nearest">
+                                                <input class="form-control" id="price-1" type="text" placeholder="輸入成人價錢" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-row">
+                                        <!-- Applicants -->
+                                        <div class="form-group card-column-1">
+                                            <label>已報名人數:</label>
+                                            <div class="input-group" data-target-input="nearest">
+                                                <input class="form-control" id="applicants-1" type="text" placeholder="輸入目前報名人數" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required />
+                                            </div>
+                                        </div>
+                                        <!-- Seats -->
+                                        <div class="form-group card-column-2">
+                                            <label>席次:</label>
+                                            <div class="input-group" data-target-input="nearest">
+                                                <input class="form-control" id="seats-1" type="text" placeholder="輸入總席次" oninput="this.value = this.value.replace(/^(0+)|[^0-9]/g, '');" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-row">
+                                        <!-- Bootstrap Switch -->
+                                        <div class="form-group">
+                                            <label>出團狀態:</label>
+                                            <div style="display: flex;">
+                                                <div>
+                                                    <input type="radio" id="radio-status-success-1" name="status-1" value="1" checked />
+                                                    <label for="radio-status-success-1">已成團</label>
+                                                </div>
+
+                                                <div class="card-column-2">
+                                                    <input type="radio" id="radio-status-unsuccess-1" name="status-1" value="0" />
+                                                    <label for="radio-status-success-1">尚未成團</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <!-- Add new session button-->
+                    <div id="add-new-session">
+                        <input type="button" value="新增場次" class="btn btn-info" id="add-new-session-btn" />
+                    </div>
+                    <!-- /.content -->
+                    <div class="row">
+                        <a href="#" class="btn btn-secondary">Cancel</a>
+                        <input type="submit" value="新增行程" class="btn btn-success float-right card-column-2">
+                        <div id="loading-submit">
+                            <div id="circularG">
+                                <div id="circularG_1" class="circularG"></div>
+                                <div id="circularG_2" class="circularG"></div>
+                                <div id="circularG_3" class="circularG"></div>
+                                <div id="circularG_4" class="circularG"></div>
+                                <div id="circularG_5" class="circularG"></div>
+                                <div id="circularG_6" class="circularG"></div>
+                                <div id="circularG_7" class="circularG"></div>
+                                <div id="circularG_8" class="circularG"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+        <div class="p-3">
+            <h5>Title</h5>
+            <p>Sidebar content</p>
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery -->
+    <script src="../AdminLTE/js/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../AdminLTE/js/bootstrap.bundle.min.js"></script>
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <!-- AdminLTE -->
+    <script src="../AdminLTE/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="../AdminLTE/js/Chart.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../AdminLTE/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="../AdminLTE/js/pages/dashboard3.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE/js/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE/js/moment.min.js"></script>
+    <script src="../AdminLTE/js/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE/js/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="../AdminLTE/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="../AdminLTE/js/bootstrap-switch.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="../js/Toastr.js" charset="big5"></script>
+
+    <!-- Page specific script -->
+    <script src="../js/Backstage_addTravel.js" charset="big5"></script>
+
+    <!-- Check Admin Role -->
+    <script src="../js/Backstage_checkRole.js" charset="big5"></script>
+</body>
+</html>

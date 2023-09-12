@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>訂購 - 填寫旅客資料</title>
+    <link rel="icon" type="image/x-icon" href="/images/happygotravel_icon.ico">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE/css/adminlte.min.css">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+    <!-- Cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/AdminLTE/css/daterangepicker.css">
+
+    <link href="css/index.css" rel="stylesheet" />
+    <!-- Order -->
+    <link href="css/Order.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content-page">
+        <header class="header-page">
+            <div class="nav" id="profile-login-unsuccess">
+                <a href="/Login.html">登入</a>
+            </div>
+            <div class="nav" id="profile-login-success" style="display: none;">
+                <h6>Hi~ <a href="/UserProfile.html" id="profile-name"></a></h6>
+            </div>
+        </header>
+        <div class="content">
+            <div class="content-left">
+                <header class="header-left">
+                    <a href="/index.html">
+                        <img src="images/happygotravel_logo.png" class="logo-image" />
+                    </a>
+                </header>
+                <section class="section-left">
+                    <div class="menu">
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>首頁</span>
+                            <div class="menu-item-space"></div>
+                        </a>
+                        <a class="menu-item" href="/index.html">
+                            <div class="menu-item-space"></div>
+                            <span>國內旅遊</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                        <a class="menu-item" id="contact" href="/Chatroom.html">
+                            <div class="menu-item-space"></div>
+                            <span>聯絡客服</span>
+                            <div class="menu-item-space">
+                                <span>></span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+                <footer class="footer-left">
+                </footer>
+            </div>
+            <div class="content-right">
+                <div class="content-right-scroll">
+                    <form id="myForm" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault()">
+                        <section class="section-right">
+                            <div id="progress-nav">
+                                <div class="progress-dot progress-dot-yes"></div>
+                                <span>選擇參加人數</span>
+                                <div class="progress-dot progress-dot-yes"></div>
+                                <span>填寫旅客資料</span>
+                                <div class="progress-dot progress-dot-no"></div>
+                                <span class="progress-text-no">付款</span>
+                                <div class="progress-dot progress-dot-no"></div>
+                                <span class="progress-text-no">完成</span>
+                            </div>
+                            <div class="card-container">
+                                <div class="card card-primary">
+                                    <!--card-header-->
+                                    <div class="card-header">
+                                        <h3 class="card-title">訂單聯絡人資訊</h3>
+                                    </div>
+                                    <!--/.card-header-->
+                                    <!-- card -->
+                                    <div id="contact-person-container">
+                                        <label for="contact-person-name">姓名</label>
+                                        <input type="text" class="form-control col-2" id="contact-person-name" placeholder="請輸入全名" required />
+                                        <label for="contact-person-email">Email</label>
+                                        <input type="email" class="form-control col-3" id="contact-person-email" placeholder="請輸入Email" required />
+                                        <label for="contact-person-phone">手機</label>
+                                        <input type="tel" pattern="09[0-9]{8}" class="form-control col-2" id="contact-person-phone" placeholder="請輸入手機號碼" required />
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                                <div class="card card-primary" id="traveler-information-container">
+                                    <!--card-header-->
+                                    <div class="card-header">
+                                        <h3 class="card-title">填寫旅客資料</h3>
+                                    </div>
+                                    <!--/.card-header-->
+
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" value="下一步 &raquo;" class="btn btn-info" id="next-btn" />
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE/js/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="/AdminLTE/js/moment.min.js"></script>
+    <script src="/AdminLTE/js/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="/AdminLTE/js/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="/AdminLTE/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- Toastr -->
+    <script src="/js/Toastr.js" charset="big5"></script>
+
+    <!-- Applicant Information -->
+    <script src="/js/Order_applicantInfo.js" charset="big5"></script>
+
+    <!-- Common -->
+    <script src="/js/ForestageCommon.js" charset="big5"></script>
+</body>
+</html>
