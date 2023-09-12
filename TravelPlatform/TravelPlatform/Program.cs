@@ -11,6 +11,8 @@ using TravelPlatform.Handler;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
+using TravelPlatform.Services.ChatRoom;
+using TravelPlatform.Services.Response;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,21 @@ builder.Services.AddDbContext<TravelContext>(options =>
 // load .env file
 builder.Configuration.AddEnvironmentVariables();
 
+// SignalR
+builder.Services.AddSignalR();
+
+// S3
+builder.Services.AddScoped<IStorageService, StorageService>();
+
+/*
+ ======================
+ ===    Service     ===
+ ======================
+ */
+
+// Response service
+builder.Services.AddScoped<IResponseService, ResponseService>();
+
 // File upload service
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileUploadHandler, FileUploadHandler>();
@@ -41,11 +58,14 @@ builder.Services.AddScoped<ITokenHandler, TravelPlatform.Handler.TokenHandler>()
 builder.Services.AddScoped<IFacebookService, FacebookService>();
 builder.Services.AddScoped<IFacebookHandler, FacebookHandler>();
 
-// SignalR
-builder.Services.AddSignalR();
+// Chat service
+builder.Services.AddScoped<IChatService, ChatService>();
 
-// S3
-builder.Services.AddScoped<IStorageService, StorageService>();
+/*
+ ======================
+ ===   ./Service    ===
+ ======================
+ */
 
 // App Api Version
 builder.Services.AddApiVersioning(opt =>

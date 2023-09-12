@@ -75,7 +75,7 @@ async function GetChatRecord(roomId) {
     $("#chatroomContent").html('');
     await axios.get(`/api/v1.0/Chat/GetChatRecord?roomId=${roomId}`)
         .then((response) => {
-            var records = response.data.record;
+            var records = response.data;
 
             records.forEach((record) => {
                 if (record.sender === 0) {
@@ -100,6 +100,7 @@ async function GetChatRecord(roomId) {
         })
         .catch((error) => {
             console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...取得聊天紀錄時發生了一些錯誤，請再試一次！', '錯誤');
         })
 };
@@ -107,7 +108,7 @@ async function GetChatRecord(roomId) {
 async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...訊息存取發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
