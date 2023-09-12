@@ -31,16 +31,15 @@ function GetOpenTravelList() {
                 var nation = data.nation;
                 var departureLocation = data.departureLocation;
 
-                var item = `<tr><td>#</td>\
-                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>\
-                            <td>${dateRange}</td>\
-                            <td>${days}</td>\
-                            <td>${nation}</td>\
+                var item = `<tr><td>#</td>
+                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>
+                            <td>${dateRange}</td>
+                            <td>${days}</td>
+                            <td>${nation}</td>
                             <td>${departureLocation}</td>
-                            <td class="project-actions text-right">\
-                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_SessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>\
-                                <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Travel.html?id=${id}"><i class="fas fa-pencil-alt"></i>編輯</a>\
-                                <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>關閉</a>\
+                            <td class="project-actions text-right">
+                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_SessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>
+                                <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Travel.html?id=${id}"><i class="fas fa-pencil-alt"></i>編輯</a>
                             </td></tr>`;
 
                 $("#travel-table-open tbody").append(item);
@@ -82,16 +81,15 @@ function GetCloseTravelList() {
                 var nation = data.nation;
                 var departureLocation = data.departureLocation;
 
-                var item = `<tr><td>#</td>\
-                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>\
-                            <td>${dateRange}</td>\
-                            <td>${days}</td>\
-                            <td>${nation}</td>\
+                var item = `<tr><td>#</td>
+                            <td><a href="/TravelDetail.html?id=${id}">${title}</a></td>
+                            <td>${dateRange}</td>
+                            <td>${days}</td>
+                            <td>${nation}</td>
                             <td>${departureLocation}</td>
-                            <td class="project-actions text-right">\
-                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_SessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>\
-                                <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Travel.html?id=${id}"><i class="fas fa-pencil-alt"></i>編輯</a>\
-                                <a class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash"></i>關閉</a>\
+                            <td class="project-actions text-right">
+                                <a class="btn btn-primary btn-sm" href="/admin/Backstage_SessionList.html?id=${id}"><i class="fas fa-folder"></i>詳細場次</a>
+                                <a class="btn btn-info btn-sm" href="/admin/Backstage_Edit_Travel.html?id=${id}"><i class="fas fa-pencil-alt"></i>編輯</a>
                             </td></tr>`;
 
                 $("#travel-table-close tbody").append(item);
