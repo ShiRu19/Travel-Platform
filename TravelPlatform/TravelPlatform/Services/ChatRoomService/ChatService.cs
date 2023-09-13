@@ -25,8 +25,8 @@ namespace TravelPlatform.Services.ChatRoom
         /// <returns></returns>
         public async Task<ResponseDto> SaveChatMessageAsync(AddChatRecordModel addChatRecordModel)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -79,8 +79,8 @@ namespace TravelPlatform.Services.ChatRoom
         /// <exception cref="NotImplementedException"></exception>
         public async Task<ResponseDto> GetChatRoomListAsync()
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             var chatRoomList = new List<long>();
             using(var transaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
@@ -128,8 +128,8 @@ namespace TravelPlatform.Services.ChatRoom
         /// <returns></returns>
         public async Task<ResponseDto> GetChatRecordAsync(long roomId)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             using (var transaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
             {

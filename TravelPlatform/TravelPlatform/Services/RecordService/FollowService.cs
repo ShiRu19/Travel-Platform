@@ -19,8 +19,8 @@ namespace TravelPlatform.Services.Record
 
         public async Task<ResponseDto> AddFollowAsync(FollowModel followModel)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
             ResponseDto response400 = new ResponseDto();
 
             try
@@ -72,8 +72,8 @@ namespace TravelPlatform.Services.Record
         /// <returns></returns>
         public async Task<ResponseDto> CancelFollowAsync(FollowModel followModel)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
             ResponseDto response400 = new ResponseDto();
 
             Follow follow = new Follow();
@@ -122,8 +122,8 @@ namespace TravelPlatform.Services.Record
         /// <returns></returns>
         public async Task<ResponseDto> CheckFollowAsync(FollowModel followModel)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             try
             {
@@ -155,8 +155,8 @@ namespace TravelPlatform.Services.Record
         /// <returns></returns>
         public async Task<ResponseDto> GetUserFollowListAsync(long UserId)
         {
-            ResponseDto response200 = new ResponseDto() { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto() { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             List<Follow> follow_all = new List<Follow>();
             try

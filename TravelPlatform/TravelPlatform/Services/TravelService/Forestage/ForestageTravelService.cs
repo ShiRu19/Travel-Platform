@@ -23,8 +23,8 @@ namespace TravelPlatform.Services.Travel.Forestage
         /// <returns></returns>
         public async Task<ResponseDto> GetOpenTravelList()
         {
-            ResponseDto response200 = new ResponseDto { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
 
             try
             {
@@ -56,8 +56,8 @@ namespace TravelPlatform.Services.Travel.Forestage
         /// <returns></returns>
         public async Task<ResponseDto> GetTravelDetail(long id)
         {
-            ResponseDto response200 = new ResponseDto { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
             ResponseDto response400 = new ResponseDto();
 
             using (var transaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
@@ -128,8 +128,8 @@ namespace TravelPlatform.Services.Travel.Forestage
         /// <returns></returns>
         public async Task<ResponseDto> GetSessionDetail(string productNumber)
         {
-            ResponseDto response200 = new ResponseDto { StatusCode = 200 };
-            ResponseDto response500 = new ResponseDto { StatusCode = 500 };
+            ResponseDto response200 = new ResponseDto { StatusCode = 200, Message = "", Data = new { } };
+            ResponseDto response500 = new ResponseDto { StatusCode = 500, Message = "", Error = "" };
             ResponseDto response400 = new ResponseDto();
 
             using (var transaction = _db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
