@@ -16,6 +16,7 @@ using TravelPlatform.Services.ChatRoom;
 using TravelPlatform.Services.Facebook;
 using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
+using TravelPlatform.Services.OrderService;
 using TravelPlatform.Services.Record;
 using TravelPlatform.Services.Response;
 using TravelPlatform.Services.Token;
@@ -73,6 +74,9 @@ builder.Services.AddScoped<IForestageTravelService, ForestageTravelService>();
 
 // Follow service
 builder.Services.AddScoped<IFollowService, FollowService>();
+
+// Forestage order service
+builder.Services.AddScoped<IForestageOrderService, ForestageOrderService>();
 
 /*
  ======================

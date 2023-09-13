@@ -17,7 +17,7 @@ $(function () {
 function ShowPagination(paging) {
     axios.get(`/api/v1.0/Order/GetUserOrderPageCount?userId=${profile.id}`, config)
         .then((response) => {
-            var count = response.data;
+            var count = response.data.data;
 
             if (count !== 0) {
                 if (paging < 1) {
@@ -78,15 +78,16 @@ function ShowPagination(paging) {
             }
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            toastr.error('抱歉...計算頁碼時發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
 function GetOrderList(paging) {
     axios.get(`/api/v1.0/Order/GetUserOrderList?userId=${profile.id}&paging=${paging}`, config)
         .then((response) => {
-            var orders = response.data;
+            var orders = response.data.data;
+
             orders.forEach((order) => {
                 let total = (order.price * order.qty).toLocaleString('zh-tw', {
                     style: 'currency',
@@ -147,12 +148,7 @@ function GetOrderList(paging) {
             $("#loading").hide();
         })
         .catch((error) => {
-            console.log(error);
-
-            if (error.response.status === 404) {
-                $("#no-list").show();
-                return;
-            }
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 }
@@ -160,7 +156,7 @@ function GetOrderList(paging) {
 function openOrderInfoOverlay(orderId) {
     axios.get(`/api/v1.0/Order/GetOrderDetail?orderId=${orderId}`)
         .then((response) => {
-            var data = response.data;
+            var data = response.data.data;
             $("#order-qty").html(data.qty);
 
             $("#order-traveler-content").html("");
@@ -203,8 +199,8 @@ function openOrderInfoOverlay(orderId) {
             document.getElementById("overlay-order-info").style.display = "block";
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            toastr.error('抱歉...取得訂單詳情時發生了一些錯誤，請再試一次！', '錯誤');
         })
 }
 

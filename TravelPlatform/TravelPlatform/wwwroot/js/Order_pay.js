@@ -85,11 +85,11 @@ async function UpdateAccountDigits() {
 
     await axios.post('/api/v1.0/Order/UpdateOrderPayStatus', formData, config)
         .then((response) => {
-            var orderId = response.data.id;
-            window.location.href = `/Order_Finish.html?id=${orderId}`;
+            var orderId = response.data.data;
+            window.location.replace(`/Order_Finish.html?id=${orderId}`);
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            toastr.error('抱歉...更新付款狀態時發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

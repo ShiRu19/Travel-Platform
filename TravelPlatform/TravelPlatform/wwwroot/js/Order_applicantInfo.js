@@ -103,11 +103,12 @@ function GenerateOrder(qty, nation) {
 async function postOrder(formData) {
     await axios.post('/api/v1.0/Order/GenerateOrder', formData)
         .then((response) => {
-            window.location.replace(`/Order_Pay.html?qty=${qty}&productNumber=${productNumber}&orderId=${response.data.orderId}`);
+            orderId = response.data.data;
+            window.location.replace(`/Order_Pay.html?qty=${qty}&productNumber=${productNumber}&orderId=${orderId}`);
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            toastr.error('抱歉...產生訂單時發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
