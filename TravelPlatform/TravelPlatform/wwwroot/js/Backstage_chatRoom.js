@@ -85,7 +85,7 @@ async function GetChatRecord(roomId) {
 
     await axios.get(`/api/v1.0/Chat/GetChatRecord?roomId=${roomId}`)
         .then((response) => {
-            var records = response.data;
+            var records = response.data.data;
 
             records.forEach((record) => {
                 if (record.sender === 1) {
@@ -127,7 +127,7 @@ function UpdateRoomList() {
 
     axios.get("/api/v1.0/Chat/GetChatRoomList")
         .then((response) => {
-            var datas = response.data;
+            var datas = response.data.data;
 
             datas.forEach((data) => {
                 var item = `<tr>
