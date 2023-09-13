@@ -9,11 +9,35 @@ namespace TravelPlatform.Services.Response
         {
             if (response.StatusCode == 200)
             {
-                if (response.Data != null)
+                if (response.Data != null && response.Message != null)
+                {
+                    return new ObjectResult(new
+                    {
+                        message = response.Message,
+                        data = response.Data
+                    })
+                    {
+                        StatusCode = 200
+                    };
+                }
+                else if (response.Data != null)
                 {
                     return new OkObjectResult(response.Data);
                 }
-                return new OkResult();
+                else if (response.Message != null)
+                {
+                    return new ObjectResult(new
+                    {
+                        message = response.Message
+                    })
+                    {
+                        StatusCode = 200
+                    };
+                }
+                else
+                {
+                    return new OkResult();
+                }
             }
             else
             {

@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Record;
+using TravelPlatform.Services.Record;
+using TravelPlatform.Services.Response;
 
 namespace TravelPlatform.Controllers
 {
-
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -14,10 +16,14 @@ namespace TravelPlatform.Controllers
     public class RecordController : ControllerBase
     {
         private readonly TravelContext _db;
+        private readonly IFollowService _followService;
+        private readonly IResponseService _responseService;
 
-        public RecordController(TravelContext db)
+        public RecordController(TravelContext db, IFollowService followService, IResponseService responseService)
         {
             _db = db;
+            _followService = followService;
+            _responseService = responseService;
         }
 
         /// <summary>
@@ -27,36 +33,10 @@ namespace TravelPlatform.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost("AddFollow")]
-        public IActionResult AddFollow([FromBody] FollowModel followModel)
+        public async Task<IActionResult> AddFollow([FromBody] FollowModel followModel)
         {
-            try
-            {
-                var follow = _db.Follows.Where(f => f.UserId == followModel.UserId && f.TravelId == followModel.TravelId).FirstOrDefault();
-                
-                if(follow != null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Follow record is already exist.",
-                        message = "Please confirm whether the user has already followed this travel."
-                    });
-                }
-
-                var addFollow = new Follow()
-                {
-                    Id = _db.Follows.Count() == 0 ? 1 : _db.Follows.Max(f => f.Id) + 1,
-                    TravelId = followModel.TravelId,
-                    UserId = followModel.UserId
-                };
-
-                _db.Follows.Add(addFollow);
-                _db.SaveChanges();
-                return Ok(addFollow);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _followService.AddFollowAsync(followModel);
+            return _responseService.ReturnResponse(response);
         }
 
         /// <summary>
@@ -66,29 +46,10 @@ namespace TravelPlatform.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost("CancelFollow")]
-        public IActionResult CancelFollow([FromBody] FollowModel followModel)
+        public async Task<IActionResult> CancelFollow([FromBody] FollowModel followModel)
         {
-            try
-            {
-                var follow = _db.Follows.Where(f => f.UserId == followModel.UserId && f.TravelId == followModel.TravelId).FirstOrDefault();
-
-                if (follow == null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Follow record is not found.",
-                        message = "Please confirm whether the user has already followed this travel."
-                    });
-                }
-
-                _db.Follows.Remove(follow);
-                _db.SaveChanges();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _followService.CancelFollowAsync(followModel);
+            return _responseService.ReturnResponse(response);
         }
 
         /// <summary>
@@ -99,70 +60,28 @@ namespace TravelPlatform.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("CheckFollow")]
-        public IActionResult CheckFollow(long TravelId, long UserId)
+        public async Task<IActionResult> CheckFollow(long TravelId, long UserId)
         {
-            try
+            FollowModel follow = new FollowModel()
             {
-                var follow = _db.Follows.Where(f => f.UserId == UserId && f.TravelId == TravelId).FirstOrDefault();
-
-                if (follow == null)
-                {
-                    return BadRequest(new
-                    {
-                        error = "Follow record is not found.",
-                        message = "Please confirm whether the user has already followed this travel."
-                    });
-                }
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+                TravelId = TravelId,
+                UserId = UserId
+            };
+            var response = await _followService.CheckFollowAsync(follow);
+            return _responseService.ReturnResponse(response);
         }
 
         /// <summary>
-        /// Get following travel list
+        /// Get following travel list for user
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("GetFollowList")]
-        public IActionResult GetFollowList(long UserId)
+        [HttpGet("GetUserFollowList")]
+        public async Task<IActionResult> GetUserFollowList(long UserId)
         {
-            try
-            {
-                var follow_all = _db.Follows.Where(f => f.UserId == UserId).ToList();
-                
-                var followList_open = new List<Travel>();
-                var followList_close = new List<Travel>();
-
-                foreach (var follow in follow_all)
-                {
-                    var travel = _db.Travels.Where(t => t.Id == follow.TravelId).First();
-
-                    if(travel.DateRangeEnd < DateTime.UtcNow)
-                    {
-                        followList_close.Add(travel);
-                    }
-                    else
-                    {
-                        followList_open.Add(travel);
-                    }
-                }
-
-                return Ok(new
-                {
-                    open = followList_open,
-                    close = followList_close
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var response = await _followService.GetUserFollowListAsync(UserId);
+            return _responseService.ReturnResponse(response);
         }
-
     }
 }

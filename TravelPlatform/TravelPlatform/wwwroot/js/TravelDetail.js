@@ -163,7 +163,6 @@ async function GetTravelDetail(id) {
             toastr.error('抱歉...載入時發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
-
 function CheckFollow(id) {
     var accessToken = localStorage.getItem("access_token");
 
@@ -178,12 +177,18 @@ function CheckFollow(id) {
 
         axios.get(`/api/v1.0/Record/CheckFollow?TravelId=${id}&UserId=${userId}`, config)
             .then((response) => {
-                $("#add-like").removeClass("shown").addClass("hidden");
-                $("#cancel-like").removeClass("hidden").addClass("shown");
+                if (response.data.message === 'User is following the travel') {
+                    $("#add-like").removeClass("shown").addClass("hidden");
+                    $("#cancel-like").removeClass("hidden").addClass("shown");
+                }
+                if (response.data.message === 'User does not follow the travel') {
+                    $("#add-like").removeClass("hidden").addClass("shown");
+                    $("#cancel-like").removeClass("shown").addClass("hidden");
+                }
             })
             .catch((error) => {
-                $("#add-like").removeClass("hidden").addClass("shown");
-                $("#cancel-like").removeClass("shown").addClass("hidden");
+                ShowErrorMessage(error);
+                toastr.error('抱歉...載入時發生了一些錯誤，請再試一次！', '錯誤');
             })
     });
 }
@@ -200,8 +205,8 @@ function AddFollow(id) {
                 $("#cancel-like").removeClass("hidden").addClass("shown");
             })
             .catch((error) => {
-                console.log(error);
-                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+                ShowErrorMessage(error);
+                toastr.error('抱歉...加入追蹤時發生了一些錯誤，請再試一次！', '錯誤');
             })
     });
 }
@@ -218,8 +223,8 @@ function CancelFollow(id) {
                 $("#cancel-like").removeClass("shown").addClass("hidden");
             })
             .catch((error) => {
-                console.log(error);
-                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+                ShowErrorMessage(error);
+                toastr.error('抱歉...取消追蹤時發生了一些錯誤，請再試一次！', '錯誤');
             })
     });
 }

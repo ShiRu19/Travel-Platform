@@ -1,6 +1,6 @@
 $(function () {
     CheckLoginRequired().then((profile) => {
-        axios.get(`/api/v1.0/Record/GetFollowList?userId=${profile.id}`, config)
+        axios.get(`/api/v1.0/Record/GetUserFollowList?userId=${profile.id}`, config)
             .then((response) => {
                 var openTravels = response.data.open;
                 var closeTravels = response.data.close;
