@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TravelPlatform.Exceptions;
 using TravelPlatform.Models;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Record;

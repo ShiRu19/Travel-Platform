@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
-using TravelPlatform.Exceptions;
 using TravelPlatform.Models;
 using TravelPlatform.Models.Domain;
 
