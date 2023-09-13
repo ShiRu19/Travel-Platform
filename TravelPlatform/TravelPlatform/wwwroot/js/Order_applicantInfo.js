@@ -115,7 +115,7 @@ async function postOrder(formData) {
 async function GetSessionDetail(productNumber) {
     await axios.get(`/api/v1.0/ForestageTravel/GetSessionDetail?productNumber=${productNumber}`)
         .then((response) => {
-            var data = response.data;
+            var data = response.data.data;
             price = data.price;
             sessionId = data.sessionId;
         })

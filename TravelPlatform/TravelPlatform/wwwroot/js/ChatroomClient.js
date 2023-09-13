@@ -75,7 +75,7 @@ async function GetChatRecord(roomId) {
     $("#chatroomContent").html('');
     await axios.get(`/api/v1.0/Chat/GetChatRecord?roomId=${roomId}`)
         .then((response) => {
-            var records = response.data;
+            var records = response.data.data;
 
             records.forEach((record) => {
                 if (record.sender === 0) {

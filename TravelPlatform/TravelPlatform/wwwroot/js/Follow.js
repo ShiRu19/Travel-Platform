@@ -2,8 +2,8 @@ $(function () {
     CheckLoginRequired().then((profile) => {
         axios.get(`/api/v1.0/Record/GetUserFollowList?userId=${profile.id}`, config)
             .then((response) => {
-                var openTravels = response.data.open;
-                var closeTravels = response.data.close;
+                var openTravels = response.data.data.open;
+                var closeTravels = response.data.data.close;
 
                 var travels = "";
 

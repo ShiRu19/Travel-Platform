@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlatform.Handler.Response;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
-using TravelPlatform.Services.Response;
 using TravelPlatform.Services.Travel.Forestage;
 
 namespace TravelPlatform.Controllers
@@ -14,13 +14,13 @@ namespace TravelPlatform.Controllers
     {
         private readonly TravelContext _db;
         private readonly IForestageTravelService _travelService;
-        private readonly IResponseService _responseService;
+        private readonly IResponseHandler _responseHandler;
 
-        public ForestageTravelController(TravelContext db, IForestageTravelService travelService, IResponseService responseService)
+        public ForestageTravelController(TravelContext db, IForestageTravelService travelService, IResponseHandler responseHandler)
         {
             _db = db;
             _travelService = travelService;
-            _responseService = responseService;
+            _responseHandler = responseHandler;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetTravelList()
         {
             var response = await _travelService.GetOpenTravelList();
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetTravelDetail(long id)
         {
             var response = await _travelService.GetTravelDetail(id);
-            return _responseService.ReturnResponse(response);   
+            return _responseHandler.ReturnResponse(response);   
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetSessionDetail(string productNumber)
         {
             var response = await _travelService.GetSessionDetail(productNumber);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using TravelPlatform.Models;
 
-namespace TravelPlatform.Services.Response
+namespace TravelPlatform.Handler.Response
 {
-    public interface IResponseService
+    public interface IResponseHandler
     {
         IActionResult ReturnResponse(ResponseDto response);
     }

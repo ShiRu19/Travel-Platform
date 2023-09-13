@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sprache;
+using TravelPlatform.Handler.Response;
 using TravelPlatform.Models;
 using TravelPlatform.Models.ChatRoom;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services;
 using TravelPlatform.Services.ChatRoom;
-using TravelPlatform.Services.Response;
 
 namespace TravelPlatform.Controllers
 {
@@ -17,12 +17,12 @@ namespace TravelPlatform.Controllers
     {
         private readonly TravelContext _db;
         private readonly IChatService _chatService;
-        private readonly IResponseService _responseService;
-        public ChatController(TravelContext db, IChatService chatService, IResponseService responseService)
+        private readonly IResponseHandler _responseHandler;
+        public ChatController(TravelContext db, IChatService chatService, IResponseHandler responseHandler)
         {
             _db = db;
             _chatService = chatService;
-            _responseService = responseService;
+            _responseHandler = responseHandler;
         }
 
         [MapToApiVersion("1.0")]
@@ -30,7 +30,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetChatRecord(long roomId)
         {
             var response = await _chatService.GetChatRecordAsync(roomId);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         [MapToApiVersion("1.0")]
@@ -38,7 +38,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetChatRoomList()
         {
             var response = await _chatService.GetChatRoomListAsync();
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         [MapToApiVersion("1.0")]
@@ -46,7 +46,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> SaveChatMessage(AddChatRecordModel addChatRecordModel)
         {
             var response = await _chatService.SaveChatMessageAsync(addChatRecordModel);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
     }
 }

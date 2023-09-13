@@ -11,7 +11,7 @@ $(function () {
 async function GetTravelDetail(id) {
     await axios.get(`/api/v1.0/ForestageTravel/GetTravelDetail?id=${id}`)
         .then((response) => {
-            var data = response.data;
+            var data = response.data.data;
 
             var travelInfo = data.travelInfo[0];
             var travelSessions = data.travelSessions;

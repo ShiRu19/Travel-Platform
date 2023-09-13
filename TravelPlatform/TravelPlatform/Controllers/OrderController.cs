@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlatform.Handler.Response;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Order;
 using TravelPlatform.Models.Record;
 using TravelPlatform.Services.OrderService;
-using TravelPlatform.Services.Response;
 
 namespace TravelPlatform.Controllers
 {
@@ -17,13 +17,13 @@ namespace TravelPlatform.Controllers
     {
         private readonly TravelContext _db;
         private readonly IForestageOrderService _orderService;
-        private readonly IResponseService _responseService;
+        private readonly IResponseHandler _responseHandler;
 
-        public OrderController(TravelContext db, IForestageOrderService orderService, IResponseService responseService)
+        public OrderController(TravelContext db, IForestageOrderService orderService, IResponseHandler responseHandler)
         {
             _db = db;
             _orderService = orderService;
-            _responseService = responseService;
+            _responseHandler = responseHandler;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GenerateOrder([FromForm] OrderAddModel orderAddModel)
         {
             var response = await _orderService.GenerateOrderAsync(orderAddModel);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> UpdateOrderPayStatus([FromForm] OrderPaymentUpdateModel orderPaymentUpdateModel)
         {
             var response = await _orderService.UpdateOrderPayStatusAsync(orderPaymentUpdateModel);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetOrderDetail(int orderId)
         {
             var response = await _orderService.GetOrderDetailAsync(orderId);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetUserOrderPageCount(int userId)
         {
             var response = await _orderService.GetUserOrderPageCountAsync(userId);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace TravelPlatform.Controllers
             }
 
             var response = await _orderService.GetUserOrderListAsync(userId, paging);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
     }
 }

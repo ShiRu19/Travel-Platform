@@ -6,8 +6,7 @@ $(function () {
 async function GetTravelList() {
     return await axios.get("/api/v1.0/ForestageTravel/GetTravelList")
         .then((response) => {
-            console.log(response);
-            var travels = response.data;
+            var travels = response.data.data;
             travels.forEach((travel) => {
                 // 日期區間_起始
                 var dateRangeStart_utcDate = new Date(travel.dateRangeStart + "Z");

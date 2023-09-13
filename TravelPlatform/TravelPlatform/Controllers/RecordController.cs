@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlatform.Handler.Response;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Record;
 using TravelPlatform.Services.Record;
-using TravelPlatform.Services.Response;
 
 namespace TravelPlatform.Controllers
 {
@@ -17,13 +17,13 @@ namespace TravelPlatform.Controllers
     {
         private readonly TravelContext _db;
         private readonly IFollowService _followService;
-        private readonly IResponseService _responseService;
+        private readonly IResponseHandler _responseHandler;
 
-        public RecordController(TravelContext db, IFollowService followService, IResponseService responseService)
+        public RecordController(TravelContext db, IFollowService followService, IResponseHandler responseHandler)
         {
             _db = db;
             _followService = followService;
-            _responseService = responseService;
+            _responseHandler = responseHandler;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> AddFollow([FromBody] FollowModel followModel)
         {
             var response = await _followService.AddFollowAsync(followModel);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> CancelFollow([FromBody] FollowModel followModel)
         {
             var response = await _followService.CancelFollowAsync(followModel);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace TravelPlatform.Controllers
                 UserId = UserId
             };
             var response = await _followService.CheckFollowAsync(follow);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace TravelPlatform.Controllers
         public async Task<IActionResult> GetUserFollowList(long UserId)
         {
             var response = await _followService.GetUserFollowListAsync(UserId);
-            return _responseService.ReturnResponse(response);
+            return _responseHandler.ReturnResponse(response);
         }
     }
 }

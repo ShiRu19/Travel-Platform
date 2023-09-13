@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using TravelPlatform.Handler.Facebook;
 using TravelPlatform.Handler.File;
+using TravelPlatform.Handler.Response;
 using TravelPlatform.Handler.Token;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
@@ -18,7 +19,6 @@ using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
 using TravelPlatform.Services.OrderService;
 using TravelPlatform.Services.Record;
-using TravelPlatform.Services.Response;
 using TravelPlatform.Services.Token;
 using TravelPlatform.Services.Travel.Forestage;
 
@@ -46,13 +46,13 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<IStorageService, StorageService>();
 
 /*
- ======================
- ===    Service     ===
- ======================
+ ================================
+ ===    Service & Handler     ===
+ ================================
  */
 
-// Response service
-builder.Services.AddScoped<IResponseService, ResponseService>();
+// Response handler
+builder.Services.AddScoped<IResponseHandler, ResponseHandler>();
 
 // File upload service
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
@@ -79,9 +79,9 @@ builder.Services.AddScoped<IFollowService, FollowService>();
 builder.Services.AddScoped<IForestageOrderService, ForestageOrderService>();
 
 /*
- ======================
- ===   ./Service    ===
- ======================
+ ================================
+ ===   ./Service & Handler    ===
+ ================================
  */
 
 // App Api Version

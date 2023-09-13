@@ -278,8 +278,7 @@ namespace TravelPlatform.Services.OrderService
                 try
                 {
                     var order_query = _db.Orders.FromSqlRaw(query).FirstOrDefault();
-                    //var order = _db.Orders.Where(o => o.Id == orderId && o.UserId == userId).FirstOrDefault();
-                    
+
                     if (order_query == null)
                     {
                         transaction.Rollback();
