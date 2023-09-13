@@ -294,6 +294,9 @@ namespace TravelPlatform.Services.OrderService
                 }
                 catch (Exception ex)
                 {
+                    transaction.Rollback();
+                    Console.WriteLine("Transaction rolled back due to an error: " + ex.Message);
+
                     response500.Error = _configuration["ErrorMessage:DB_OP_EX"];
                     response500.Message = ex.Message;
                     return response500;

@@ -7,14 +7,28 @@ namespace TravelPlatform.Handler.Response
     {
         public IActionResult ReturnResponse(ResponseDto response)
         {
-            return new ObjectResult(new
+            if(response.StatusCode == 200)
             {
-                message = response.Message,
-                data = response.Data
-            })
+                return new ObjectResult(new
+                {
+                    message = response.Message,
+                    data = response.Data
+                })
+                {
+                    StatusCode = 200
+                };
+            }
+            else
             {
-                StatusCode = 200
-            };
+                return new ObjectResult(new
+                {
+                    message = response.Message,
+                    error = response.Error
+                })
+                {
+                    StatusCode = response.StatusCode
+                };
+            }
         }
     }
 }

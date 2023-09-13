@@ -32,7 +32,7 @@ var userInfo = {};
 function ShowPagination() {
     axios.get(`/api/v1.0/BackstageOrder/GetOrderPageCount?productNumber=${productNumber}`, config)
         .then((response) => {
-            var count = response.data;
+            var count = response.data.data;
             var pagings_unchecked = Number(count.pagings_unchecked) === 0 ? 1 : Number(count.pagings_unchecked);
             var pagings_checked = Number(count.pagings_checked) === 0 ? 1 : Number(count.pagings_checked);
             var pagings_canceled = Number(count.pagings_canceled) === 0 ? 1 : Number(count.pagings_canceled);
@@ -61,10 +61,12 @@ function ShowPagination() {
             GeneratePagination($("#pagination-content-unchecked"), unchecked, pagings_unchecked, 0);
             GeneratePagination($("#pagination-content-checked"), checked, pagings_checked, 1);
             GeneratePagination($("#pagination-content-canceled"), canceled, pagings_canceled, 2);
-            GetOrderList();
+            GetOrderList(unchecked, $("#unchecked-table tbody"), $("#loading-unchecked"), 0);
+            GetOrderList(checked, $("#checked-table tbody"), $("#loading-checked"), 1);
+            GetOrderList(canceled, $("#canceled-table tbody"), $("#loading-canceled"), 2);
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
@@ -137,21 +139,16 @@ function GeneratePagination(pagination, paging, count, type) { // type: 0=unchec
     }
 }
 
-function GetOrderList() {
-    axios.get(`/api/v1.0/BackstageOrder/GetOrderList?page_unchecked=${unchecked}&page_checked=${checked}&page_canceled=${canceled}&productNumber=${productNumber}`, config)
+function GetOrderList(page, listParent, loading, orderType) {
+    axios.get(`/api/v1.0/BackstageOrder/GetOrderList?page=${page}&productNumber=${productNumber}&orderType=${orderType}`, config)
         .then((response) => {
-            var unchecked = response.data.order_unchecked;
-            var checked = response.data.order_checked;
-            var canceled = response.data.order_canceled;
-
-            GenerateOrderList($("#unchecked-table tbody"), $("#loading-unchecked"), unchecked, 0);
-            GenerateOrderList($("#checked-table tbody"), $("#loading-checked"), checked, 1);
-            GenerateOrderList($("#canceled-table tbody"), $("#loading-canceled"), canceled, 2);
+            var data = response.data.data;
+            GenerateOrderList(listParent, loading, data, orderType);
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
-        })
+        });
 }
 
 function GenerateOrderList(listParent, loading, orders, orderType) {
@@ -243,12 +240,12 @@ function check(checkBtn) {
             );
         })
         .catch((error) => {
-            console.log(error);
-            if (error.response.data.error === "Not enough seats.") {
+            ShowErrorMessage(error);
+            if (error.response.data.message === "Not enough seats") {
                 toastr.warning('該場次座位餘額不足', '警告');
             }
             else {
-                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+                toastr.error('抱歉...確認訂單時發生了一些錯誤，請再試一次！', '錯誤');
             }
         });
 }
@@ -271,8 +268,8 @@ function cancel(cancelBtn) {
             );
         })
         .catch((error) => {
-            console.log(error);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            toastr.error('抱歉...取消訂單時發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
@@ -290,7 +287,7 @@ function closeUserInfoOverlay(orderId) {
 function openOrderInfoOverlay(orderId) {
     axios.get(`/api/v1.0/Order/GetOrderDetail?orderId=${orderId}`)
         .then((response) => {
-            var data = response.data;
+            var data = response.data.data;
             $("#order-id").html(data.orderId);
             $("#order-qty").html(data.qty);
 
@@ -334,7 +331,7 @@ function openOrderInfoOverlay(orderId) {
             document.getElementById("overlay-order-info").style.display = "block";
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 }

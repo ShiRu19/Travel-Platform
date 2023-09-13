@@ -18,6 +18,7 @@ using TravelPlatform.Services.Facebook;
 using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
 using TravelPlatform.Services.OrderService;
+using TravelPlatform.Services.OrderService.Backstage;
 using TravelPlatform.Services.Record;
 using TravelPlatform.Services.Token;
 using TravelPlatform.Services.Travel.Forestage;
@@ -77,6 +78,9 @@ builder.Services.AddScoped<IFollowService, FollowService>();
 
 // Forestage order service
 builder.Services.AddScoped<IForestageOrderService, ForestageOrderService>();
+
+// Backstage order service
+builder.Services.AddScoped<IBackstageOrderService, BackstageOrderService>();
 
 /*
  ================================
