@@ -14,6 +14,7 @@ using TravelPlatform.Handler.Token;
 using TravelPlatform.Hubs;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Services.ChatRoom;
+using TravelPlatform.Services.DashboardService;
 using TravelPlatform.Services.Facebook;
 using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
@@ -81,6 +82,9 @@ builder.Services.AddScoped<IForestageOrderService, ForestageOrderService>();
 
 // Backstage order service
 builder.Services.AddScoped<IBackstageOrderService, BackstageOrderService>();
+
+// Dashboard service
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 /*
  ================================

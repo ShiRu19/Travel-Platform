@@ -16,7 +16,7 @@ async function ShowDomesticGroupStatus(startDate, endDate) {
             return response.data.data;
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 
@@ -130,7 +130,7 @@ async function ShowDomesticSalesVolume(startDate, endDate) {
             return response.data.data;
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 
@@ -213,7 +213,7 @@ async function ShowSalesVolumeOfMonth(nation, startDate, endDate) {
             })
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 
@@ -264,7 +264,7 @@ async function ShowSalesOfMonth(nation, startDate, endDate) {
             })
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 
@@ -294,7 +294,7 @@ function ShowTopFiveOfFollows() {
             })
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 
