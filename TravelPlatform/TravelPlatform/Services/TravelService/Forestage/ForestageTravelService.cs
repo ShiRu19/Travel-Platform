@@ -77,7 +77,13 @@ namespace TravelPlatform.Services.Travel.Forestage
 
                     if(travel.Count() == 0)
                     {
-                        throw new NotFoundException();
+                        transaction.Rollback();
+                        Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
+
+                        response400.StatusCode = StatusCodes.Status404NotFound;
+                        response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
+                        response400.Message = "Travel id does not exist";
+                        return response400;
                     }
 
                     var sessions  = await _db.TravelSessions.Where(t => t.TravelId == id && t.DepartureDate >= DateTime.Now)
@@ -93,6 +99,7 @@ namespace TravelPlatform.Services.Travel.Forestage
                         .ToListAsync();
 
                     transaction.Commit();
+                    Console.WriteLine("Transaction committed successfully.");
 
                     response200.Data = new
                     {
@@ -101,16 +108,6 @@ namespace TravelPlatform.Services.Travel.Forestage
                     };
 
                     return response200;
-                }
-                catch (NotFoundException)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
-
-                    response400.StatusCode = StatusCodes.Status404NotFound;
-                    response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
-                    response400.Message = "Travel id does not exist";
-                    return response400;
                 }
                 catch (Exception ex)
                 {
@@ -149,22 +146,18 @@ namespace TravelPlatform.Services.Travel.Forestage
                     var sessionQuery = _db.TravelSessions.Where(t => t.ProductNumber == productNumber).FirstOrDefault();
                     if (sessionQuery == null)
                     {
-                        throw new NotFoundException();
+                        transaction.Rollback();
+                        Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
+
+                        response400.StatusCode = StatusCodes.Status404NotFound;
+                        response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
+                        response400.Message = "Product number does not exist";
+                        return response400;
                     }
                     else
                     {
                         session = sessionQuery;
                     }
-                }
-                catch (NotFoundException)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
-
-                    response400.StatusCode = StatusCodes.Status404NotFound;
-                    response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
-                    response400.Message = "Product number does not exist";
-                    return response400;
                 }
                 catch (Exception ex)
                 {
@@ -185,22 +178,18 @@ namespace TravelPlatform.Services.Travel.Forestage
                     var travelQuery = _db.Travels.Where(t => t.Id == session.TravelId).FirstOrDefault();
                     if(travelQuery == null)
                     {
-                        throw new NotFoundException();
+                        transaction.Rollback();
+                        Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
+
+                        response400.StatusCode = StatusCodes.Status404NotFound;
+                        response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
+                        response400.Message = "Travel does not exist";
+                        return response400;
                     }
                     else
                     {
                         travel = travelQuery;
                     }
-                }
-                catch (NotFoundException)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine("Transaction rolled back due to an error: " + "Not Found Exception");
-
-                    response400.StatusCode = StatusCodes.Status404NotFound;
-                    response400.Error = _configuration["ErrorMessage:NOT_FOUND"];
-                    response400.Message = "Travel does not exist";
-                    return response400;
                 }
                 catch (Exception ex)
                 {
@@ -213,6 +202,7 @@ namespace TravelPlatform.Services.Travel.Forestage
                 }
 
                 transaction.Commit();
+                Console.WriteLine("Transaction committed successfully.");
 
                 /* ================
                  *  Departure date
