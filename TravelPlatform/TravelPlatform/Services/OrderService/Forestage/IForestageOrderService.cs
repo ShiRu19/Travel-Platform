@@ -2,7 +2,7 @@
 using TravelPlatform.Models;
 using TravelPlatform.Models.Order;
 
-namespace TravelPlatform.Services.OrderService
+namespace TravelPlatform.Services.OrderService.Forestage
 {
     public interface IForestageOrderService
     {

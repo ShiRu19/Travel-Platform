@@ -6,7 +6,7 @@ using TravelPlatform.Models;
 using TravelPlatform.Models.Domain;
 using TravelPlatform.Models.Order;
 
-namespace TravelPlatform.Services.OrderService
+namespace TravelPlatform.Services.OrderService.Forestage
 {
     public class ForestageOrderService : IForestageOrderService
     {
@@ -142,7 +142,7 @@ namespace TravelPlatform.Services.OrderService
                                         phoneNumber = o.PhoneNumber
                                     })
                                     .ToList();
-                
+
                 response200.Data = new
                 {
                     orderId,
@@ -247,7 +247,7 @@ namespace TravelPlatform.Services.OrderService
                 response200.Data = pagings;
                 return response200;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response500.Error = _configuration["ErrorMessage:DB_OP_EX"];
                 response500.Message = ex.Message;
@@ -310,7 +310,7 @@ namespace TravelPlatform.Services.OrderService
                 {
                     _db.SaveChanges();
                     transaction.Commit();
-                    
+
                     response200.Data = order.Id;
                     return response200;
                 }
