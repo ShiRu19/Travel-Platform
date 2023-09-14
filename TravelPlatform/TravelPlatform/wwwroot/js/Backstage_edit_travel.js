@@ -68,8 +68,8 @@ var attractionNum = 1;
 async function GetTravelInfo(id) {
     await axios.get("/api/v1.0/BackstageTravel/GetTravelInfo?id=" + id)
         .then((response) => {
-            var travel = response.data.travel[0];
-            var attractions = response.data.attractions;
+            var travel = response.data.data.travel[0];
+            var attractions = response.data.data.attractions;
 
             // 日期區間_起始
             var dateRangeStart_utcDate = new Date(travel.dateRangeStart + "Z");
@@ -93,14 +93,14 @@ async function GetTravelInfo(id) {
             $("#departure_location").val(travel.departure_location);
             $("#nation").val(travel.nation);
 
-            $("#pdf_url").attr('href', '/' + travel.pdf_url);
-            $("#main_image_url").attr('href', '/' + travel.main_image_url);
+            $("#pdf_url").attr('href', travel.pdf_url);
+            $("#main_image_url").attr('href', travel.main_image_url);
 
             attractions.forEach((attraction) => {
                 var attractionItem = `
                     <div class="form-group card-column-1">
                         <div class="input-group" id="attraction-${attractionNum}" data-target-input="nearest">
-                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市" value="${attraction.attraction}" />
+                            <input class="form-control attractions" type="text" placeholder="景點 or 縣市" value="${attraction}" />
                             <a class="btn btn-danger btn-sm delete-attraction" href="#"><i class="fas fa-trash"></i>刪除</a>
                         </div>
                     </div>`;
@@ -110,7 +110,7 @@ async function GetTravelInfo(id) {
             });
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
@@ -173,7 +173,7 @@ async function postTravel(formData) {
             );
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

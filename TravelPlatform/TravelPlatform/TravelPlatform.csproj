@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\TravelService\Backstage\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ window.onload = function () {
 function GetOpenTravelList() {
     axios.get("/api/v1.0/BackstageTravel/GetOpenTravelList")
         .then((response) => {
-            var datas = response.data.data;
+            var datas = response.data.data.travels;
 
             datas.forEach((data) => {
                 var id = data.id;
@@ -47,7 +47,7 @@ function GetOpenTravelList() {
             });
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
@@ -55,7 +55,7 @@ function GetOpenTravelList() {
 function GetCloseTravelList() {
     axios.get("/api/v1.0/BackstageTravel/GetCloseTravelList")
         .then((response) => {
-            var datas = response.data.data;
+            var datas = response.data.data.travels;
 
             datas.forEach((data) => {
                 var id = data.id;
@@ -97,7 +97,7 @@ function GetCloseTravelList() {
             });
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }

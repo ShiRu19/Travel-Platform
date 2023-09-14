@@ -7,7 +7,8 @@ let config = {
 $(function () {
     axios.get("/api/v1.0/User/CheckAdminRole", config)
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
+
             if (error.response.status === 401) {
                 window.location.href = "/pages/401.html";
             }

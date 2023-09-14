@@ -42,13 +42,11 @@ $(function () {
     // 更新連線 Room ID
     connection.on("YourRoomID", function (id) {
         myRoomId = id;
-        console.log("Room id = " + myRoomId);
     });
 
     // 更新連線 User ID
     connection.on("YourUserID", function (id) {
         myUserId = id;
-        console.log("User id = " + myUserId);
     });
 
     // 更新連線 Room ID 列表
@@ -109,7 +107,7 @@ async function GetChatRecord(roomId) {
             });
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         })
 };
@@ -117,7 +115,7 @@ async function GetChatRecord(roomId) {
 async function SaveChatMessage(chatMessage) {
     await axios.post(`/api/v1.0/Chat/SaveChatMessage`, chatMessage)
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
@@ -137,14 +135,13 @@ function UpdateRoomList() {
             })
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
 
 function JoinRoom(room) {
     let room_id = room.dataset.roomid;
-    console.log(room_id);
     connection.invoke("JoinGroup", room_id).catch(function (err) {
         toastr.error('無法加入: ' + err.toString(), '錯誤');
     });

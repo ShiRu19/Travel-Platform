@@ -24,6 +24,7 @@ using TravelPlatform.Services.PasswordService;
 using TravelPlatform.Services.Record;
 using TravelPlatform.Services.Token;
 using TravelPlatform.Services.Travel.Forestage;
+using TravelPlatform.Services.TravelService.Backstage;
 using TravelPlatform.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +90,12 @@ builder.Services.AddScoped<IForestageOrderService, ForestageOrderService>();
 
 // Backstage order service
 builder.Services.AddScoped<IBackstageOrderService, BackstageOrderService>();
+
+// Backstage travel service
+builder.Services.AddScoped<IBackstageTravelAddService, BackstageTravelAddService>();
+builder.Services.AddScoped<IBackstageTravelEditService, BackstageTravelEditService>();
+builder.Services.AddScoped<IBackstageTravelInfoService, BackstageTravelInfoService>();
+builder.Services.AddScoped<IBackstageTravelListService, BackstageTravelListService>();
 
 // Dashboard service
 builder.Services.AddScoped<IDashboardService, DashboardService>();

@@ -55,7 +55,7 @@ $(function () {
 async function GetSessionInfo() {
     await axios.get(`/api/v1.0/BackstageTravel/GetSessionInfo?id=${sessionId}`)
         .then((response) => {
-            var sessionInfo = response.data;
+            var sessionInfo = response.data.data;
             $("#product-number").val(sessionInfo.productNumber);
             $("#departure-date").val(sessionInfo.departureDate);
             $("#price").val(sessionInfo.price);
@@ -70,7 +70,7 @@ async function GetSessionInfo() {
             }
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
@@ -107,7 +107,7 @@ async function postSession(formData) {
             );
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
             toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
         });
 }
