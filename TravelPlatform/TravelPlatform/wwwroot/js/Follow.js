@@ -75,8 +75,8 @@ $(function () {
                 $("#loading").hide();
             })
             .catch((error) => {
-                console.log(error);
-                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+                ShowErrorMessage(error);
+                toastr.error("抱歉...發生了一些錯誤，請再試一次！', '錯誤");
             })
     });
 });

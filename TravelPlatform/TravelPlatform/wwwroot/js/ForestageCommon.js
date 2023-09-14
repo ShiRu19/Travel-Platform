@@ -23,14 +23,14 @@ async function CheckLoginRequired() {
 
     axios.get("/api/v1.0/user/profile", config)
         .then((response) => {
-            $("#profile-name").html(response.data.name);
+            profile = response.data.data;
+            $("#profile-name").html(profile.name);
             $("#profile-login-unsuccess").hide();
             $("#profile-login-success").show();
-            profile = response.data;
-            id = response.data.id;
+            id = profile.id;
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
 
             localStorage.removeItem("access_token");
             window.location.href = "/Login.html";
@@ -53,13 +53,15 @@ async function CheckLoginToShowName() {
 
     axios.get("/api/v1.0/user/profile", config)
         .then((response) => {
-            $("#profile-name").html(response.data.name);
+            var profile = response.data.data;
+            $("#profile-name").html(profile.name);
             $("#profile-login-unsuccess").hide();
             $("#profile-login-success").show();
-            id = response.data.id;
+            id = profile.id;
         })
         .catch((error) => {
-            console.log(error);
+            ShowErrorMessage(error);
+
             localStorage.removeItem("access_token");
             $("#profile-login-unsuccess").show();
             $("#profile-login-success").hide();

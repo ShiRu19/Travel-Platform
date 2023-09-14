@@ -39,15 +39,19 @@ async function signup(user) {
                     timeOut: 2000,
                     fadeOut: 2000,
                     onHidden: function () {
-                        localStorage.setItem("access_token", response.data.accessToken);localStorage.setItem("access_token", response.data.accessToken);
+                        localStorage.setItem("access_token", response.data.data.accessToken);
                         window.location.href = "/index.html";
                     }
                 }
             );
         })
         .catch((error) => {
-            console.log(error);
-            console.log(error.response.data.error + " " + error.response.data.message);
-            toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            ShowErrorMessage(error);
+            if (error.response.status === 400) {
+                toastr.info('此信箱已使用，請更換信箱！', '警告');
+            }
+            else {
+                toastr.error('抱歉...發生了一些錯誤，請再試一次！', '錯誤');
+            }
         });
 }

@@ -20,9 +20,11 @@ using TravelPlatform.Services.File.FileUpload;
 using TravelPlatform.Services.File.Storage;
 using TravelPlatform.Services.OrderService.Backstage;
 using TravelPlatform.Services.OrderService.Forestage;
+using TravelPlatform.Services.PasswordService;
 using TravelPlatform.Services.Record;
 using TravelPlatform.Services.Token;
 using TravelPlatform.Services.Travel.Forestage;
+using TravelPlatform.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +49,8 @@ builder.Services.AddSignalR();
 // S3
 builder.Services.AddScoped<IStorageService, StorageService>();
 
+builder.Services.AddHttpContextAccessor();
+
 /*
  ================================
  ===    Service & Handler     ===
@@ -68,6 +72,9 @@ builder.Services.AddScoped<IJwtTokenHandler, JwtTokenHandler>();
 builder.Services.AddScoped<IFacebookService, FacebookService>();
 builder.Services.AddScoped<IFacebookHandler, FacebookHandler>();
 
+// Password service
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+
 // Chat service
 builder.Services.AddScoped<IChatService, ChatService>();
 
@@ -85,6 +92,9 @@ builder.Services.AddScoped<IBackstageOrderService, BackstageOrderService>();
 
 // Dashboard service
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+
+// User service
+builder.Services.AddScoped<IUserService, UserService>();
 
 /*
  ================================

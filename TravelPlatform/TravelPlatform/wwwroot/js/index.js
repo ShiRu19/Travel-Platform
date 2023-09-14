@@ -39,7 +39,10 @@ async function GetTravelList() {
                 $("#loading").hide();
             })
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            ShowErrorMessage(error);
+            toastr.error("抱歉...發生了一些錯誤，請再試一次！', '錯誤");
+        });
 }
 
 function CheckLogin() {
@@ -64,7 +67,6 @@ function CheckLogin() {
             id = response.data.id;
         })
         .catch((error) => {
-            console.log(error);
             localStorage.removeItem("access_token");
             $("#profile-login-unsuccess").show();
             $("#profile-login-success").hide();
